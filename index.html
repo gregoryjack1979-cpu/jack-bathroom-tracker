@@ -255,15 +255,9 @@ body{font-family:'Inter',sans-serif;font-size:13px;background:#0d0618;color:#e9d
       <div class="page" id="page-faq"><div id="faq-list"></div></div>
 
       <div class="page" id="page-social">
-        <div class="stat-row stat-row-3">
-          <div class="stat-card" style="border-color:rgba(59,130,246,0.25)"><div style="font-size:14px;margin-bottom:3px">📘</div><div class="stat-num" id="s-fb">0</div><div class="stat-label">Facebook</div></div>
-          <div class="stat-card" style="border-color:rgba(239,68,68,0.25)"><div style="font-size:14px;margin-bottom:3px">▶️</div><div class="stat-num" id="s-yt">0</div><div class="stat-label">YouTube</div></div>
-          <div class="stat-card"><div style="font-size:14px;margin-bottom:3px">⏳</div><div class="stat-num" id="s-sched">0</div><div class="stat-label">Scheduled</div></div>
-        </div>
-        <div>
-          <span class="ptab pt-all active" id="pt-all">📋 All</span>
-          <span class="ptab pt-fb" id="pt-fb">📘 Facebook</span>
-          <span class="ptab pt-yt" id="pt-yt">▶️ YouTube</span>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div style="font-size:10px;color:rgba(192,132,252,0.4)">Click any group to view its files and links</div>
+          <input type="text" id="social-search" placeholder="Search content…" oninput="searchSocial(this.value)" style="padding:5px 10px;border:1px solid rgba(168,85,247,0.22);border-radius:7px;background:rgba(168,85,247,0.06);font-size:11px;color:#e9d5ff;outline:none;font-family:Inter,sans-serif;width:160px">
         </div>
         <div id="social-content"></div>
       </div>
@@ -374,7 +368,7 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const SOPS = [];
 const VAULT = [];
 const FILE_GROUPS = [];
-const SOCIAL = [];
+const SOCIAL_GROUPS = [];
 const TASKS_GUIDE = [
   {id:1,title:'Add a new SOP',cat:'SOPs',role:['admin','editor'],icon:'ti-list-check',time:'5 min',steps:[{t:'Go to SOPs',d:'Click SOPs in the sidebar.'},{t:'Click New SOP',d:'Press the + button top right.'},{t:'Fill in details',d:'Title, status, steps, tags.'},{t:'Save',d:'Click Save SOP.'}]},
   {id:2,title:'Submit your shift report',cat:'Shift Reports',role:['admin','editor','viewer'],icon:'ti-clipboard-text',time:'3 min',steps:[{t:'Go to Submit report',d:'Click it in the sidebar.'},{t:'Fill shift times',d:'Date, start, end, project.'},{t:'Check off tasks',d:'Tick every completed task.'},{t:'Write summary',d:'Key wins and progress.'},{t:'Submit',d:'Click Submit shift report.'}]},
@@ -417,16 +411,15 @@ window.addEventListener('load', function() {
   document.getElementById('rp-admin').addEventListener('click', function(){ selectRole('admin', this); });
   document.getElementById('rp-editor').addEventListener('click', function(){ selectRole('editor', this); });
   document.getElementById('rp-viewer').addEventListener('click', function(){ selectRole('viewer', this); });
-  document.getElementById('pt-all').addEventListener('click', function(){ filterPlatform('all', this); });
-  document.getElementById('pt-fb').addEventListener('click', function(){ filterPlatform('facebook', this); });
-  document.getElementById('pt-yt').addEventListener('click', function(){ filterPlatform('youtube', this); });
+  // platform filter buttons removed — now using group-based view
   document.getElementById('shift-date').value = new Date().toISOString().split('T')[0];
   renderVault();
   renderFiles();
   renderSOPs();
   renderGuide();
   renderFAQ();
-  renderSocial();
+  loadSocialFromDB();
+  loadFileGroupsFromDB();
 });
 
 // ── AUTH ──
@@ -600,18 +593,88 @@ function filterPlatform(p, el) {
   socialFilter = p;
   renderSocial();
 }
-function renderSocial() {
-  var items = socialFilter === 'all' ? SOCIAL : SOCIAL.filter(function(c){ return c.platform === socialFilter; });
-  document.getElementById('s-fb').textContent = SOCIAL.filter(function(c){ return c.platform==='facebook'; }).length;
-  document.getElementById('s-yt').textContent = SOCIAL.filter(function(c){ return c.platform==='youtube'; }).length;
-  document.getElementById('s-sched').textContent = SOCIAL.filter(function(c){ return c.status==='scheduled'; }).length;
-  document.getElementById('social-content').innerHTML = '<div class="video-grid">' + items.map(function(c,i) {
-    var pm = PM[c.platform], sm = SM[c.status], tc = THUMBS[i % THUMBS.length];
-    return '<div class="video-card"><div class="video-thumb" style="background:' + tc + '"><div class="play-btn"><i class="ti ti-player-play-filled" style="font-size:13px;color:#fff;margin-left:2px"></i></div><div style="position:absolute;top:7px;left:7px;background:' + pm.bg + ';border:1px solid ' + pm.border + ';border-radius:5px;padding:2px 7px;font-size:9px;font-weight:600;color:' + pm.color + '">' + pm.emoji + ' ' + pm.label + '</div>' + (c.views ? '<div style="position:absolute;bottom:6px;right:7px;font-size:9px;background:rgba(0,0,0,0.5);color:#fff;padding:2px 6px;border-radius:4px">' + (c.views>=1000?(c.views/1000).toFixed(1)+'k':c.views) + ' views</div>' : '') + '</div><div class="video-info"><div style="font-size:12px;font-weight:600;color:#e9d5ff;margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + c.title + '</div><div style="font-size:10px;color:rgba(192,132,252,0.45);display:flex;align-items:center;gap:7px;margin-bottom:7px"><span class="badge ' + sm.cls + '">' + sm.label + '</span><span>' + c.date + '</span>' + (c.likes ? '<span>❤️ ' + c.likes + '</span>' : '') + '</div><button class="vbtn" onclick="showToast(\'Link copied\')"><i class="ti ti-copy"></i>Copy link</button></div></div>';
-  }).join('') + '</div>';
+function renderSocial(filter) {
+  var groups = filter
+    ? SOCIAL_GROUPS.filter(function(g){ return g.name.toLowerCase().includes(filter) || g.platform.toLowerCase().includes(filter); })
+    : SOCIAL_GROUPS;
+  var container = document.getElementById('social-content');
+  if (!container) return;
+  if (!groups.length) {
+    container.innerHTML = '<div style="text-align:center;padding:32px 0"><div style="font-size:32px;margin-bottom:10px">📂</div><div style="font-size:13px;font-weight:600;color:#e9d5ff;margin-bottom:5px">No content yet</div><div style="font-size:11px;color:rgba(192,132,252,0.4)">Click + Add video to upload your first files or links.</div></div>';
+    return;
+  }
+  var PM = {facebook:{label:'Facebook',color:'#60a5fa',bg:'rgba(59,130,246,0.18)',border:'rgba(59,130,246,0.3)',emoji:'📘'},youtube:{label:'YouTube',color:'#f87171',bg:'rgba(239,68,68,0.15)',border:'rgba(239,68,68,0.28)',emoji:'▶️'}};
+  var SM = {posted:{label:'Posted',cls:'badge-green'},scheduled:{label:'Scheduled',cls:'badge-amber'},draft:{label:'Draft',cls:'badge-gray'}};
+  container.innerHTML = groups.map(function(g) {
+    var pm = PM[g.platform] || PM.youtube;
+    var sm = SM[g.status] || SM.draft;
+    var itemCount = (g.items||[]).length;
+    var preview = (g.items||[]).slice(0,3).map(function(item) {
+      var icon = item.type === 'file' ? 'ti-file' : 'ti-link';
+      var color = item.type === 'file' ? '#a855f7' : '#2dd4bf';
+      return '<div style="display:flex;align-items:center;gap:6px;padding:4px 0;border-bottom:1px solid rgba(168,85,247,0.07);font-size:11px;color:rgba(216,180,254,0.65)"><i class="ti '+icon+'" style="font-size:11px;color:'+color+';flex-shrink:0"></i><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1">'+item.name+'</span>'+(item.size?'<span style="font-size:9px;color:rgba(192,132,252,0.35);flex-shrink:0">'+item.size+'</span>':'')+'</div>';
+    }).join('');
+    var extra = itemCount > 3 ? '<div style="font-size:10px;color:rgba(168,85,247,0.6);padding-top:4px">+'+(itemCount-3)+' more items</div>' : '';
+    return '<div class="panel" style="cursor:pointer;transition:border-color .15s;margin-bottom:10px" onmouseover="this.style.borderColor='rgba(168,85,247,0.4)'" onmouseout="this.style.borderColor='rgba(168,85,247,0.18)'" onclick="openSocialGroup('+g.id+')">'
+      + '<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px">'
+      + '<div style="display:flex;align-items:center;gap:10px">'
+      + '<div style="width:38px;height:38px;border-radius:8px;background:'+pm.bg+';border:1px solid '+pm.border+';display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">'+pm.emoji+'</div>'
+      + '<div>'
+      + '<div style="font-family:Space Grotesk,sans-serif;font-weight:700;font-size:13px;color:#e9d5ff">'+g.name+'</div>'
+      + '<div style="display:flex;align-items:center;gap:7px;margin-top:3px">'
+      + '<span class="badge '+sm.cls+'">'+sm.label+'</span>'
+      + '<span style="font-size:10px;color:rgba(192,132,252,0.4)">'+pm.label+' · '+itemCount+' item'+(itemCount!==1?'s':'')+' · '+g.date+'</span>'
+      + '</div>'
+      + '</div>'
+      + '</div>'
+      + '<span style="font-size:11px;color:#a855f7;flex-shrink:0">Open →</span>'
+      + '</div>'
+      + (itemCount > 0 ? preview + extra : '<div style="font-size:11px;color:rgba(192,132,252,0.35)">No items added yet.</div>')
+      + '</div>';
+  }).join('');
 }
 
-// ── SHIFT REPORT ──
+function openSocialGroup(id) {
+  var g = SOCIAL_GROUPS.find(function(x){ return x.id===id; });
+  if (!g) return;
+  var PM = {facebook:{label:'Facebook',color:'#60a5fa',bg:'rgba(59,130,246,0.18)',border:'rgba(59,130,246,0.3)',emoji:'📘'},youtube:{label:'YouTube',color:'#f87171',bg:'rgba(239,68,68,0.15)',border:'rgba(239,68,68,0.28)',emoji:'▶️'}};
+  var pm = PM[g.platform] || PM.youtube;
+  var items = g.items || [];
+  var body = '<div style="display:flex;align-items:center;gap:8px;padding:10px;background:'+pm.bg+';border:1px solid '+pm.border+';border-radius:8px;margin-bottom:14px">'
+    + '<span style="font-size:22px">'+pm.emoji+'</span>'
+    + '<div><div style="font-size:12px;font-weight:600;color:'+pm.color+'">'+pm.label+'</div>'
+    + '<div style="font-size:10px;color:rgba(192,132,252,0.45)">'+items.length+' item'+(items.length!==1?'s':'')+' · '+g.date+'</div></div>'
+    + '</div>';
+  if (!items.length) {
+    body += '<div style="text-align:center;padding:16px;font-size:11px;color:rgba(192,132,252,0.4)">No items in this group.</div>';
+  } else {
+    body += items.map(function(item) {
+      var isFile = item.type === 'file';
+      var icon = isFile ? 'ti-file' : 'ti-link';
+      var color = isFile ? '#a855f7' : '#2dd4bf';
+      return '<div style="display:flex;align-items:center;gap:9px;padding:10px 0;border-bottom:1px solid rgba(168,85,247,0.09)">'
+        + '<div style="width:32px;height:32px;border-radius:6px;background:rgba(168,85,247,0.1);border:1px solid rgba(168,85,247,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti '+icon+'" style="font-size:14px;color:'+color+'"></i></div>'
+        + '<div style="flex:1;overflow:hidden"><div style="font-size:12px;font-weight:500;color:#e9d5ff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+item.name+'</div>'
+        + '<div style="font-size:10px;color:rgba(192,132,252,0.4);margin-top:1px">'+(isFile ? item.size||'' : item.url||'')+'</div></div>'
+        + (item.url && !isFile ? '<button onclick="window.open(''+item.url+'','_blank')" style="padding:4px 9px;border-radius:5px;border:1px solid rgba(59,130,246,0.3);background:rgba(59,130,246,0.1);color:#93c5fd;cursor:pointer;font-size:10px;font-family:Inter,sans-serif;white-space:nowrap"><i class="ti ti-external-link" style="font-size:10px"></i> Open</button>' : '')
+        + (isFile ? '<button onclick="showToast('Downloading '+item.name+'')" style="padding:4px 9px;border-radius:5px;border:1px solid rgba(168,85,247,0.25);background:rgba(168,85,247,0.08);color:#c4b5fd;cursor:pointer;font-size:10px;font-family:Inter,sans-serif;white-space:nowrap"><i class="ti ti-download" style="font-size:10px"></i> Download</button>' : '')
+        + '</div>';
+    }).join('');
+  }
+  setModal(g.name, pm.label + ' · ' + g.date, body, 'Close', closeModal);
+  document.getElementById('m-action').textContent = 'Close';
+  document.getElementById('m-action').onclick = closeModal;
+}
+
+function searchSocial(v) { renderSocial(v ? v.toLowerCase() : null); }
+
+function filterPlatform(p, el) {
+  document.querySelectorAll('.ptab').forEach(function(t){ t.classList.remove('active'); });
+  if(el) el.classList.add('active');
+  renderSocial();
+}
+
+
 function renderShiftTasks() {
   document.getElementById('task-list').innerHTML = shiftTasks.map(function(t,i) {
     return '<div style="display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid rgba(168,85,247,0.08)"><div class="task-check ' + (t.done?'done':'') + '" data-idx="' + i + '">' + (t.done ? '<i class="ti ti-check" style="font-size:9px;color:#fff"></i>' : '') + '</div><span style="font-size:12px;color:rgba(216,180,254,0.8);flex:1;' + (t.done?'text-decoration:line-through;color:rgba(192,132,252,0.35)':'') + '">' + t.text + '</span><i class="ti ti-x" style="font-size:12px;color:rgba(192,132,252,0.2);cursor:pointer;flex-shrink:0" data-del="' + i + '"></i></div>';
@@ -833,28 +896,35 @@ function handleAdd() {
         lnks.value.trim().split("\n").forEach(function(url,i){url=url.trim();if(url)groupFiles.push({name:"Link "+(i+1)+": "+url.substring(0,40),type:"link",size:"—"});});
       }
       if(!groupFiles.length){showToast("Add at least one file or link");return;}
-      FILE_GROUPS.unshift({id:Date.now(),name:n,date:new Date().toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}),files:groupFiles});
-      closeModal(); renderFiles(); showToast("Group saved — "+groupFiles.length+" file"+(groupFiles.length>1?"s":"")+"!");
+      var newGroup={id:Date.now(),name:n,date:new Date().toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}),files:groupFiles};
+      FILE_GROUPS.unshift(newGroup);
+      saveFileGroupToDB(newGroup);
+      closeModal(); renderFiles(); showToast("Group \""+n+"\" saved with "+groupFiles.length+" file"+(groupFiles.length>1?"s":"")+"!");
     } else if (currentPage==="social") {
       var vt=document.getElementById("f-vtitle").value.trim();
       if(!vt){showToast("Add a batch label first");return;}
       var plat=document.getElementById("f-vplatform").value;
       var vst=document.getElementById("f-vstatus").value;
-      var vdt=document.getElementById("f-vdate").value||"TBD";
-      var added=0;
-      document.querySelectorAll(".link-row-input").forEach(function(inp){
+      var vdt=document.getElementById("f-vdate").value||new Date().toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+      var groupItems=[];
+      // collect links
+      document.querySelectorAll(".link-row-input").forEach(function(inp,i){
         var url=inp.value.trim();
-        if(url){ SOCIAL.unshift({id:Date.now()+added,title:vt+" (Link "+(added+1)+")",url:url,platform:plat,status:vst,date:vdt,views:0,likes:0}); added++; }
+        if(url){ groupItems.push({type:"link",name:"Link "+(i+1)+" — "+url.substring(0,50),url:url}); }
       });
+      // collect files
       var fi=document.getElementById("f-vfile");
       if(fi&&fi.files&&fi.files.length>0){
-        Array.from(fi.files).forEach(function(file,i){
-          SOCIAL.unshift({id:Date.now()+added+i,title:vt+" — "+file.name,url:"[File: "+file.name+" ("+Math.round(file.size/1024)+"KB)]",platform:plat,status:vst,date:vdt,views:0,likes:0});
-          added++;
+        Array.from(fi.files).forEach(function(file){
+          var sz=file.size>=1048576?(file.size/1048576).toFixed(1)+"MB":Math.round(file.size/1024)+"KB";
+          groupItems.push({type:"file",name:file.name,size:sz});
         });
       }
-      if(!added){showToast("Add at least one link or file");return;}
-      closeModal(); renderSocial(); showToast(added+" item"+(added>1?"s":"")+" saved!");
+      if(!groupItems.length){showToast("Add at least one link or file");return;}
+      var newGroup = {id:Date.now(),name:vt,platform:plat,status:vst,date:vdt,items:groupItems};
+      SOCIAL_GROUPS.unshift(newGroup);
+      saveSocialToDB(newGroup);
+      closeModal(); renderSocial(); showToast(groupItems.length+" item"+(groupItems.length>1?"s":"")+" saved in \""+vt+"\"!");
     }
   });
   if (currentPage==="social") { setTimeout(function(){ addLinkRow(); }, 40); }
@@ -906,6 +976,69 @@ function setModal(title, sub, body, actionLabel, actionFn) {
   document.getElementById('modal').classList.add('open');
 }
 function closeModal() { document.getElementById('modal').classList.remove('open'); }
+
+// ── SUPABASE PERSISTENCE ──
+async function loadSocialFromDB() {
+  try {
+    var res = await sb.from('social_content').select('*').order('created_at', {ascending: false});
+    if (res.data && res.data.length > 0) {
+      SOCIAL_GROUPS.length = 0;
+      res.data.forEach(function(row) {
+        SOCIAL_GROUPS.push({
+          id: row.id,
+          name: row.title,
+          platform: row.platform,
+          status: row.status,
+          date: row.post_date || row.created_at ? new Date(row.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : 'Unknown',
+          items: row.tags || []
+        });
+      });
+    }
+  } catch(e) { console.log('Social load error:', e); }
+  renderSocial();
+}
+
+async function saveSocialToDB(group) {
+  try {
+    var res = await sb.from('social_content').insert([{
+      title: group.name,
+      platform: group.platform,
+      status: group.status,
+      post_date: group.date,
+      tags: group.items,
+      url: (group.items.filter(function(i){return i.type==='link';}).map(function(i){return i.url;}).join(', ')),
+    }]);
+    if (res.data && res.data[0]) { group.id = res.data[0].id; }
+  } catch(e) { console.log('Social save error:', e); }
+}
+
+async function loadFileGroupsFromDB() {
+  try {
+    var res = await sb.from('file_groups').select('*').order('created_at', {ascending: false});
+    if (res.data && res.data.length > 0) {
+      FILE_GROUPS.length = 0;
+      res.data.forEach(function(row) {
+        FILE_GROUPS.push({
+          id: row.id,
+          name: row.name,
+          date: row.created_at ? new Date(row.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : 'Unknown',
+          files: row.files || []
+        });
+      });
+    }
+  } catch(e) { console.log('File groups load error:', e); }
+  renderFiles();
+}
+
+async function saveFileGroupToDB(group) {
+  try {
+    var res = await sb.from('file_groups').insert([{
+      name: group.name,
+      files: group.files
+    }]);
+    if (res.data && res.data[0]) { group.id = res.data[0].id; }
+  } catch(e) { console.log('File group save error:', e); }
+}
 
 // ── TOAST ──
 function showToast(msg) {
