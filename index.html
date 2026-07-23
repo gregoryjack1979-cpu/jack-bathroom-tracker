@@ -87,11 +87,7 @@ body{font-family:'Inter',sans-serif;font-size:13px;background:#0d0618;color:#e9d
 .task-check.done{background:linear-gradient(135deg,#7c3aed,#a855f7);border-color:#a855f7}
 .mood-btn{padding:5px 10px;border-radius:6px;border:1px solid rgba(168,85,247,0.2);background:rgba(168,85,247,0.06);cursor:pointer;font-size:12px;transition:all .15s;font-family:'Inter',sans-serif}
 .mood-btn.sel{border-color:rgba(168,85,247,0.5);background:rgba(168,85,247,0.18)}
-.report-filter-btn{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(168,85,247,0.22);background:transparent;color:rgba(192,132,252,0.55);transition:all .15s;font-family:'Inter',sans-serif}
-.report-filter-btn:hover{background:rgba(168,85,247,0.12);color:#c4b5fd;border-color:rgba(168,85,247,0.35)}
-.report-filter-btn.active{background:rgba(168,85,247,0.22);color:#d8b4fe;border-color:rgba(168,85,247,0.45);box-shadow:0 0 8px rgba(168,85,247,0.15)}
 .report-card{background:rgba(168,85,247,0.06);border:1px solid rgba(168,85,247,0.15);border-radius:10px;padding:12px;margin-bottom:9px;cursor:pointer;transition:all .15s}
-.report-card:hover{border-color:rgba(168,85,247,0.35);background:rgba(168,85,247,0.1)}
 .report-card:hover{border-color:rgba(168,85,247,0.35);background:rgba(168,85,247,0.1)}
 .vault-row{display:grid;grid-template-columns:1fr 1fr auto auto;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid rgba(168,85,247,0.08);font-size:12px}
 .vault-row:last-child{border-bottom:none}
@@ -203,19 +199,22 @@ body{font-family:'Inter',sans-serif;font-size:13px;background:#0d0618;color:#e9d
 
       <div class="page active" id="page-dashboard">
         <div class="stat-row stat-row-4">
-          <div class="stat-card"><div class="stat-num" id="ds-sops">0</div><div class="stat-label">SOPs</div></div>
-          <div class="stat-card"><div class="stat-num" id="ds-creds">0</div><div class="stat-label">Credentials</div></div>
-          <div class="stat-card"><div class="stat-num" id="ds-reports">0</div><div class="stat-label">Reports today</div></div>
-          <div class="stat-card"><div class="stat-num" id="ds-videos">0</div><div class="stat-label">Videos</div></div>
+          <div class="stat-card"><div class="stat-num">6</div><div class="stat-label">SOPs</div></div>
+          <div class="stat-card"><div class="stat-num">6</div><div class="stat-label">Credentials</div></div>
+          <div class="stat-card"><div class="stat-num">0</div><div class="stat-label">Reports today</div></div>
+          <div class="stat-card"><div class="stat-num">6</div><div class="stat-label">Videos</div></div>
         </div>
         <div class="grid-2">
           <div class="panel">
             <div class="panel-title"><i class="ti ti-list-check" style="color:#2dd4bf"></i>Recent SOPs</div>
-            <div id="dash-sops" style="font-size:11px;color:rgba(192,132,252,0.4);padding:10px 0;text-align:center">No SOPs yet — click SOPs to add your first one.</div>
+            <div class="item-row"><div class="item-icon ic-teal"><i class="ti ti-phone"></i></div><div style="flex:1"><div style="font-size:12px;font-weight:500;color:#e9d5ff">Appointment setting script</div><div style="font-size:10px;color:rgba(192,132,252,0.4)">Updated Jul 10</div></div><span class="badge badge-green">Active</span></div>
+            <div class="item-row"><div class="item-icon ic-purple"><i class="ti ti-target"></i></div><div style="flex:1"><div style="font-size:12px;font-weight:500;color:#e9d5ff">Lead qualification flow</div><div style="font-size:10px;color:rgba(192,132,252,0.4)">Updated Jul 15</div></div><span class="badge badge-green">Active</span></div>
+            <div class="item-row"><div class="item-icon ic-amber"><i class="ti ti-robot"></i></div><div style="flex:1"><div style="font-size:12px;font-weight:500;color:#e9d5ff">Make.com troubleshooting</div><div style="font-size:10px;color:rgba(192,132,252,0.4)">Updated Jul 8</div></div><span class="badge badge-gray">Draft</span></div>
           </div>
           <div class="panel">
-            <div class="panel-title"><i class="ti ti-clipboard-text" style="color:#a855f7"></i>Today's shift reports</div>
-            <div id="dash-reports" style="font-size:11px;color:rgba(192,132,252,0.4);padding:10px 0;text-align:center">No reports submitted today yet.</div>
+            <div class="panel-title"><i class="ti ti-activity" style="color:#a855f7"></i>Recent activity</div>
+            <div class="item-row"><div class="avatar" style="flex-shrink:0;width:25px;height:25px;font-size:9px">JB</div><div style="flex:1"><div style="font-size:12px;color:#e9d5ff">Welcome to <span style="color:#c4b5fd">Jack Bathroom Tracker</span></div><div style="font-size:10px;color:rgba(192,132,252,0.4)">Just now</div></div></div>
+            <div class="item-row"><div class="avatar" style="flex-shrink:0;width:25px;height:25px;font-size:9px">JB</div><div style="flex:1"><div style="font-size:12px;color:#e9d5ff">System is live and ready</div><div style="font-size:10px;color:rgba(192,132,252,0.4)">Today</div></div></div>
           </div>
         </div>
       </div>
@@ -232,11 +231,7 @@ body{font-family:'Inter',sans-serif;font-size:13px;background:#0d0618;color:#e9d
       </div>
 
       <div class="page" id="page-files">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-          <div style="font-size:10px;color:rgba(192,132,252,0.4)">Click any group to view its files</div>
-          <input type="text" id="file-search" placeholder="Search groups…" oninput="searchFileGroups(this.value)" style="padding:5px 10px;border:1px solid rgba(168,85,247,0.22);border-radius:7px;background:rgba(168,85,247,0.06);font-size:11px;color:#e9d5ff;outline:none;font-family:Inter,sans-serif;width:160px">
-        </div>
-        <div id="file-groups-list"></div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:9px" id="file-grid"></div>
       </div>
 
       <div class="page" id="page-guide">
@@ -255,9 +250,15 @@ body{font-family:'Inter',sans-serif;font-size:13px;background:#0d0618;color:#e9d
       <div class="page" id="page-faq"><div id="faq-list"></div></div>
 
       <div class="page" id="page-social">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-          <div style="font-size:10px;color:rgba(192,132,252,0.4)">Click any group to view its files and links</div>
-          <input type="text" id="social-search" placeholder="Search content…" oninput="searchSocial(this.value)" style="padding:5px 10px;border:1px solid rgba(168,85,247,0.22);border-radius:7px;background:rgba(168,85,247,0.06);font-size:11px;color:#e9d5ff;outline:none;font-family:Inter,sans-serif;width:160px">
+        <div class="stat-row stat-row-3">
+          <div class="stat-card" style="border-color:rgba(59,130,246,0.25)"><div style="font-size:14px;margin-bottom:3px">📘</div><div class="stat-num" id="s-fb">0</div><div class="stat-label">Facebook</div></div>
+          <div class="stat-card" style="border-color:rgba(239,68,68,0.25)"><div style="font-size:14px;margin-bottom:3px">▶️</div><div class="stat-num" id="s-yt">0</div><div class="stat-label">YouTube</div></div>
+          <div class="stat-card"><div style="font-size:14px;margin-bottom:3px">⏳</div><div class="stat-num" id="s-sched">0</div><div class="stat-label">Scheduled</div></div>
+        </div>
+        <div>
+          <span class="ptab pt-all active" id="pt-all">📋 All</span>
+          <span class="ptab pt-fb" id="pt-fb">📘 Facebook</span>
+          <span class="ptab pt-yt" id="pt-yt">▶️ YouTube</span>
         </div>
         <div id="social-content"></div>
       </div>
@@ -304,36 +305,12 @@ body{font-family:'Inter',sans-serif;font-size:13px;background:#0d0618;color:#e9d
       </div>
 
       <div class="page" id="page-reports">
-        <!-- Filter bar -->
-        <div style="display:flex;gap:7px;margin-bottom:14px;flex-wrap:wrap;align-items:center">
-          <button class="report-filter-btn active" data-filter="daily" onclick="setReportFilter('daily',this)">Today</button>
-          <button class="report-filter-btn" data-filter="weekly" onclick="setReportFilter('weekly',this)">This week</button>
-          <button class="report-filter-btn" data-filter="monthly" onclick="setReportFilter('monthly',this)">This month</button>
-          <button class="report-filter-btn" data-filter="all" onclick="setReportFilter('all',this)">All time</button>
-          <div style="margin-left:auto;display:flex;gap:7px;align-items:center">
-            <select id="report-employee-filter" onchange="renderReports()" style="padding:5px 9px;border:1px solid rgba(168,85,247,0.22);border-radius:7px;background:rgba(168,85,247,0.06);font-size:11px;color:#e9d5ff;outline:none;font-family:Inter,sans-serif">
-              <option value="all">All employees</option>
-              <option value="janetantra@gmail.com">Marvin</option>
-              <option value="greg@jackbathroom.com">Greg</option>
-            </select>
-          </div>
-        </div>
-        <!-- KPI stats -->
-        <div class="stat-row" style="grid-template-columns:repeat(5,1fr);margin-bottom:14px">
+        <div class="stat-row stat-row-3">
           <div class="stat-card"><div class="stat-num" id="r-total">0</div><div class="stat-label">Total reports</div></div>
-          <div class="stat-card"><div class="stat-num" id="r-hours">0h</div><div class="stat-label">Hours logged</div></div>
-          <div class="stat-card"><div class="stat-num" id="r-avg">0h</div><div class="stat-label">Avg shift</div></div>
           <div class="stat-card"><div class="stat-num" id="r-pending">0</div><div class="stat-label">Pending review</div></div>
-          <div class="stat-card"><div class="stat-num" id="r-mood">—</div><div class="stat-label">Top mood</div></div>
+          <div class="stat-card"><div class="stat-num" id="r-hours">0h</div><div class="stat-label">Hours logged</div></div>
         </div>
-        <!-- Hours bar chart -->
-        <div class="panel" id="r-chart-panel" style="display:none">
-          <div class="panel-title"><i class="ti ti-chart-bar" style="color:#a855f7"></i>Hours logged <span id="r-chart-label" style="color:rgba(192,132,252,0.4);font-size:10px;margin-left:4px"></span></div>
-          <div id="r-chart" style="display:flex;align-items:flex-end;gap:6px;height:70px;padding:0 4px"></div>
-          <div id="r-chart-labels" style="display:flex;gap:6px;margin-top:5px;padding:0 4px"></div>
-        </div>
-        <!-- Reports list -->
-        <div id="reports-list"><div style="font-size:11px;color:rgba(192,132,252,0.4);text-align:center;padding:24px">No reports yet. Agents submit reports via the Submit report page.</div></div>
+        <div id="reports-list"><div style="font-size:11px;color:rgba(192,132,252,0.4);text-align:center;padding:20px">No reports yet.</div></div>
       </div>
 
       <div class="page" id="page-team">
@@ -365,10 +342,38 @@ const SUPABASE_URL = 'https://vhygctxsdepqjelrhtig.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZoeWdjdHhzZGVwcWplbHJodGlnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ3NDExMDQsImV4cCI6MjEwMDMxNzEwNH0.ZjpjyfNBJJ-Ea7CB_bvrg8e_FLjWq8xBzes1aCyHsMw';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const SOPS = [];
-const VAULT = [];
-const FILE_GROUPS = [];
-const SOCIAL_GROUPS = [];
+const SOPS = [
+  {id:1,title:'Lead qualification flow',status:'Active',updated:'Jul 15',tags:['CRM','GoHighLevel'],body:'1. Receive inbound lead via GHL form.\n2. Auto-tag with lead source.\n3. Send qualification SMS within 5 min.\n4. If no reply in 2h, trigger follow-up sequence.\n5. Log outcome in BuildersPrime pipeline.'},
+  {id:2,title:'Appointment setting script',status:'Active',updated:'Jul 10',tags:['Calls','Sales'],body:'Opening: "Hi [Name], calling about your bathroom remodel inquiry."\nQualify: budget, timeline, homeowner status.\nBook: offer 2 time slots via Calendly.\nConfirm: send SMS confirmation via GHL.'},
+  {id:3,title:'Make.com scenario troubleshooting',status:'Draft',updated:'Jul 8',tags:['Make','Automation'],body:'1. Check execution log in Make.com.\n2. Identify the failing module.\n3. Test in isolation.\n4. Check API credentials.\n5. Re-activate after fix.'},
+  {id:4,title:'BuildersPrime CRM update',status:'Active',updated:'Jul 12',tags:['CRM'],body:'1. Log in to BuildersPrime.\n2. Find lead by name or Opportunity ID.\n3. Update client notes via activity log.\n4. Change lead stage if appointment booked.\n5. Confirm sync with Google Sheet.'},
+  {id:5,title:'GHL follow-up sequence',status:'Active',updated:'Jul 5',tags:['GHL','Automation'],body:'1. Open GHL Automation.\n2. Locate follow-up sequence.\n3. Verify SMS credits are sufficient.\n4. Confirm triggers are active.\n5. Test with dummy contact if unsure.'},
+  {id:6,title:'End-of-day pipeline review',status:'Active',updated:'Jul 14',tags:['Pipeline','Daily'],body:'1. Open BuildersPrime pipeline view.\n2. Move stale leads to correct stage.\n3. Flag HIGH priority leads for tomorrow.\n4. Update Google Sheet.\n5. Submit shift report before logging off.'},
+];
+const VAULT = [
+  {service:'GoHighLevel',username:'admin@jackbathroom.com',password:'stored securely'},
+  {service:'Make.com',username:'admin@jackbathroom.com',password:'stored securely'},
+  {service:'BuildersPrime CRM',username:'admin@bathroomex.com',password:'stored securely'},
+  {service:'Google Sheets API',username:'service-acct@gcp.iam',password:'stored securely'},
+  {service:'GitHub',username:'gregoryjack1979-cpu',password:'stored securely'},
+  {service:'Supabase',username:'greg@jackbathroom.com',password:'stored securely'},
+];
+const FILES = [
+  {name:'Client intake template',type:'ti-file-text'},
+  {name:'Lead scoring sheet',type:'ti-table'},
+  {name:'Make scenario backup',type:'ti-code'},
+  {name:'GHL funnel export',type:'ti-code'},
+  {name:'Onboarding checklist',type:'ti-table'},
+  {name:'Brand kit',type:'ti-palette'},
+];
+const SOCIAL = [
+  {id:1,title:'Before & after bathroom tile job',platform:'facebook',status:'posted',date:'Jul 14',url:'https://drive.google.com/file/example1',views:4200,likes:187},
+  {id:2,title:'3-minute remodel timelapse',platform:'facebook',status:'posted',date:'Jul 10',url:'https://drive.google.com/file/example2',views:6100,likes:312},
+  {id:3,title:'New vanity installation walkthrough',platform:'facebook',status:'scheduled',date:'Jul 25',url:'https://drive.google.com/file/example3',views:0,likes:0},
+  {id:4,title:'5 signs your bathroom needs an upgrade',platform:'youtube',status:'posted',date:'Jul 8',url:'https://youtube.com/watch?v=example4',views:3100,likes:94},
+  {id:5,title:'How to choose the right tiles',platform:'youtube',status:'posted',date:'Jul 5',url:'https://youtube.com/watch?v=example5',views:2100,likes:67},
+  {id:6,title:'Meet the Jack Bathroom team',platform:'youtube',status:'scheduled',date:'Jul 28',url:'https://youtube.com/watch?v=example6',views:0,likes:0},
+];
 const TASKS_GUIDE = [
   {id:1,title:'Add a new SOP',cat:'SOPs',role:['admin','editor'],icon:'ti-list-check',time:'5 min',steps:[{t:'Go to SOPs',d:'Click SOPs in the sidebar.'},{t:'Click New SOP',d:'Press the + button top right.'},{t:'Fill in details',d:'Title, status, steps, tags.'},{t:'Save',d:'Click Save SOP.'}]},
   {id:2,title:'Submit your shift report',cat:'Shift Reports',role:['admin','editor','viewer'],icon:'ti-clipboard-text',time:'3 min',steps:[{t:'Go to Submit report',d:'Click it in the sidebar.'},{t:'Fill shift times',d:'Date, start, end, project.'},{t:'Check off tasks',d:'Tick every completed task.'},{t:'Write summary',d:'Key wins and progress.'},{t:'Submit',d:'Click Submit shift report.'}]},
@@ -411,15 +416,16 @@ window.addEventListener('load', function() {
   document.getElementById('rp-admin').addEventListener('click', function(){ selectRole('admin', this); });
   document.getElementById('rp-editor').addEventListener('click', function(){ selectRole('editor', this); });
   document.getElementById('rp-viewer').addEventListener('click', function(){ selectRole('viewer', this); });
-  // platform filter buttons removed — now using group-based view
+  document.getElementById('pt-all').addEventListener('click', function(){ filterPlatform('all', this); });
+  document.getElementById('pt-fb').addEventListener('click', function(){ filterPlatform('facebook', this); });
+  document.getElementById('pt-yt').addEventListener('click', function(){ filterPlatform('youtube', this); });
   document.getElementById('shift-date').value = new Date().toISOString().split('T')[0];
   renderVault();
   renderFiles();
   renderSOPs();
   renderGuide();
   renderFAQ();
-  loadSocialFromDB();
-  loadFileGroupsFromDB();
+  renderSocial();
 });
 
 // ── AUTH ──
@@ -490,54 +496,11 @@ function renderVault() {
 }
 
 // ── FILES ──
-function renderFiles(filter) {
-  var groups = filter ? FILE_GROUPS.filter(function(g){ return g.name.toLowerCase().includes(filter); }) : FILE_GROUPS;
-  var container = document.getElementById('file-groups-list');
-  if (!container) return;
-  if (!groups.length) { container.innerHTML = '<div style="text-align:center;padding:24px;font-size:11px;color:rgba(192,132,252,0.4)">No file groups found.</div>'; return; }
-  container.innerHTML = groups.map(function(g) {
-    var icons = {'image':'ti-photo','video':'ti-video','pdf':'ti-file-type-pdf','doc':'ti-file-text','sheet':'ti-table','code':'ti-code'};
-    var colors = {'image':'#2dd4bf','video':'#a855f7','pdf':'#f87171','doc':'#93c5fd','sheet':'#34d399','code':'#fbbf24'};
-    var filePreview = g.files.slice(0,3).map(function(f){
-      var icon = icons[f.type]||'ti-file';
-      var color = colors[f.type]||'#c4b5fd';
-      return '<div style="display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid rgba(168,85,247,0.07);font-size:11px;color:rgba(216,180,254,0.7)"><i class="ti '+icon+'" style="font-size:12px;color:'+color+';flex-shrink:0"></i>'+f.name+'<span style="margin-left:auto;font-size:9px;color:rgba(192,132,252,0.35)">'+f.size+'</span></div>';
-    }).join('');
-    var extra = g.files.length > 3 ? '<div style="font-size:10px;color:rgba(168,85,247,0.6);padding-top:5px">+' + (g.files.length-3) + ' more files</div>' : '';
-    return '<div class="panel" style="cursor:pointer;transition:border-color .15s" onmouseover="this.style.borderColor=\'rgba(168,85,247,0.4)\'" onmouseout="this.style.borderColor=\'rgba(168,85,247,0.18)\'" onclick="openFileGroup('+g.id+')">'
-      + '<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px">'
-      + '<div style="display:flex;align-items:center;gap:9px">'
-      + '<div style="width:36px;height:36px;border-radius:8px;background:rgba(168,85,247,0.15);border:1px solid rgba(168,85,247,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ti-folder-filled" style="font-size:18px;color:#a855f7"></i></div>'
-      + '<div><div style="font-family:Space Grotesk,sans-serif;font-weight:700;font-size:13px;color:#e9d5ff">' + g.name + '</div>'
-      + '<div style="font-size:10px;color:rgba(192,132,252,0.4);margin-top:2px">' + g.files.length + ' files &nbsp;&middot;&nbsp; ' + g.date + '</div></div>'
-      + '</div>'
-      + '<span style="font-size:11px;color:#a855f7;white-space:nowrap">View all \u2192</span>'
-      + '</div>'
-      + filePreview + extra
-      + '</div>';
+function renderFiles() {
+  document.getElementById('file-grid').innerHTML = FILES.map(function(f) {
+    return '<div style="background:rgba(168,85,247,0.06);border:1px solid rgba(168,85,247,0.15);border-radius:9px;padding:12px;cursor:pointer" onclick="showToast(\'Opening ' + f.name + '…\')"><i class="ti ' + f.type + '" style="font-size:20px;color:#a855f7;display:block;margin-bottom:7px"></i><div style="font-size:11px;font-weight:500;color:#e9d5ff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + f.name + '</div><div style="font-size:9px;color:rgba(192,132,252,0.4);margin-top:2px">Bathroom Excellence</div></div>';
   }).join('');
 }
-
-function openFileGroup(id) {
-  var g = FILE_GROUPS.find(function(x){ return x.id===id; });
-  var icons = {'image':'ti-photo','video':'ti-video','pdf':'ti-file-type-pdf','doc':'ti-file-text','sheet':'ti-table','code':'ti-code'};
-  var colors = {'image':'#2dd4bf','video':'#a855f7','pdf':'#f87171','doc':'#93c5fd','sheet':'#34d399','code':'#fbbf24'};
-  var body = '<div style="margin-bottom:10px;font-size:11px;color:rgba(192,132,252,0.45)">' + g.files.length + ' files &nbsp;&middot;&nbsp; Uploaded ' + g.date + '</div>'
-    + g.files.map(function(f) {
-      var icon = icons[f.type]||'ti-file';
-      var color = colors[f.type]||'#c4b5fd';
-      return '<div style="display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid rgba(168,85,247,0.09)">'
-        + '<div style="width:30px;height:30px;border-radius:6px;background:rgba(168,85,247,0.1);border:1px solid rgba(168,85,247,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti '+icon+'" style="font-size:14px;color:'+color+'"></i></div>'
-        + '<div style="flex:1"><div style="font-size:12px;font-weight:500;color:#e9d5ff">'+f.name+'</div><div style="font-size:10px;color:rgba(192,132,252,0.4)">'+f.size+'</div></div>'
-        + '<button onclick="showToast(\'Downloading '+f.name+'\')" style="padding:4px 9px;border-radius:5px;border:1px solid rgba(168,85,247,0.25);background:rgba(168,85,247,0.08);color:#c4b5fd;cursor:pointer;font-size:10px;font-family:Inter,sans-serif"><i class="ti ti-download" style="font-size:10px"></i> Download</button>'
-        + '</div>';
-    }).join('');
-  setModal(g.name, g.files.length + ' files', body, 'Close', closeModal);
-  document.getElementById('m-action').textContent = 'Close';
-  document.getElementById('m-action').onclick = closeModal;
-}
-
-function searchFileGroups(v) { renderFiles(v.toLowerCase()); }
 
 // ── GUIDE ──
 var ROLES_DEF = {
@@ -593,88 +556,18 @@ function filterPlatform(p, el) {
   socialFilter = p;
   renderSocial();
 }
-function renderSocial(filter) {
-  var groups = filter
-    ? SOCIAL_GROUPS.filter(function(g){ return g.name.toLowerCase().includes(filter) || g.platform.toLowerCase().includes(filter); })
-    : SOCIAL_GROUPS;
-  var container = document.getElementById('social-content');
-  if (!container) return;
-  if (!groups.length) {
-    container.innerHTML = '<div style="text-align:center;padding:32px 0"><div style="font-size:32px;margin-bottom:10px">📂</div><div style="font-size:13px;font-weight:600;color:#e9d5ff;margin-bottom:5px">No content yet</div><div style="font-size:11px;color:rgba(192,132,252,0.4)">Click + Add video to upload your first files or links.</div></div>';
-    return;
-  }
-  var PM = {facebook:{label:'Facebook',color:'#60a5fa',bg:'rgba(59,130,246,0.18)',border:'rgba(59,130,246,0.3)',emoji:'📘'},youtube:{label:'YouTube',color:'#f87171',bg:'rgba(239,68,68,0.15)',border:'rgba(239,68,68,0.28)',emoji:'▶️'}};
-  var SM = {posted:{label:'Posted',cls:'badge-green'},scheduled:{label:'Scheduled',cls:'badge-amber'},draft:{label:'Draft',cls:'badge-gray'}};
-  container.innerHTML = groups.map(function(g) {
-    var pm = PM[g.platform] || PM.youtube;
-    var sm = SM[g.status] || SM.draft;
-    var itemCount = (g.items||[]).length;
-    var preview = (g.items||[]).slice(0,3).map(function(item) {
-      var icon = item.type === 'file' ? 'ti-file' : 'ti-link';
-      var color = item.type === 'file' ? '#a855f7' : '#2dd4bf';
-      return '<div style="display:flex;align-items:center;gap:6px;padding:4px 0;border-bottom:1px solid rgba(168,85,247,0.07);font-size:11px;color:rgba(216,180,254,0.65)"><i class="ti '+icon+'" style="font-size:11px;color:'+color+';flex-shrink:0"></i><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1">'+item.name+'</span>'+(item.size?'<span style="font-size:9px;color:rgba(192,132,252,0.35);flex-shrink:0">'+item.size+'</span>':'')+'</div>';
-    }).join('');
-    var extra = itemCount > 3 ? '<div style="font-size:10px;color:rgba(168,85,247,0.6);padding-top:4px">+'+(itemCount-3)+' more items</div>' : '';
-    return '<div class="panel" style="cursor:pointer;transition:border-color .15s;margin-bottom:10px" onmouseover="this.style.borderColor='rgba(168,85,247,0.4)'" onmouseout="this.style.borderColor='rgba(168,85,247,0.18)'" onclick="openSocialGroup('+g.id+')">'
-      + '<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px">'
-      + '<div style="display:flex;align-items:center;gap:10px">'
-      + '<div style="width:38px;height:38px;border-radius:8px;background:'+pm.bg+';border:1px solid '+pm.border+';display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">'+pm.emoji+'</div>'
-      + '<div>'
-      + '<div style="font-family:Space Grotesk,sans-serif;font-weight:700;font-size:13px;color:#e9d5ff">'+g.name+'</div>'
-      + '<div style="display:flex;align-items:center;gap:7px;margin-top:3px">'
-      + '<span class="badge '+sm.cls+'">'+sm.label+'</span>'
-      + '<span style="font-size:10px;color:rgba(192,132,252,0.4)">'+pm.label+' · '+itemCount+' item'+(itemCount!==1?'s':'')+' · '+g.date+'</span>'
-      + '</div>'
-      + '</div>'
-      + '</div>'
-      + '<span style="font-size:11px;color:#a855f7;flex-shrink:0">Open →</span>'
-      + '</div>'
-      + (itemCount > 0 ? preview + extra : '<div style="font-size:11px;color:rgba(192,132,252,0.35)">No items added yet.</div>')
-      + '</div>';
-  }).join('');
+function renderSocial() {
+  var items = socialFilter === 'all' ? SOCIAL : SOCIAL.filter(function(c){ return c.platform === socialFilter; });
+  document.getElementById('s-fb').textContent = SOCIAL.filter(function(c){ return c.platform==='facebook'; }).length;
+  document.getElementById('s-yt').textContent = SOCIAL.filter(function(c){ return c.platform==='youtube'; }).length;
+  document.getElementById('s-sched').textContent = SOCIAL.filter(function(c){ return c.status==='scheduled'; }).length;
+  document.getElementById('social-content').innerHTML = '<div class="video-grid">' + items.map(function(c,i) {
+    var pm = PM[c.platform], sm = SM[c.status], tc = THUMBS[i % THUMBS.length];
+    return '<div class="video-card"><div class="video-thumb" style="background:' + tc + '"><div class="play-btn"><i class="ti ti-player-play-filled" style="font-size:13px;color:#fff;margin-left:2px"></i></div><div style="position:absolute;top:7px;left:7px;background:' + pm.bg + ';border:1px solid ' + pm.border + ';border-radius:5px;padding:2px 7px;font-size:9px;font-weight:600;color:' + pm.color + '">' + pm.emoji + ' ' + pm.label + '</div>' + (c.views ? '<div style="position:absolute;bottom:6px;right:7px;font-size:9px;background:rgba(0,0,0,0.5);color:#fff;padding:2px 6px;border-radius:4px">' + (c.views>=1000?(c.views/1000).toFixed(1)+'k':c.views) + ' views</div>' : '') + '</div><div class="video-info"><div style="font-size:12px;font-weight:600;color:#e9d5ff;margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + c.title + '</div><div style="font-size:10px;color:rgba(192,132,252,0.45);display:flex;align-items:center;gap:7px;margin-bottom:7px"><span class="badge ' + sm.cls + '">' + sm.label + '</span><span>' + c.date + '</span>' + (c.likes ? '<span>❤️ ' + c.likes + '</span>' : '') + '</div><button class="vbtn" onclick="showToast(\'Link copied\')"><i class="ti ti-copy"></i>Copy link</button></div></div>';
+  }).join('') + '</div>';
 }
 
-function openSocialGroup(id) {
-  var g = SOCIAL_GROUPS.find(function(x){ return x.id===id; });
-  if (!g) return;
-  var PM = {facebook:{label:'Facebook',color:'#60a5fa',bg:'rgba(59,130,246,0.18)',border:'rgba(59,130,246,0.3)',emoji:'📘'},youtube:{label:'YouTube',color:'#f87171',bg:'rgba(239,68,68,0.15)',border:'rgba(239,68,68,0.28)',emoji:'▶️'}};
-  var pm = PM[g.platform] || PM.youtube;
-  var items = g.items || [];
-  var body = '<div style="display:flex;align-items:center;gap:8px;padding:10px;background:'+pm.bg+';border:1px solid '+pm.border+';border-radius:8px;margin-bottom:14px">'
-    + '<span style="font-size:22px">'+pm.emoji+'</span>'
-    + '<div><div style="font-size:12px;font-weight:600;color:'+pm.color+'">'+pm.label+'</div>'
-    + '<div style="font-size:10px;color:rgba(192,132,252,0.45)">'+items.length+' item'+(items.length!==1?'s':'')+' · '+g.date+'</div></div>'
-    + '</div>';
-  if (!items.length) {
-    body += '<div style="text-align:center;padding:16px;font-size:11px;color:rgba(192,132,252,0.4)">No items in this group.</div>';
-  } else {
-    body += items.map(function(item) {
-      var isFile = item.type === 'file';
-      var icon = isFile ? 'ti-file' : 'ti-link';
-      var color = isFile ? '#a855f7' : '#2dd4bf';
-      return '<div style="display:flex;align-items:center;gap:9px;padding:10px 0;border-bottom:1px solid rgba(168,85,247,0.09)">'
-        + '<div style="width:32px;height:32px;border-radius:6px;background:rgba(168,85,247,0.1);border:1px solid rgba(168,85,247,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti '+icon+'" style="font-size:14px;color:'+color+'"></i></div>'
-        + '<div style="flex:1;overflow:hidden"><div style="font-size:12px;font-weight:500;color:#e9d5ff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+item.name+'</div>'
-        + '<div style="font-size:10px;color:rgba(192,132,252,0.4);margin-top:1px">'+(isFile ? item.size||'' : item.url||'')+'</div></div>'
-        + (item.url && !isFile ? '<button onclick="window.open(''+item.url+'','_blank')" style="padding:4px 9px;border-radius:5px;border:1px solid rgba(59,130,246,0.3);background:rgba(59,130,246,0.1);color:#93c5fd;cursor:pointer;font-size:10px;font-family:Inter,sans-serif;white-space:nowrap"><i class="ti ti-external-link" style="font-size:10px"></i> Open</button>' : '')
-        + (isFile ? '<button onclick="showToast('Downloading '+item.name+'')" style="padding:4px 9px;border-radius:5px;border:1px solid rgba(168,85,247,0.25);background:rgba(168,85,247,0.08);color:#c4b5fd;cursor:pointer;font-size:10px;font-family:Inter,sans-serif;white-space:nowrap"><i class="ti ti-download" style="font-size:10px"></i> Download</button>' : '')
-        + '</div>';
-    }).join('');
-  }
-  setModal(g.name, pm.label + ' · ' + g.date, body, 'Close', closeModal);
-  document.getElementById('m-action').textContent = 'Close';
-  document.getElementById('m-action').onclick = closeModal;
-}
-
-function searchSocial(v) { renderSocial(v ? v.toLowerCase() : null); }
-
-function filterPlatform(p, el) {
-  document.querySelectorAll('.ptab').forEach(function(t){ t.classList.remove('active'); });
-  if(el) el.classList.add('active');
-  renderSocial();
-}
-
-
+// ── SHIFT REPORT ──
 function renderShiftTasks() {
   document.getElementById('task-list').innerHTML = shiftTasks.map(function(t,i) {
     return '<div style="display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid rgba(168,85,247,0.08)"><div class="task-check ' + (t.done?'done':'') + '" data-idx="' + i + '">' + (t.done ? '<i class="ti ti-check" style="font-size:9px;color:#fff"></i>' : '') + '</div><span style="font-size:12px;color:rgba(216,180,254,0.8);flex:1;' + (t.done?'text-decoration:line-through;color:rgba(192,132,252,0.35)':'') + '">' + t.text + '</span><i class="ti ti-x" style="font-size:12px;color:rgba(192,132,252,0.2);cursor:pointer;flex-shrink:0" data-del="' + i + '"></i></div>';
@@ -723,246 +616,32 @@ async function submitReport() {
 }
 
 // ── REPORTS ──
-var reportFilter = 'daily';
-function setReportFilter(f, el) {
-  reportFilter = f;
-  document.querySelectorAll('.report-filter-btn').forEach(function(b){ b.classList.remove('active'); });
-  el.classList.add('active');
-  renderReports();
-}
-function getFilteredReports() {
-  var now = new Date();
-  var empFilter = document.getElementById('report-employee-filter');
-  var emp = empFilter ? empFilter.value : 'all';
-  return reports.filter(function(r) {
-    if (emp !== 'all' && r.user_email !== emp) return false;
-    if (!r.date) return true;
-    var rd = new Date(r.date);
-    if (isNaN(rd)) return true;
-    if (reportFilter === 'daily') {
-      return rd.toDateString() === now.toDateString();
-    } else if (reportFilter === 'weekly') {
-      var weekAgo = new Date(now); weekAgo.setDate(now.getDate() - 7);
-      return rd >= weekAgo && rd <= now;
-    } else if (reportFilter === 'monthly') {
-      return rd.getMonth() === now.getMonth() && rd.getFullYear() === now.getFullYear();
-    }
-    return true;
-  });
-}
-function calcHours(r) {
-  try {
-    if (r.start_time && r.end_time) {
-      var s = r.start_time.split(':'), e = r.end_time.split(':');
-      var h = (parseInt(e[0]) + parseInt(e[1])/60) - (parseInt(s[0]) + parseInt(s[1])/60);
-      return h > 0 ? h : 8;
-    }
-  } catch(ex) {}
-  return 8;
-}
 function renderReports() {
-  var filtered = getFilteredReports();
-  var totalHours = filtered.reduce(function(a,r){ return a + calcHours(r); }, 0);
-  var avg = filtered.length ? (totalHours / filtered.length).toFixed(1) : 0;
-  var pending = filtered.filter(function(r){ return r.status==='pending'; }).length;
-  var moodCounts = {};
-  filtered.forEach(function(r){ if(r.mood){ moodCounts[r.mood]=(moodCounts[r.mood]||0)+1; } });
-  var topMood = Object.keys(moodCounts).sort(function(a,b){ return moodCounts[b]-moodCounts[a]; })[0] || '—';
-  document.getElementById('r-total').textContent = filtered.length;
-  document.getElementById('r-hours').textContent = totalHours.toFixed(1) + 'h';
-  document.getElementById('r-avg').textContent = avg + 'h';
-  document.getElementById('r-pending').textContent = pending;
-  document.getElementById('r-mood').textContent = topMood.split(' ')[0] || '—';
-  // chart
-  var chartPanel = document.getElementById('r-chart-panel');
-  var chartEl = document.getElementById('r-chart');
-  var chartLabels = document.getElementById('r-chart-labels');
-  if (filtered.length > 1 && reportFilter !== 'daily') {
-    chartPanel.style.display = 'block';
-    var byDate = {};
-    filtered.forEach(function(r){ var d=r.date||'?'; byDate[d]=(byDate[d]||0)+calcHours(r); });
-    var dates = Object.keys(byDate).sort();
-    var maxH = Math.max.apply(null, dates.map(function(d){ return byDate[d]; }));
-    document.getElementById('r-chart-label').textContent = '(' + reportFilter + ')';
-    chartEl.innerHTML = dates.map(function(d){
-      var h = byDate[d];
-      var pct = maxH > 0 ? Math.round((h/maxH)*55) : 4;
-      return '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px"><div style="font-size:9px;color:rgba(192,132,252,0.5)">'+h.toFixed(0)+'h</div><div style="width:100%;background:linear-gradient(180deg,#a855f7,#7c3aed);border-radius:4px 4px 0 0;height:'+pct+'px;box-shadow:0 0 8px rgba(168,85,247,0.3)"></div></div>';
-    }).join('');
-    chartLabels.innerHTML = dates.map(function(d){
-      var label = d.length > 6 ? d.substring(5) : d;
-      return '<div style="flex:1;text-align:center;font-size:9px;color:rgba(192,132,252,0.4)">'+label+'</div>';
-    }).join('');
-  } else {
-    chartPanel.style.display = 'none';
-  }
-  if (!filtered.length) {
-    document.getElementById('reports-list').innerHTML = '<div style="font-size:11px;color:rgba(192,132,252,0.4);text-align:center;padding:24px">No reports found for this period.</div>';
-    return;
-  }
-  document.getElementById('reports-list').innerHTML = filtered.map(function(r) {
-    var hours = calcHours(r).toFixed(1);
-    var tasks = Array.isArray(r.tasks) ? r.tasks : [];
-    return '<div class="report-card" onclick="openReport(\''+r.date+'\')">'
-      + '<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px">'
-      + '<div style="display:flex;align-items:center;gap:8px">'
-      + '<div class="avatar" style="flex-shrink:0;width:28px;height:28px;font-size:9px">'+(r.user_email||'?').substring(0,2).toUpperCase()+'</div>'
-      + '<div><div style="font-family:Space Grotesk,sans-serif;font-weight:700;font-size:12px;color:#e9d5ff">'+(r.user_email||'Agent')+'</div>'
-      + '<div style="font-size:10px;color:rgba(192,132,252,0.4);margin-top:1px">'+r.date+' · '+r.project+' · '+hours+'h · '+(r.mood||'')+'</div></div>'
-      + '</div>'
-      + '<span class="badge '+(r.status==='reviewed'?'badge-green':'badge-amber')+'">'+(r.status==='reviewed'?'Reviewed':'Pending')+'</span>'
-      + '</div>'
-      + (tasks.length ? '<div style="margin-bottom:7px">'+tasks.slice(0,3).map(function(t){ return '<div style="font-size:11px;color:rgba(216,180,254,0.6);display:flex;align-items:center;gap:5px;padding:2px 0"><i class="ti ti-circle-check" style="font-size:11px;color:#34d399;flex-shrink:0"></i>'+t+'</div>'; }).join('')+(tasks.length>3?'<div style="font-size:10px;color:rgba(168,85,247,0.5)">+'+( tasks.length-3)+' more tasks</div>':'')+'</div>' : '')
-      + '<div style="font-size:11px;color:rgba(192,132,252,0.55);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">'+r.summary+'</div>'
-      + (r.blockers ? '<div style="font-size:10px;color:#f87171;margin-top:5px;background:rgba(239,68,68,0.06);border-radius:5px;padding:4px 8px"><i class="ti ti-alert-triangle" style="font-size:10px"></i> '+r.blockers+'</div>' : '')
-      + '</div>';
+  document.getElementById('r-total').textContent = reports.length;
+  document.getElementById('r-pending').textContent = reports.filter(function(r){ return r.status==='pending'; }).length;
+  document.getElementById('r-hours').textContent = reports.length * 8 + 'h';
+  if (!reports.length) { document.getElementById('reports-list').innerHTML = '<div style="font-size:11px;color:rgba(192,132,252,0.4);text-align:center;padding:20px">No reports yet.</div>'; return; }
+  document.getElementById('reports-list').innerHTML = reports.map(function(r,i) {
+    return '<div class="report-card"><div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:7px"><div><div style="font-family:Space Grotesk,sans-serif;font-weight:700;font-size:12px;color:#e9d5ff">' + r.user_email + '</div><div style="font-size:10px;color:rgba(192,132,252,0.4)">' + r.date + ' · ' + (r.mood||'') + '</div></div><span class="badge badge-amber">Pending</span></div><div style="font-size:11px;color:rgba(192,132,252,0.55);line-height:1.6">' + r.summary + '</div></div>';
   }).join('');
 }
-function openReport(date) {
-  var r = reports.find(function(x){ return x.date===date; });
-  if (!r) return;
-  var hours = calcHours(r).toFixed(1);
-  var tasks = Array.isArray(r.tasks) ? r.tasks : [];
-  setModal(
-    (r.user_email||'Agent') + ' — Shift Report',
-    r.date + ' · ' + r.project + ' · ' + hours + 'h · ' + (r.mood||''),
-    '<div style="margin-bottom:12px"><div style="font-size:9px;font-weight:600;color:rgba(192,132,252,0.4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">Tasks completed</div>'
-    + (tasks.length ? tasks.map(function(t){ return '<div style="display:flex;align-items:center;gap:7px;padding:5px 0;border-bottom:1px solid rgba(168,85,247,0.07);font-size:11px;color:rgba(216,180,254,0.7)"><i class="ti ti-circle-check" style="font-size:13px;color:#34d399;flex-shrink:0"></i>'+t+'</div>'; }).join('') : '<div style="font-size:11px;color:rgba(192,132,252,0.4)">No tasks logged.</div>')
-    + '</div><div class="neon-line"></div>'
-    + '<div style="margin-bottom:10px"><div style="font-size:9px;font-weight:600;color:rgba(192,132,252,0.4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px">Summary</div><div style="font-size:12px;color:rgba(216,180,254,0.75);line-height:1.7">'+r.summary+'</div></div>'
-    + (r.blockers ? '<div style="margin-bottom:10px"><div style="font-size:9px;font-weight:600;color:rgba(248,113,113,0.6);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px">Blockers</div><div style="font-size:12px;color:rgba(248,113,113,0.7);background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.18);border-radius:6px;padding:8px;line-height:1.6">'+r.blockers+'</div></div>' : '')
-    + '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px">'
-    + '<div style="background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.15);border-radius:7px;padding:10px;text-align:center"><div style="font-size:18px;font-weight:700;color:#e9d5ff">'+hours+'h</div><div style="font-size:9px;color:rgba(192,132,252,0.4)">Hours worked</div></div>'
-    + '<div style="background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.15);border-radius:7px;padding:10px;text-align:center"><div style="font-size:18px;font-weight:700;color:#e9d5ff">'+tasks.length+'</div><div style="font-size:9px;color:rgba(192,132,252,0.4)">Tasks done</div></div>'
-    + '<div style="background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.15);border-radius:7px;padding:10px;text-align:center"><div style="font-size:16px;font-weight:700;color:#e9d5ff">'+(r.mood?r.mood.split(' ')[0]:'—')+'</div><div style="font-size:9px;color:rgba(192,132,252,0.4)">Mood</div></div>'
-    + '</div>'
-    + '<div style="margin-top:10px"><div style="font-size:9px;font-weight:600;color:rgba(192,132,252,0.4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px">Priority tomorrow</div><div style="font-size:12px;color:rgba(216,180,254,0.75)">'+( r.tomorrow||'—')+'</div></div>',
-    'Mark reviewed',
-    function(){ r.status='reviewed'; closeModal(); renderReports(); showToast('Report marked as reviewed'); }
-  );
-}
-
 
 // ── ADD HANDLER ──
 function handleAdd() {
-  var sopsForm = '<div class="form-group"><label>Title</label><input type="text" id="f-title" placeholder="e.g. Lead follow-up flow"></div><div class="form-group"><label>Status</label><select id="f-status"><option>Active</option><option>Draft</option></select></div><div class="form-group"><label>Steps</label><textarea id="f-body" placeholder="Write SOP steps here…"></textarea></div><div class="form-group"><label>Tags</label><input type="text" id="f-tags" placeholder="e.g. CRM, Automation"></div>';
-  var vaultForm = '<div class="form-group"><label>Service</label><input type="text" id="f-service" placeholder="e.g. GoHighLevel"></div><div class="form-group"><label>Username</label><input type="text" id="f-user"></div><div class="form-group"><label>Password</label><input type="password" id="f-pass"></div>';
-  var filesForm = '<div class="form-group"><label>Group name</label><input type="text" id="f-fname" placeholder="e.g. Santos Family Bathroom Project"></div>'
-    + '<div class="form-group"><label>Description <span style="color:rgba(192,132,252,0.3)">(optional)</span></label><input type="text" id="f-fdesc" placeholder="e.g. Before/after photos, contract, quotation"></div>'
-    + '<div class="form-group"><label>Upload files <span style="font-size:9px;color:rgba(192,132,252,0.4)">Hold Ctrl/Cmd to select multiple</span></label>'
-    + '<input type="file" id="f-ffiles" multiple onchange="previewGroupFiles()" style="width:100%;padding:7px;border:1px dashed rgba(168,85,247,0.25);border-radius:6px;background:rgba(168,85,247,0.04);font-size:11px;color:#c4b5fd;cursor:pointer">'
-    + '<div style="font-size:9px;color:rgba(192,132,252,0.4);margin-top:4px">PDF, DOC, XLSX, JPG, PNG, MP4 — any file type</div>'
-    + '<div id="group-file-preview" style="margin-top:8px"></div></div>'
-    + '<div class="form-group" style="margin-bottom:0"><label>Or add Google Drive links (one per line)</label><textarea id="f-flinks" placeholder="https://drive.google.com/file1&#10;https://drive.google.com/file2" style="min-height:65px"></textarea></div>';
-  var socialForm = '<div class="form-group"><label>Batch label</label><input type="text" id="f-vtitle" placeholder="e.g. July bathroom content"></div>'
-    + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:11px">'
-    + '<div class="form-group" style="margin-bottom:0"><label>Platform</label><select id="f-vplatform"><option value="facebook">📘 Facebook</option><option value="youtube">▶️ YouTube</option></select></div>'
-    + '<div class="form-group" style="margin-bottom:0"><label>Status</label><select id="f-vstatus"><option value="draft">Draft</option><option value="scheduled">Scheduled</option><option value="posted">Posted</option></select></div></div>'
-    + '<div class="form-group"><label>Date</label><input type="date" id="f-vdate"></div>'
-    + '<div style="border:1px solid rgba(168,85,247,0.2);border-radius:8px;padding:10px;margin-bottom:10px">'
-    + '<div style="font-size:10px;font-weight:600;color:rgba(192,132,252,0.5);text-transform:uppercase;margin-bottom:8px">🔗 Links — paste Google Drive or YouTube URLs</div>'
-    + '<div id="link-rows"></div>'
-    + '<button type="button" onclick="addLinkRow()" style="width:100%;padding:6px;border-radius:6px;border:1px dashed rgba(168,85,247,0.3);background:transparent;color:#a855f7;cursor:pointer;font-size:11px;font-family:Inter,sans-serif;margin-top:4px">+ Add another link</button></div>'
-    + '<div style="border:1px solid rgba(168,85,247,0.2);border-radius:8px;padding:10px">'
-    + '<div style="font-size:10px;font-weight:600;color:rgba(192,132,252,0.5);text-transform:uppercase;margin-bottom:8px">📁 Files — hold Ctrl/Cmd to select multiple</div>'
-    + '<input type="file" id="f-vfile" accept="video/*,image/*,.pdf,.doc,.docx" multiple onchange="previewFiles()" style="width:100%;padding:7px;border:1px dashed rgba(168,85,247,0.25);border-radius:6px;background:rgba(168,85,247,0.04);font-size:11px;color:#c4b5fd;cursor:pointer">'
-    + '<div style="font-size:9px;color:rgba(192,132,252,0.4);margin-top:4px">MP4, MOV, JPG, PNG, PDF, DOC</div>'
-    + '<div id="file-list-preview" style="margin-top:7px"></div></div>';
-  var pageMap = {sops:sopsForm, vault:vaultForm, files:filesForm, social:socialForm};
-  var titles = {sops:"New SOP",vault:"Add credential",files:"Add file or link",social:"Add video / file"};
-  if (!pageMap[currentPage]) { showToast("Select a section first"); return; }
-  setModal(titles[currentPage]||"Add", "", pageMap[currentPage], "Save", function() {
-    if (currentPage==="sops") {
-      var t=document.getElementById("f-title").value; if(!t)return;
-      SOPS.unshift({id:Date.now(),title:t,status:document.getElementById("f-status").value,updated:"Today",tags:document.getElementById("f-tags").value.split(",").map(function(x){return x.trim();}).filter(Boolean),body:document.getElementById("f-body").value});
-      closeModal(); renderSOPs(); showToast("SOP saved");
-    } else if (currentPage==="vault") {
-      var s=document.getElementById("f-service").value; if(!s)return;
-      VAULT.push({service:s,username:document.getElementById("f-user").value,password:document.getElementById("f-pass").value});
-      closeModal(); renderVault(); showToast("Credential saved");
-    } else if (currentPage==="files") {
-      var n=document.getElementById("f-fname").value.trim(); if(!n){showToast("Add a group name first");return;}
-      var groupFiles=[];
-      var fi=document.getElementById("f-ffiles");
-      if(fi&&fi.files&&fi.files.length>0){
-        Array.from(fi.files).forEach(function(file){
-          var ext=file.name.split('.').pop().toLowerCase();
-          var t=ext==="pdf"?"pdf":["jpg","jpeg","png","gif","webp"].includes(ext)?"image":["mp4","mov","avi"].includes(ext)?"video":["doc","docx"].includes(ext)?"doc":["xls","xlsx"].includes(ext)?"sheet":"code";
-          groupFiles.push({name:file.name,type:t,size:file.size>=1048576?(file.size/1048576).toFixed(1)+"MB":Math.round(file.size/1024)+"KB"});
-        });
-      }
-      var lnks=document.getElementById("f-flinks");
-      if(lnks&&lnks.value.trim()){
-        lnks.value.trim().split("\n").forEach(function(url,i){url=url.trim();if(url)groupFiles.push({name:"Link "+(i+1)+": "+url.substring(0,40),type:"link",size:"—"});});
-      }
-      if(!groupFiles.length){showToast("Add at least one file or link");return;}
-      var newGroup={id:Date.now(),name:n,date:new Date().toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}),files:groupFiles};
-      FILE_GROUPS.unshift(newGroup);
-      saveFileGroupToDB(newGroup);
-      closeModal(); renderFiles(); showToast("Group \""+n+"\" saved with "+groupFiles.length+" file"+(groupFiles.length>1?"s":"")+"!");
-    } else if (currentPage==="social") {
-      var vt=document.getElementById("f-vtitle").value.trim();
-      if(!vt){showToast("Add a batch label first");return;}
-      var plat=document.getElementById("f-vplatform").value;
-      var vst=document.getElementById("f-vstatus").value;
-      var vdt=document.getElementById("f-vdate").value||new Date().toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
-      var groupItems=[];
-      // collect links
-      document.querySelectorAll(".link-row-input").forEach(function(inp,i){
-        var url=inp.value.trim();
-        if(url){ groupItems.push({type:"link",name:"Link "+(i+1)+" — "+url.substring(0,50),url:url}); }
-      });
-      // collect files
-      var fi=document.getElementById("f-vfile");
-      if(fi&&fi.files&&fi.files.length>0){
-        Array.from(fi.files).forEach(function(file){
-          var sz=file.size>=1048576?(file.size/1048576).toFixed(1)+"MB":Math.round(file.size/1024)+"KB";
-          groupItems.push({type:"file",name:file.name,size:sz});
-        });
-      }
-      if(!groupItems.length){showToast("Add at least one link or file");return;}
-      var newGroup = {id:Date.now(),name:vt,platform:plat,status:vst,date:vdt,items:groupItems};
-      SOCIAL_GROUPS.unshift(newGroup);
-      saveSocialToDB(newGroup);
-      closeModal(); renderSocial(); showToast(groupItems.length+" item"+(groupItems.length>1?"s":"")+" saved in \""+vt+"\"!");
-    }
+  var forms = {
+    sops: '<div class="form-group"><label>Title</label><input type="text" id="f-title" placeholder="e.g. Lead follow-up flow"></div><div class="form-group"><label>Status</label><select id="f-status"><option>Active</option><option>Draft</option></select></div><div class="form-group"><label>Steps / content</label><textarea id="f-body" placeholder="Write your SOP steps here…"></textarea></div><div class="form-group"><label>Tags (comma separated)</label><input type="text" id="f-tags" placeholder="e.g. CRM, Automation"></div>',
+    vault: '<div class="form-group"><label>Service name</label><input type="text" id="f-service" placeholder="e.g. GoHighLevel"></div><div class="form-group"><label>Username / email</label><input type="text" id="f-user"></div><div class="form-group"><label>Password / secret</label><input type="password" id="f-pass"></div>',
+    files: '<div class="form-group"><label>Name</label><input type="text" id="f-fname" placeholder="e.g. Client brief Q3"></div><div class="form-group"><label>URL</label><input type="text" id="f-furl" placeholder="https://drive.google.com/…"></div>',
+    social: '<div class="form-group"><label>Video title</label><input type="text" id="f-vtitle" placeholder="e.g. Before & after bathroom remodel"></div><div class="form-group"><label>Video link (Google Drive or YouTube)</label><input type="text" id="f-vurl" placeholder="https://drive.google.com/… or https://youtube.com/…"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:9px"><div class="form-group"><label>Platform</label><select id="f-vplatform"><option value="facebook">📘 Facebook</option><option value="youtube">▶️ YouTube</option></select></div><div class="form-group"><label>Status</label><select id="f-vstatus"><option value="draft">Draft</option><option value="scheduled">Scheduled</option><option value="posted">Posted</option></select></div></div><div class="form-group"><label>Date</label><input type="date" id="f-vdate"></div>',
+  };
+  var titles = {sops:'New SOP',vault:'Add credential',files:'Add file or link',social:'Add video',dashboard:'Quick add'};
+  if (!forms[currentPage]) { showToast('Select a section first'); return; }
+  setModal(titles[currentPage]||'Add', '', forms[currentPage], 'Save', function() {
+    if (currentPage==='sops') { var t=document.getElementById('f-title').value; if(!t)return; SOPS.unshift({id:Date.now(),title:t,status:document.getElementById('f-status').value,updated:'Today',tags:document.getElementById('f-tags').value.split(',').map(function(x){return x.trim();}).filter(Boolean),body:document.getElementById('f-body').value}); closeModal(); renderSOPs(); showToast('SOP saved'); }
+    else if (currentPage==='vault') { var s=document.getElementById('f-service').value; if(!s)return; VAULT.push({service:s,username:document.getElementById('f-user').value,password:document.getElementById('f-pass').value}); closeModal(); renderVault(); showToast('Credential saved'); }
+    else if (currentPage==='files') { var n=document.getElementById('f-fname').value; if(!n)return; FILES.push({name:n,type:'ti-file-text'}); closeModal(); renderFiles(); showToast('File added'); }
+    else if (currentPage==='social') { var vt=document.getElementById('f-vtitle').value,vu=document.getElementById('f-vurl').value; if(!vt||!vu)return; SOCIAL.unshift({id:Date.now(),title:vt,url:vu,platform:document.getElementById('f-vplatform').value,status:document.getElementById('f-vstatus').value,date:document.getElementById('f-vdate').value||'TBD',views:0,likes:0}); closeModal(); renderSocial(); showToast('Video saved'); }
   });
-  if (currentPage==="social") { setTimeout(function(){ addLinkRow(); }, 40); }
-}
-
-// ── MULTI LINK/FILE HELPERS ──
-function addLinkRow() {
-  var container = document.getElementById('link-rows');
-  if (!container) return;
-  var idx = container.children.length;
-  var div = document.createElement('div');
-  div.style.cssText = 'display:flex;gap:6px;margin-bottom:6px;align-items:center';
-  div.innerHTML = '<input type="text" class="link-row-input" placeholder="https://drive.google.com/\u2026 or https://youtube.com/\u2026" style="flex:1;padding:7px 10px;border:1px solid rgba(168,85,247,0.22);border-radius:7px;background:rgba(168,85,247,0.06);font-size:12px;color:#e9d5ff;outline:none;font-family:Inter,sans-serif"><button type="button" style="padding:4px 8px;border-radius:5px;border:1px solid rgba(239,68,68,0.25);background:rgba(239,68,68,0.06);color:#f87171;cursor:pointer;font-size:11px;flex-shrink:0" onclick="this.parentElement.remove()">\u2715</button>';
-  container.appendChild(div);
-  div.querySelector('input').focus();
-}
-function previewGroupFiles() {
-  var fi = document.getElementById('f-ffiles');
-  var preview = document.getElementById('group-file-preview');
-  if (!fi || !preview) return;
-  var icons = {pdf:'ti-file-type-pdf',image:'ti-photo',video:'ti-video',doc:'ti-file-text',sheet:'ti-table',code:'ti-code',link:'ti-link'};
-  var colors = {pdf:'#f87171',image:'#2dd4bf',video:'#a855f7',doc:'#93c5fd',sheet:'#34d399',code:'#fbbf24',link:'#c4b5fd'};
-  preview.innerHTML = '<div style="font-size:10px;color:rgba(192,132,252,0.45);margin-bottom:5px">'+fi.files.length+' file'+(fi.files.length>1?'s':'')+' selected:</div>'
-    + Array.from(fi.files).map(function(f){
-      var ext=f.name.split('.').pop().toLowerCase();
-      var t=ext==='pdf'?'pdf':['jpg','jpeg','png','gif','webp'].includes(ext)?'image':['mp4','mov','avi'].includes(ext)?'video':['doc','docx'].includes(ext)?'doc':['xls','xlsx'].includes(ext)?'sheet':'code';
-      var sz=f.size>=1048576?(f.size/1048576).toFixed(1)+'MB':Math.round(f.size/1024)+'KB';
-      return '<div style="display:flex;align-items:center;gap:7px;padding:4px 8px;background:rgba(168,85,247,0.08);border-radius:5px;margin-bottom:3px"><i class="ti '+(icons[t]||'ti-file')+'" style="font-size:12px;color:'+(colors[t]||'#c4b5fd')+';flex-shrink:0"></i><span style="font-size:11px;color:#e9d5ff;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+f.name+'</span><span style="font-size:10px;color:rgba(192,132,252,0.4);flex-shrink:0">'+sz+'</span></div>';
-    }).join('');
-}
-
-function previewFiles() {
-  var fi = document.getElementById('f-vfile');
-  var preview = document.getElementById('file-list-preview');
-  if (!fi || !preview) return;
-  preview.innerHTML = Array.from(fi.files).map(function(f) {
-    return '<div style="font-size:11px;color:#c4b5fd;padding:4px 8px;background:rgba(168,85,247,0.08);border-radius:5px;margin-bottom:4px;display:flex;align-items:center;gap:6px"><i class="ti ti-file" style="font-size:12px"></i>' + f.name + ' <span style="color:rgba(192,132,252,0.4);font-size:10px">(' + Math.round(f.size/1024) + 'KB)</span></div>';
-  }).join('');
 }
 
 // ── MODAL ──
@@ -976,69 +655,6 @@ function setModal(title, sub, body, actionLabel, actionFn) {
   document.getElementById('modal').classList.add('open');
 }
 function closeModal() { document.getElementById('modal').classList.remove('open'); }
-
-// ── SUPABASE PERSISTENCE ──
-async function loadSocialFromDB() {
-  try {
-    var res = await sb.from('social_content').select('*').order('created_at', {ascending: false});
-    if (res.data && res.data.length > 0) {
-      SOCIAL_GROUPS.length = 0;
-      res.data.forEach(function(row) {
-        SOCIAL_GROUPS.push({
-          id: row.id,
-          name: row.title,
-          platform: row.platform,
-          status: row.status,
-          date: row.post_date || row.created_at ? new Date(row.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : 'Unknown',
-          items: row.tags || []
-        });
-      });
-    }
-  } catch(e) { console.log('Social load error:', e); }
-  renderSocial();
-}
-
-async function saveSocialToDB(group) {
-  try {
-    var res = await sb.from('social_content').insert([{
-      title: group.name,
-      platform: group.platform,
-      status: group.status,
-      post_date: group.date,
-      tags: group.items,
-      url: (group.items.filter(function(i){return i.type==='link';}).map(function(i){return i.url;}).join(', ')),
-    }]);
-    if (res.data && res.data[0]) { group.id = res.data[0].id; }
-  } catch(e) { console.log('Social save error:', e); }
-}
-
-async function loadFileGroupsFromDB() {
-  try {
-    var res = await sb.from('file_groups').select('*').order('created_at', {ascending: false});
-    if (res.data && res.data.length > 0) {
-      FILE_GROUPS.length = 0;
-      res.data.forEach(function(row) {
-        FILE_GROUPS.push({
-          id: row.id,
-          name: row.name,
-          date: row.created_at ? new Date(row.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : 'Unknown',
-          files: row.files || []
-        });
-      });
-    }
-  } catch(e) { console.log('File groups load error:', e); }
-  renderFiles();
-}
-
-async function saveFileGroupToDB(group) {
-  try {
-    var res = await sb.from('file_groups').insert([{
-      name: group.name,
-      files: group.files
-    }]);
-    if (res.data && res.data[0]) { group.id = res.data[0].id; }
-  } catch(e) { console.log('File group save error:', e); }
-}
 
 // ── TOAST ──
 function showToast(msg) {
