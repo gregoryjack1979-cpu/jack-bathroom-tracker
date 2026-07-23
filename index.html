@@ -632,7 +632,7 @@ function handleAdd() {
     sops: '<div class="form-group"><label>Title</label><input type="text" id="f-title" placeholder="e.g. Lead follow-up flow"></div><div class="form-group"><label>Status</label><select id="f-status"><option>Active</option><option>Draft</option></select></div><div class="form-group"><label>Steps / content</label><textarea id="f-body" placeholder="Write your SOP steps here…"></textarea></div><div class="form-group"><label>Tags (comma separated)</label><input type="text" id="f-tags" placeholder="e.g. CRM, Automation"></div>',
     vault: '<div class="form-group"><label>Service name</label><input type="text" id="f-service" placeholder="e.g. GoHighLevel"></div><div class="form-group"><label>Username / email</label><input type="text" id="f-user"></div><div class="form-group"><label>Password / secret</label><input type="password" id="f-pass"></div>',
     files: '<div class="form-group"><label>Name</label><input type="text" id="f-fname" placeholder="e.g. Client brief Q3"></div><div class="form-group"><label>URL</label><input type="text" id="f-furl" placeholder="https://drive.google.com/…"></div>',
-    social: '<div class="form-group"><label>Video title</label><input type="text" id="f-vtitle" placeholder="e.g. Before & after bathroom remodel"></div><div class="form-group"><label>Video link (Google Drive or YouTube)</label><input type="text" id="f-vurl" placeholder="https://drive.google.com/… or https://youtube.com/…"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:9px"><div class="form-group"><label>Platform</label><select id="f-vplatform"><option value="facebook">📘 Facebook</option><option value="youtube">▶️ YouTube</option></select></div><div class="form-group"><label>Status</label><select id="f-vstatus"><option value="draft">Draft</option><option value="scheduled">Scheduled</option><option value="posted">Posted</option></select></div></div><div class="form-group"><label>Date</label><input type="date" id="f-vdate"></div>',
+    social: '<div class="form-group"><label>Video title</label><input type="text" id="f-vtitle" placeholder="e.g. Before & after bathroom remodel"></div><div class="form-group"><label>Add type</label><div style="display:flex;gap:8px;margin-bottom:8px"><button type="button" onclick="toggleAddType(\'link\')" id="type-link-btn" style="flex:1;padding:7px;border-radius:7px;border:1px solid rgba(168,85,247,0.5);background:rgba(168,85,247,0.2);color:#c4b5fd;cursor:pointer;font-family:Inter,sans-serif;font-size:11px;font-weight:600">🔗 Paste link</button><button type="button" onclick="toggleAddType(\'file\')" id="type-file-btn" style="flex:1;padding:7px;border-radius:7px;border:1px solid rgba(168,85,247,0.2);background:transparent;color:rgba(192,132,252,0.5);cursor:pointer;font-family:Inter,sans-serif;font-size:11px;font-weight:600">📁 Upload file</button></div><div id="link-section"><input type="text" id="f-vurl" placeholder="https://drive.google.com/… or https://youtube.com/…" style="width:100%;padding:7px 10px;border:1px solid rgba(168,85,247,0.22);border-radius:7px;background:rgba(168,85,247,0.06);font-size:12px;color:#e9d5ff;outline:none;font-family:Inter,sans-serif"></div><div id="file-section" style="display:none"><input type="file" id="f-vfile" accept="video/*,image/*,.pdf,.doc,.docx" style="width:100%;padding:7px;border:1px dashed rgba(168,85,247,0.3);border-radius:7px;background:rgba(168,85,247,0.04);font-size:11px;color:#c4b5fd;cursor:pointer"><div style="font-size:9px;color:rgba(192,132,252,0.4);margin-top:4px">Accepted: MP4, MOV, JPG, PNG, PDF, DOC — max 100MB</div><div id="file-upload-status" style="font-size:11px;color:#34d399;margin-top:5px;display:none"></div></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:9px"><div class="form-group"><label>Platform</label><select id="f-vplatform"><option value="facebook">📘 Facebook</option><option value="youtube">▶️ YouTube</option></select></div><div class="form-group"><label>Status</label><select id="f-vstatus"><option value="draft">Draft</option><option value="scheduled">Scheduled</option><option value="posted">Posted</option></select></div></div><div class="form-group"><label>Date</label><input type="date" id="f-vdate"></div>',
   };
   var titles = {sops:'New SOP',vault:'Add credential',files:'Add file or link',social:'Add video',dashboard:'Quick add'};
   if (!forms[currentPage]) { showToast('Select a section first'); return; }
@@ -640,8 +640,55 @@ function handleAdd() {
     if (currentPage==='sops') { var t=document.getElementById('f-title').value; if(!t)return; SOPS.unshift({id:Date.now(),title:t,status:document.getElementById('f-status').value,updated:'Today',tags:document.getElementById('f-tags').value.split(',').map(function(x){return x.trim();}).filter(Boolean),body:document.getElementById('f-body').value}); closeModal(); renderSOPs(); showToast('SOP saved'); }
     else if (currentPage==='vault') { var s=document.getElementById('f-service').value; if(!s)return; VAULT.push({service:s,username:document.getElementById('f-user').value,password:document.getElementById('f-pass').value}); closeModal(); renderVault(); showToast('Credential saved'); }
     else if (currentPage==='files') { var n=document.getElementById('f-fname').value; if(!n)return; FILES.push({name:n,type:'ti-file-text'}); closeModal(); renderFiles(); showToast('File added'); }
-    else if (currentPage==='social') { var vt=document.getElementById('f-vtitle').value,vu=document.getElementById('f-vurl').value; if(!vt||!vu)return; SOCIAL.unshift({id:Date.now(),title:vt,url:vu,platform:document.getElementById('f-vplatform').value,status:document.getElementById('f-vstatus').value,date:document.getElementById('f-vdate').value||'TBD',views:0,likes:0}); closeModal(); renderSocial(); showToast('Video saved'); }
+    else if (currentPage==='social') {
+      var vt=document.getElementById('f-vtitle').value;
+      if(!vt){showToast('Add a title first');return;}
+      var fileSec=document.getElementById('file-section');
+      var isFile = fileSec && fileSec.style.display!=='none';
+      var vu = '';
+      if(isFile){
+        var fileInput=document.getElementById('f-vfile');
+        if(fileInput&&fileInput.files&&fileInput.files[0]){
+          var file=fileInput.files[0];
+          vu='[File: '+file.name+' ('+Math.round(file.size/1024)+'KB)]';
+          showToast('File "'+file.name+'" saved locally. Upload to Google Drive for team access.');
+        } else { showToast('Please select a file'); return; }
+      } else {
+        vu=document.getElementById('f-vurl').value;
+        if(!vu){showToast('Add a link first');return;}
+      }
+      SOCIAL.unshift({id:Date.now(),title:vt,url:vu,platform:document.getElementById('f-vplatform').value,status:document.getElementById('f-vstatus').value,date:document.getElementById('f-vdate').value||'TBD',views:0,likes:0});
+      closeModal(); renderSocial(); showToast('Video saved successfully');
+    }
   });
+}
+
+// ── TOGGLE ADD TYPE ──
+function toggleAddType(type) {
+  var linkBtn = document.getElementById('type-link-btn');
+  var fileBtn = document.getElementById('type-file-btn');
+  var linkSec = document.getElementById('link-section');
+  var fileSec = document.getElementById('file-section');
+  if (!linkBtn) return;
+  if (type === 'link') {
+    linkBtn.style.background = 'rgba(168,85,247,0.2)';
+    linkBtn.style.borderColor = 'rgba(168,85,247,0.5)';
+    linkBtn.style.color = '#c4b5fd';
+    fileBtn.style.background = 'transparent';
+    fileBtn.style.borderColor = 'rgba(168,85,247,0.2)';
+    fileBtn.style.color = 'rgba(192,132,252,0.5)';
+    linkSec.style.display = 'block';
+    fileSec.style.display = 'none';
+  } else {
+    fileBtn.style.background = 'rgba(168,85,247,0.2)';
+    fileBtn.style.borderColor = 'rgba(168,85,247,0.5)';
+    fileBtn.style.color = '#c4b5fd';
+    linkBtn.style.background = 'transparent';
+    linkBtn.style.borderColor = 'rgba(168,85,247,0.2)';
+    linkBtn.style.color = 'rgba(192,132,252,0.5)';
+    fileSec.style.display = 'block';
+    linkSec.style.display = 'none';
+  }
 }
 
 // ── MODAL ──
