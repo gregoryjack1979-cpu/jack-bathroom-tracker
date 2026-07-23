@@ -231,7 +231,11 @@ body{font-family:'Inter',sans-serif;font-size:13px;background:#0d0618;color:#e9d
       </div>
 
       <div class="page" id="page-files">
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:9px" id="file-grid"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div style="font-size:10px;color:rgba(192,132,252,0.4)">Click any group to view its files</div>
+          <input type="text" id="file-search" placeholder="Search groups…" oninput="searchFileGroups(this.value)" style="padding:5px 10px;border:1px solid rgba(168,85,247,0.22);border-radius:7px;background:rgba(168,85,247,0.06);font-size:11px;color:#e9d5ff;outline:none;font-family:Inter,sans-serif;width:160px">
+        </div>
+        <div id="file-groups-list"></div>
       </div>
 
       <div class="page" id="page-guide">
@@ -358,13 +362,24 @@ const VAULT = [
   {service:'GitHub',username:'gregoryjack1979-cpu',password:'stored securely'},
   {service:'Supabase',username:'greg@jackbathroom.com',password:'stored securely'},
 ];
-const FILES = [
-  {name:'Client intake template',type:'ti-file-text'},
-  {name:'Lead scoring sheet',type:'ti-table'},
-  {name:'Make scenario backup',type:'ti-code'},
-  {name:'GHL funnel export',type:'ti-code'},
-  {name:'Onboarding checklist',type:'ti-table'},
-  {name:'Brand kit',type:'ti-palette'},
+const FILE_GROUPS = [
+  {id:1, name:'Bathroom Renovation — Santos Family', date:'Jul 14, 2026', files:[
+    {name:'Before photos.jpg', type:'image', size:'2.4MB'},
+    {name:'After photos.jpg', type:'image', size:'3.1MB'},
+    {name:'Project quotation.pdf', type:'pdf', size:'512KB'},
+    {name:'Contract signed.pdf', type:'pdf', size:'890KB'},
+  ]},
+  {id:2, name:'July Marketing Content Pack', date:'Jul 10, 2026', files:[
+    {name:'Facebook video 1.mp4', type:'video', size:'45MB'},
+    {name:'Facebook video 2.mp4', type:'video', size:'38MB'},
+    {name:'YouTube thumbnail.jpg', type:'image', size:'1.2MB'},
+    {name:'Captions draft.docx', type:'doc', size:'24KB'},
+  ]},
+  {id:3, name:'GoHighLevel SOP Documents', date:'Jul 5, 2026', files:[
+    {name:'GHL setup guide.pdf', type:'pdf', size:'1.1MB'},
+    {name:'Lead scoring template.xlsx', type:'sheet', size:'45KB'},
+    {name:'SMS scripts.docx', type:'doc', size:'28KB'},
+  ]},
 ];
 const SOCIAL = [
   {id:1,title:'Before & after bathroom tile job',platform:'facebook',status:'posted',date:'Jul 14',url:'https://drive.google.com/file/example1',views:4200,likes:187},
@@ -496,11 +511,54 @@ function renderVault() {
 }
 
 // ── FILES ──
-function renderFiles() {
-  document.getElementById('file-grid').innerHTML = FILES.map(function(f) {
-    return '<div style="background:rgba(168,85,247,0.06);border:1px solid rgba(168,85,247,0.15);border-radius:9px;padding:12px;cursor:pointer" onclick="showToast(\'Opening ' + f.name + '…\')"><i class="ti ' + f.type + '" style="font-size:20px;color:#a855f7;display:block;margin-bottom:7px"></i><div style="font-size:11px;font-weight:500;color:#e9d5ff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + f.name + '</div><div style="font-size:9px;color:rgba(192,132,252,0.4);margin-top:2px">Bathroom Excellence</div></div>';
+function renderFiles(filter) {
+  var groups = filter ? FILE_GROUPS.filter(function(g){ return g.name.toLowerCase().includes(filter); }) : FILE_GROUPS;
+  var container = document.getElementById('file-groups-list');
+  if (!container) return;
+  if (!groups.length) { container.innerHTML = '<div style="text-align:center;padding:24px;font-size:11px;color:rgba(192,132,252,0.4)">No file groups found.</div>'; return; }
+  container.innerHTML = groups.map(function(g) {
+    var icons = {'image':'ti-photo','video':'ti-video','pdf':'ti-file-type-pdf','doc':'ti-file-text','sheet':'ti-table','code':'ti-code'};
+    var colors = {'image':'#2dd4bf','video':'#a855f7','pdf':'#f87171','doc':'#93c5fd','sheet':'#34d399','code':'#fbbf24'};
+    var filePreview = g.files.slice(0,3).map(function(f){
+      var icon = icons[f.type]||'ti-file';
+      var color = colors[f.type]||'#c4b5fd';
+      return '<div style="display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid rgba(168,85,247,0.07);font-size:11px;color:rgba(216,180,254,0.7)"><i class="ti '+icon+'" style="font-size:12px;color:'+color+';flex-shrink:0"></i>'+f.name+'<span style="margin-left:auto;font-size:9px;color:rgba(192,132,252,0.35)">'+f.size+'</span></div>';
+    }).join('');
+    var extra = g.files.length > 3 ? '<div style="font-size:10px;color:rgba(168,85,247,0.6);padding-top:5px">+' + (g.files.length-3) + ' more files</div>' : '';
+    return '<div class="panel" style="cursor:pointer;transition:border-color .15s" onmouseover="this.style.borderColor=\'rgba(168,85,247,0.4)\'" onmouseout="this.style.borderColor=\'rgba(168,85,247,0.18)\'" onclick="openFileGroup('+g.id+')">'
+      + '<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px">'
+      + '<div style="display:flex;align-items:center;gap:9px">'
+      + '<div style="width:36px;height:36px;border-radius:8px;background:rgba(168,85,247,0.15);border:1px solid rgba(168,85,247,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ti-folder-filled" style="font-size:18px;color:#a855f7"></i></div>'
+      + '<div><div style="font-family:Space Grotesk,sans-serif;font-weight:700;font-size:13px;color:#e9d5ff">' + g.name + '</div>'
+      + '<div style="font-size:10px;color:rgba(192,132,252,0.4);margin-top:2px">' + g.files.length + ' files &nbsp;&middot;&nbsp; ' + g.date + '</div></div>'
+      + '</div>'
+      + '<span style="font-size:11px;color:#a855f7;white-space:nowrap">View all \u2192</span>'
+      + '</div>'
+      + filePreview + extra
+      + '</div>';
   }).join('');
 }
+
+function openFileGroup(id) {
+  var g = FILE_GROUPS.find(function(x){ return x.id===id; });
+  var icons = {'image':'ti-photo','video':'ti-video','pdf':'ti-file-type-pdf','doc':'ti-file-text','sheet':'ti-table','code':'ti-code'};
+  var colors = {'image':'#2dd4bf','video':'#a855f7','pdf':'#f87171','doc':'#93c5fd','sheet':'#34d399','code':'#fbbf24'};
+  var body = '<div style="margin-bottom:10px;font-size:11px;color:rgba(192,132,252,0.45)">' + g.files.length + ' files &nbsp;&middot;&nbsp; Uploaded ' + g.date + '</div>'
+    + g.files.map(function(f) {
+      var icon = icons[f.type]||'ti-file';
+      var color = colors[f.type]||'#c4b5fd';
+      return '<div style="display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid rgba(168,85,247,0.09)">'
+        + '<div style="width:30px;height:30px;border-radius:6px;background:rgba(168,85,247,0.1);border:1px solid rgba(168,85,247,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti '+icon+'" style="font-size:14px;color:'+color+'"></i></div>'
+        + '<div style="flex:1"><div style="font-size:12px;font-weight:500;color:#e9d5ff">'+f.name+'</div><div style="font-size:10px;color:rgba(192,132,252,0.4)">'+f.size+'</div></div>'
+        + '<button onclick="showToast(\'Downloading '+f.name+'\')" style="padding:4px 9px;border-radius:5px;border:1px solid rgba(168,85,247,0.25);background:rgba(168,85,247,0.08);color:#c4b5fd;cursor:pointer;font-size:10px;font-family:Inter,sans-serif"><i class="ti ti-download" style="font-size:10px"></i> Download</button>'
+        + '</div>';
+    }).join('');
+  setModal(g.name, g.files.length + ' files', body, 'Close', closeModal);
+  document.getElementById('m-action').textContent = 'Close';
+  document.getElementById('m-action').onclick = closeModal;
+}
+
+function searchFileGroups(v) { renderFiles(v.toLowerCase()); }
 
 // ── GUIDE ──
 var ROLES_DEF = {
@@ -628,67 +686,117 @@ function renderReports() {
 
 // ── ADD HANDLER ──
 function handleAdd() {
-  var forms = {
-    sops: '<div class="form-group"><label>Title</label><input type="text" id="f-title" placeholder="e.g. Lead follow-up flow"></div><div class="form-group"><label>Status</label><select id="f-status"><option>Active</option><option>Draft</option></select></div><div class="form-group"><label>Steps / content</label><textarea id="f-body" placeholder="Write your SOP steps here…"></textarea></div><div class="form-group"><label>Tags (comma separated)</label><input type="text" id="f-tags" placeholder="e.g. CRM, Automation"></div>',
-    vault: '<div class="form-group"><label>Service name</label><input type="text" id="f-service" placeholder="e.g. GoHighLevel"></div><div class="form-group"><label>Username / email</label><input type="text" id="f-user"></div><div class="form-group"><label>Password / secret</label><input type="password" id="f-pass"></div>',
-    files: '<div class="form-group"><label>Name</label><input type="text" id="f-fname" placeholder="e.g. Client brief Q3"></div><div class="form-group"><label>URL</label><input type="text" id="f-furl" placeholder="https://drive.google.com/…"></div>',
-    social: '<div class="form-group"><label>Video title</label><input type="text" id="f-vtitle" placeholder="e.g. Before & after bathroom remodel"></div><div class="form-group"><label>Add type</label><div style="display:flex;gap:8px;margin-bottom:8px"><button type="button" onclick="toggleAddType(\'link\')" id="type-link-btn" style="flex:1;padding:7px;border-radius:7px;border:1px solid rgba(168,85,247,0.5);background:rgba(168,85,247,0.2);color:#c4b5fd;cursor:pointer;font-family:Inter,sans-serif;font-size:11px;font-weight:600">🔗 Paste link</button><button type="button" onclick="toggleAddType(\'file\')" id="type-file-btn" style="flex:1;padding:7px;border-radius:7px;border:1px solid rgba(168,85,247,0.2);background:transparent;color:rgba(192,132,252,0.5);cursor:pointer;font-family:Inter,sans-serif;font-size:11px;font-weight:600">📁 Upload file</button></div><div id="link-section"><input type="text" id="f-vurl" placeholder="https://drive.google.com/… or https://youtube.com/…" style="width:100%;padding:7px 10px;border:1px solid rgba(168,85,247,0.22);border-radius:7px;background:rgba(168,85,247,0.06);font-size:12px;color:#e9d5ff;outline:none;font-family:Inter,sans-serif"></div><div id="file-section" style="display:none"><input type="file" id="f-vfile" accept="video/*,image/*,.pdf,.doc,.docx" style="width:100%;padding:7px;border:1px dashed rgba(168,85,247,0.3);border-radius:7px;background:rgba(168,85,247,0.04);font-size:11px;color:#c4b5fd;cursor:pointer"><div style="font-size:9px;color:rgba(192,132,252,0.4);margin-top:4px">Accepted: MP4, MOV, JPG, PNG, PDF, DOC — max 100MB</div><div id="file-upload-status" style="font-size:11px;color:#34d399;margin-top:5px;display:none"></div></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:9px"><div class="form-group"><label>Platform</label><select id="f-vplatform"><option value="facebook">📘 Facebook</option><option value="youtube">▶️ YouTube</option></select></div><div class="form-group"><label>Status</label><select id="f-vstatus"><option value="draft">Draft</option><option value="scheduled">Scheduled</option><option value="posted">Posted</option></select></div></div><div class="form-group"><label>Date</label><input type="date" id="f-vdate"></div>',
-  };
-  var titles = {sops:'New SOP',vault:'Add credential',files:'Add file or link',social:'Add video',dashboard:'Quick add'};
-  if (!forms[currentPage]) { showToast('Select a section first'); return; }
-  setModal(titles[currentPage]||'Add', '', forms[currentPage], 'Save', function() {
-    if (currentPage==='sops') { var t=document.getElementById('f-title').value; if(!t)return; SOPS.unshift({id:Date.now(),title:t,status:document.getElementById('f-status').value,updated:'Today',tags:document.getElementById('f-tags').value.split(',').map(function(x){return x.trim();}).filter(Boolean),body:document.getElementById('f-body').value}); closeModal(); renderSOPs(); showToast('SOP saved'); }
-    else if (currentPage==='vault') { var s=document.getElementById('f-service').value; if(!s)return; VAULT.push({service:s,username:document.getElementById('f-user').value,password:document.getElementById('f-pass').value}); closeModal(); renderVault(); showToast('Credential saved'); }
-    else if (currentPage==='files') { var n=document.getElementById('f-fname').value; if(!n)return; FILES.push({name:n,type:'ti-file-text'}); closeModal(); renderFiles(); showToast('File added'); }
-    else if (currentPage==='social') {
-      var vt=document.getElementById('f-vtitle').value;
-      if(!vt){showToast('Add a title first');return;}
-      var fileSec=document.getElementById('file-section');
-      var isFile = fileSec && fileSec.style.display!=='none';
-      var vu = '';
-      if(isFile){
-        var fileInput=document.getElementById('f-vfile');
-        if(fileInput&&fileInput.files&&fileInput.files[0]){
-          var file=fileInput.files[0];
-          vu='[File: '+file.name+' ('+Math.round(file.size/1024)+'KB)]';
-          showToast('File "'+file.name+'" saved locally. Upload to Google Drive for team access.');
-        } else { showToast('Please select a file'); return; }
-      } else {
-        vu=document.getElementById('f-vurl').value;
-        if(!vu){showToast('Add a link first');return;}
+  var sopsForm = '<div class="form-group"><label>Title</label><input type="text" id="f-title" placeholder="e.g. Lead follow-up flow"></div><div class="form-group"><label>Status</label><select id="f-status"><option>Active</option><option>Draft</option></select></div><div class="form-group"><label>Steps</label><textarea id="f-body" placeholder="Write SOP steps here…"></textarea></div><div class="form-group"><label>Tags</label><input type="text" id="f-tags" placeholder="e.g. CRM, Automation"></div>';
+  var vaultForm = '<div class="form-group"><label>Service</label><input type="text" id="f-service" placeholder="e.g. GoHighLevel"></div><div class="form-group"><label>Username</label><input type="text" id="f-user"></div><div class="form-group"><label>Password</label><input type="password" id="f-pass"></div>';
+  var filesForm = '<div class="form-group"><label>Group name</label><input type="text" id="f-fname" placeholder="e.g. Santos Family Bathroom Project"></div>'
+    + '<div class="form-group"><label>Description <span style="color:rgba(192,132,252,0.3)">(optional)</span></label><input type="text" id="f-fdesc" placeholder="e.g. Before/after photos, contract, quotation"></div>'
+    + '<div class="form-group"><label>Upload files <span style="font-size:9px;color:rgba(192,132,252,0.4)">Hold Ctrl/Cmd to select multiple</span></label>'
+    + '<input type="file" id="f-ffiles" multiple onchange="previewGroupFiles()" style="width:100%;padding:7px;border:1px dashed rgba(168,85,247,0.25);border-radius:6px;background:rgba(168,85,247,0.04);font-size:11px;color:#c4b5fd;cursor:pointer">'
+    + '<div style="font-size:9px;color:rgba(192,132,252,0.4);margin-top:4px">PDF, DOC, XLSX, JPG, PNG, MP4 — any file type</div>'
+    + '<div id="group-file-preview" style="margin-top:8px"></div></div>'
+    + '<div class="form-group" style="margin-bottom:0"><label>Or add Google Drive links (one per line)</label><textarea id="f-flinks" placeholder="https://drive.google.com/file1&#10;https://drive.google.com/file2" style="min-height:65px"></textarea></div>';
+  var socialForm = '<div class="form-group"><label>Batch label</label><input type="text" id="f-vtitle" placeholder="e.g. July bathroom content"></div>'
+    + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:11px">'
+    + '<div class="form-group" style="margin-bottom:0"><label>Platform</label><select id="f-vplatform"><option value="facebook">📘 Facebook</option><option value="youtube">▶️ YouTube</option></select></div>'
+    + '<div class="form-group" style="margin-bottom:0"><label>Status</label><select id="f-vstatus"><option value="draft">Draft</option><option value="scheduled">Scheduled</option><option value="posted">Posted</option></select></div></div>'
+    + '<div class="form-group"><label>Date</label><input type="date" id="f-vdate"></div>'
+    + '<div style="border:1px solid rgba(168,85,247,0.2);border-radius:8px;padding:10px;margin-bottom:10px">'
+    + '<div style="font-size:10px;font-weight:600;color:rgba(192,132,252,0.5);text-transform:uppercase;margin-bottom:8px">🔗 Links — paste Google Drive or YouTube URLs</div>'
+    + '<div id="link-rows"></div>'
+    + '<button type="button" onclick="addLinkRow()" style="width:100%;padding:6px;border-radius:6px;border:1px dashed rgba(168,85,247,0.3);background:transparent;color:#a855f7;cursor:pointer;font-size:11px;font-family:Inter,sans-serif;margin-top:4px">+ Add another link</button></div>'
+    + '<div style="border:1px solid rgba(168,85,247,0.2);border-radius:8px;padding:10px">'
+    + '<div style="font-size:10px;font-weight:600;color:rgba(192,132,252,0.5);text-transform:uppercase;margin-bottom:8px">📁 Files — hold Ctrl/Cmd to select multiple</div>'
+    + '<input type="file" id="f-vfile" accept="video/*,image/*,.pdf,.doc,.docx" multiple onchange="previewFiles()" style="width:100%;padding:7px;border:1px dashed rgba(168,85,247,0.25);border-radius:6px;background:rgba(168,85,247,0.04);font-size:11px;color:#c4b5fd;cursor:pointer">'
+    + '<div style="font-size:9px;color:rgba(192,132,252,0.4);margin-top:4px">MP4, MOV, JPG, PNG, PDF, DOC</div>'
+    + '<div id="file-list-preview" style="margin-top:7px"></div></div>';
+  var pageMap = {sops:sopsForm, vault:vaultForm, files:filesForm, social:socialForm};
+  var titles = {sops:"New SOP",vault:"Add credential",files:"Add file or link",social:"Add video / file"};
+  if (!pageMap[currentPage]) { showToast("Select a section first"); return; }
+  setModal(titles[currentPage]||"Add", "", pageMap[currentPage], "Save", function() {
+    if (currentPage==="sops") {
+      var t=document.getElementById("f-title").value; if(!t)return;
+      SOPS.unshift({id:Date.now(),title:t,status:document.getElementById("f-status").value,updated:"Today",tags:document.getElementById("f-tags").value.split(",").map(function(x){return x.trim();}).filter(Boolean),body:document.getElementById("f-body").value});
+      closeModal(); renderSOPs(); showToast("SOP saved");
+    } else if (currentPage==="vault") {
+      var s=document.getElementById("f-service").value; if(!s)return;
+      VAULT.push({service:s,username:document.getElementById("f-user").value,password:document.getElementById("f-pass").value});
+      closeModal(); renderVault(); showToast("Credential saved");
+    } else if (currentPage==="files") {
+      var n=document.getElementById("f-fname").value.trim(); if(!n){showToast("Add a group name first");return;}
+      var groupFiles=[];
+      var fi=document.getElementById("f-ffiles");
+      if(fi&&fi.files&&fi.files.length>0){
+        Array.from(fi.files).forEach(function(file){
+          var ext=file.name.split('.').pop().toLowerCase();
+          var t=ext==="pdf"?"pdf":["jpg","jpeg","png","gif","webp"].includes(ext)?"image":["mp4","mov","avi"].includes(ext)?"video":["doc","docx"].includes(ext)?"doc":["xls","xlsx"].includes(ext)?"sheet":"code";
+          groupFiles.push({name:file.name,type:t,size:file.size>=1048576?(file.size/1048576).toFixed(1)+"MB":Math.round(file.size/1024)+"KB"});
+        });
       }
-      SOCIAL.unshift({id:Date.now(),title:vt,url:vu,platform:document.getElementById('f-vplatform').value,status:document.getElementById('f-vstatus').value,date:document.getElementById('f-vdate').value||'TBD',views:0,likes:0});
-      closeModal(); renderSocial(); showToast('Video saved successfully');
+      var lnks=document.getElementById("f-flinks");
+      if(lnks&&lnks.value.trim()){
+        lnks.value.trim().split("\n").forEach(function(url,i){url=url.trim();if(url)groupFiles.push({name:"Link "+(i+1)+": "+url.substring(0,40),type:"link",size:"—"});});
+      }
+      if(!groupFiles.length){showToast("Add at least one file or link");return;}
+      FILE_GROUPS.unshift({id:Date.now(),name:n,date:new Date().toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}),files:groupFiles});
+      closeModal(); renderFiles(); showToast("Group saved — "+groupFiles.length+" file"+(groupFiles.length>1?"s":"")+"!");
+    } else if (currentPage==="social") {
+      var vt=document.getElementById("f-vtitle").value.trim();
+      if(!vt){showToast("Add a batch label first");return;}
+      var plat=document.getElementById("f-vplatform").value;
+      var vst=document.getElementById("f-vstatus").value;
+      var vdt=document.getElementById("f-vdate").value||"TBD";
+      var added=0;
+      document.querySelectorAll(".link-row-input").forEach(function(inp){
+        var url=inp.value.trim();
+        if(url){ SOCIAL.unshift({id:Date.now()+added,title:vt+" (Link "+(added+1)+")",url:url,platform:plat,status:vst,date:vdt,views:0,likes:0}); added++; }
+      });
+      var fi=document.getElementById("f-vfile");
+      if(fi&&fi.files&&fi.files.length>0){
+        Array.from(fi.files).forEach(function(file,i){
+          SOCIAL.unshift({id:Date.now()+added+i,title:vt+" — "+file.name,url:"[File: "+file.name+" ("+Math.round(file.size/1024)+"KB)]",platform:plat,status:vst,date:vdt,views:0,likes:0});
+          added++;
+        });
+      }
+      if(!added){showToast("Add at least one link or file");return;}
+      closeModal(); renderSocial(); showToast(added+" item"+(added>1?"s":"")+" saved!");
     }
   });
+  if (currentPage==="social") { setTimeout(function(){ addLinkRow(); }, 40); }
 }
 
-// ── TOGGLE ADD TYPE ──
-function toggleAddType(type) {
-  var linkBtn = document.getElementById('type-link-btn');
-  var fileBtn = document.getElementById('type-file-btn');
-  var linkSec = document.getElementById('link-section');
-  var fileSec = document.getElementById('file-section');
-  if (!linkBtn) return;
-  if (type === 'link') {
-    linkBtn.style.background = 'rgba(168,85,247,0.2)';
-    linkBtn.style.borderColor = 'rgba(168,85,247,0.5)';
-    linkBtn.style.color = '#c4b5fd';
-    fileBtn.style.background = 'transparent';
-    fileBtn.style.borderColor = 'rgba(168,85,247,0.2)';
-    fileBtn.style.color = 'rgba(192,132,252,0.5)';
-    linkSec.style.display = 'block';
-    fileSec.style.display = 'none';
-  } else {
-    fileBtn.style.background = 'rgba(168,85,247,0.2)';
-    fileBtn.style.borderColor = 'rgba(168,85,247,0.5)';
-    fileBtn.style.color = '#c4b5fd';
-    linkBtn.style.background = 'transparent';
-    linkBtn.style.borderColor = 'rgba(168,85,247,0.2)';
-    linkBtn.style.color = 'rgba(192,132,252,0.5)';
-    fileSec.style.display = 'block';
-    linkSec.style.display = 'none';
-  }
+// ── MULTI LINK/FILE HELPERS ──
+function addLinkRow() {
+  var container = document.getElementById('link-rows');
+  if (!container) return;
+  var idx = container.children.length;
+  var div = document.createElement('div');
+  div.style.cssText = 'display:flex;gap:6px;margin-bottom:6px;align-items:center';
+  div.innerHTML = '<input type="text" class="link-row-input" placeholder="https://drive.google.com/\u2026 or https://youtube.com/\u2026" style="flex:1;padding:7px 10px;border:1px solid rgba(168,85,247,0.22);border-radius:7px;background:rgba(168,85,247,0.06);font-size:12px;color:#e9d5ff;outline:none;font-family:Inter,sans-serif"><button type="button" style="padding:4px 8px;border-radius:5px;border:1px solid rgba(239,68,68,0.25);background:rgba(239,68,68,0.06);color:#f87171;cursor:pointer;font-size:11px;flex-shrink:0" onclick="this.parentElement.remove()">\u2715</button>';
+  container.appendChild(div);
+  div.querySelector('input').focus();
+}
+function previewGroupFiles() {
+  var fi = document.getElementById('f-ffiles');
+  var preview = document.getElementById('group-file-preview');
+  if (!fi || !preview) return;
+  var icons = {pdf:'ti-file-type-pdf',image:'ti-photo',video:'ti-video',doc:'ti-file-text',sheet:'ti-table',code:'ti-code',link:'ti-link'};
+  var colors = {pdf:'#f87171',image:'#2dd4bf',video:'#a855f7',doc:'#93c5fd',sheet:'#34d399',code:'#fbbf24',link:'#c4b5fd'};
+  preview.innerHTML = '<div style="font-size:10px;color:rgba(192,132,252,0.45);margin-bottom:5px">'+fi.files.length+' file'+(fi.files.length>1?'s':'')+' selected:</div>'
+    + Array.from(fi.files).map(function(f){
+      var ext=f.name.split('.').pop().toLowerCase();
+      var t=ext==='pdf'?'pdf':['jpg','jpeg','png','gif','webp'].includes(ext)?'image':['mp4','mov','avi'].includes(ext)?'video':['doc','docx'].includes(ext)?'doc':['xls','xlsx'].includes(ext)?'sheet':'code';
+      var sz=f.size>=1048576?(f.size/1048576).toFixed(1)+'MB':Math.round(f.size/1024)+'KB';
+      return '<div style="display:flex;align-items:center;gap:7px;padding:4px 8px;background:rgba(168,85,247,0.08);border-radius:5px;margin-bottom:3px"><i class="ti '+(icons[t]||'ti-file')+'" style="font-size:12px;color:'+(colors[t]||'#c4b5fd')+';flex-shrink:0"></i><span style="font-size:11px;color:#e9d5ff;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+f.name+'</span><span style="font-size:10px;color:rgba(192,132,252,0.4);flex-shrink:0">'+sz+'</span></div>';
+    }).join('');
+}
+
+function previewFiles() {
+  var fi = document.getElementById('f-vfile');
+  var preview = document.getElementById('file-list-preview');
+  if (!fi || !preview) return;
+  preview.innerHTML = Array.from(fi.files).map(function(f) {
+    return '<div style="font-size:11px;color:#c4b5fd;padding:4px 8px;background:rgba(168,85,247,0.08);border-radius:5px;margin-bottom:4px;display:flex;align-items:center;gap:6px"><i class="ti ti-file" style="font-size:12px"></i>' + f.name + ' <span style="color:rgba(192,132,252,0.4);font-size:10px">(' + Math.round(f.size/1024) + 'KB)</span></div>';
+  }).join('');
 }
 
 // ── MODAL ──
