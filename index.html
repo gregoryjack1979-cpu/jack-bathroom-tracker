@@ -5,33 +5,35 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jack Bathroom Company Tracker</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
-
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',sans-serif;font-size:13px;background:#0d0618;color:#e9d5ff;height:100vh;overflow:hidden}
-
-/* ── LOGIN ── */
-#login-screen{display:flex;align-items:center;justify-content:center;height:100vh;position:relative}
-#login-screen::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 60% 30%,rgba(120,40,200,0.4) 0%,transparent 70%);pointer-events:none}
 .grid-bg{position:fixed;inset:0;background-image:linear-gradient(rgba(160,80,255,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(160,80,255,0.06) 1px,transparent 1px);background-size:32px 32px;z-index:0;pointer-events:none}
+#login-screen{display:flex;align-items:center;justify-content:center;height:100vh;position:relative;z-index:1}
+#login-screen::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 60% 30%,rgba(120,40,200,0.4) 0%,transparent 70%);pointer-events:none}
 .login-card{background:rgba(18,6,38,0.92);border:1px solid rgba(168,85,247,0.3);border-radius:14px;padding:32px;width:320px;position:relative;z-index:1;box-shadow:0 0 50px rgba(168,85,247,0.15)}
+.login-logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#a855f7);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;color:#fff;margin-bottom:16px;box-shadow:0 0 20px rgba(168,85,247,0.4)}
 .login-card h2{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;color:#e9d5ff;margin-bottom:4px}
 .login-card p{font-size:12px;color:rgba(192,132,252,0.5);margin-bottom:22px}
-.login-logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#a855f7);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;color:#fff;margin-bottom:16px;box-shadow:0 0 20px rgba(168,85,247,0.4)}
-.sb-note{font-size:9px;color:rgba(192,132,252,0.3);text-align:center;margin-top:12px;padding:7px;background:rgba(168,85,247,0.05);border-radius:5px;border:1px solid rgba(168,85,247,0.12);line-height:1.5}
 #error-msg{font-size:11px;color:#f87171;margin-bottom:10px;display:none;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:6px;padding:7px 10px}
-
-/* ── APP SHELL ── */
-#app{display:none;height:100vh;flex-direction:row}
-.sidebar{width:215px;min-width:215px;background:rgba(20,8,40,0.9);border-right:1px solid rgba(160,80,255,0.18);display:flex;flex-direction:column;height:100vh;position:relative;z-index:2;backdrop-filter:blur(8px)}
+.form-group{margin-bottom:11px}
+.form-group label{font-size:10px;font-weight:600;color:rgba(192,132,252,0.5);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.06em}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:7px 10px;border:1px solid rgba(168,85,247,0.22);border-radius:7px;background:rgba(168,85,247,0.06);font-size:12px;color:#e9d5ff;outline:none;font-family:'Inter',sans-serif;transition:border-color .15s}
+.form-group input:focus{border-color:rgba(168,85,247,0.5)}
+.form-group textarea{resize:vertical;min-height:68px;line-height:1.6}
+.form-group select option{background:#1a0636;color:#e9d5ff}
+.sb-note{font-size:9px;color:rgba(192,132,252,0.3);text-align:center;margin-top:12px;padding:7px;background:rgba(168,85,247,0.05);border-radius:5px;border:1px solid rgba(168,85,247,0.12);line-height:1.5}
+.btn{padding:5px 11px;border-radius:7px;cursor:pointer;font-size:11px;font-weight:500;display:inline-flex;align-items:center;gap:5px;transition:all .15s;font-family:'Inter',sans-serif;border:none}
+.btn-ghost{background:rgba(168,85,247,0.1);border:1px solid rgba(168,85,247,0.25);color:#c4b5fd}
+.btn-primary{background:linear-gradient(135deg,#7c3aed,#a855f7);border:1px solid rgba(168,85,247,0.5);color:#fff;box-shadow:0 0 14px rgba(168,85,247,0.3)}
+#app{display:none;height:100vh;flex-direction:row;position:relative;z-index:1}
+.sidebar{width:215px;min-width:215px;background:rgba(20,8,40,0.9);border-right:1px solid rgba(160,80,255,0.18);display:flex;flex-direction:column;height:100vh;backdrop-filter:blur(8px)}
 .logo{padding:14px;border-bottom:1px solid rgba(160,80,255,0.15);display:flex;align-items:center;gap:9px;flex-shrink:0}
 .logo-icon{width:32px;height:32px;border-radius:7px;background:linear-gradient(135deg,#7c3aed,#a855f7);display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700;font-family:'Space Grotesk',sans-serif;box-shadow:0 0 12px rgba(168,85,247,0.5);flex-shrink:0}
 .logo-text{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12px;color:#e9d5ff}
 .logo-sub{font-size:9px;color:rgba(192,132,252,0.5)}
 .nav{padding:8px;flex:1;overflow-y:auto}
-.nav::-webkit-scrollbar{width:3px}
-.nav::-webkit-scrollbar-thumb{background:rgba(168,85,247,0.3);border-radius:2px}
 .nav-section{margin-bottom:14px}
 .nav-label{font-size:9px;font-weight:600;color:rgba(192,132,252,0.4);text-transform:uppercase;letter-spacing:.1em;padding:4px 8px;margin-bottom:2px}
 .nav-item{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:7px;cursor:pointer;font-size:12px;color:rgba(216,180,254,0.6);transition:all .15s;border:1px solid transparent}
@@ -40,25 +42,12 @@ body{font-family:'Inter',sans-serif;font-size:13px;background:#0d0618;color:#e9d
 .nav-item i{font-size:14px;width:15px}
 .user-bar{padding:10px 12px;border-top:1px solid rgba(160,80,255,0.15);display:flex;align-items:center;gap:8px;flex-shrink:0}
 .avatar{width:27px;height:27px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0;border:1px solid rgba(168,85,247,0.4);background:rgba(124,58,237,0.35);color:#c4b5fd}
-.main{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative;z-index:2}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
 .topbar{padding:10px 16px;border-bottom:1px solid rgba(160,80,255,0.15);display:flex;align-items:center;gap:10px;background:rgba(13,6,24,0.7);backdrop-filter:blur(8px);flex-shrink:0}
 .topbar-title{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;flex:1;color:#e9d5ff}
-.search-bar{display:flex;align-items:center;gap:6px;background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.22);border-radius:7px;padding:5px 10px;width:180px}
-.search-bar input{border:none;background:transparent;font-size:12px;color:#e9d5ff;outline:none;width:100%;font-family:'Inter',sans-serif}
-.search-bar input::placeholder{color:rgba(192,132,252,0.35)}
-.content{flex:1;overflow-y:auto;padding:16px;scrollbar-width:thin;scrollbar-color:rgba(168,85,247,0.3) transparent}
-.content::-webkit-scrollbar{width:3px}
-.content::-webkit-scrollbar-thumb{background:rgba(168,85,247,0.3);border-radius:2px}
+.content{flex:1;overflow-y:auto;padding:16px}
 .page{display:none}
 .page.active{display:block}
-
-/* ── COMMON COMPONENTS ── */
-.btn{padding:5px 11px;border-radius:7px;cursor:pointer;font-size:11px;font-weight:500;display:inline-flex;align-items:center;gap:5px;transition:all .15s;font-family:'Inter',sans-serif;border:none}
-.btn-ghost{background:rgba(168,85,247,0.1);border:1px solid rgba(168,85,247,0.25);color:#c4b5fd}
-.btn-ghost:hover{background:rgba(168,85,247,0.2)}
-.btn-primary{background:linear-gradient(135deg,#7c3aed,#a855f7);border:1px solid rgba(168,85,247,0.5);color:#fff;box-shadow:0 0 14px rgba(168,85,247,0.3)}
-.btn-primary:hover{box-shadow:0 0 22px rgba(168,85,247,0.5)}
-.btn-danger{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:#f87171}
 .panel{background:rgba(20,8,42,0.7);border:1px solid rgba(168,85,247,0.18);border-radius:10px;padding:13px;margin-bottom:10px;position:relative;overflow:hidden}
 .panel::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(168,85,247,0.4),transparent)}
 .panel-title{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:12px;color:#d8b4fe;margin-bottom:11px;display:flex;align-items:center;gap:7px}
@@ -66,9 +55,7 @@ body{font-family:'Inter',sans-serif;font-size:13px;background:#0d0618;color:#e9d
 .badge-green{background:rgba(16,185,129,0.15);color:#34d399;border:1px solid rgba(16,185,129,0.25)}
 .badge-amber{background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.25)}
 .badge-purple{background:rgba(168,85,247,0.15);color:#c4b5fd;border:1px solid rgba(168,85,247,0.3)}
-.badge-blue{background:rgba(59,130,246,0.15);color:#93c5fd;border:1px solid rgba(59,130,246,0.25)}
 .badge-gray{background:rgba(255,255,255,0.05);color:rgba(192,132,252,0.5);border:1px solid rgba(255,255,255,0.1)}
-.badge-red{background:rgba(239,68,68,0.12);color:#f87171;border:1px solid rgba(239,68,68,0.25)}
 .stat-row{display:grid;gap:8px;margin-bottom:14px}
 .stat-row-3{grid-template-columns:repeat(3,1fr)}
 .stat-row-4{grid-template-columns:repeat(4,1fr)}
@@ -82,60 +69,28 @@ body{font-family:'Inter',sans-serif;font-size:13px;background:#0d0618;color:#e9d
 .ic-teal{background:rgba(20,184,166,0.15);color:#2dd4bf;border:1px solid rgba(20,184,166,0.2)}
 .ic-purple{background:rgba(168,85,247,0.15);color:#c4b5fd;border:1px solid rgba(168,85,247,0.2)}
 .ic-amber{background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.2)}
-.ic-green{background:rgba(16,185,129,0.15);color:#34d399;border:1px solid rgba(16,185,129,0.2)}
-.ic-blue{background:rgba(59,130,246,0.15);color:#93c5fd;border:1px solid rgba(59,130,246,0.2)}
-.form-group{margin-bottom:11px}
-.form-group label{font-size:10px;font-weight:600;color:rgba(192,132,252,0.5);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.06em}
-.form-group input,.form-group select,.form-group textarea{width:100%;padding:7px 10px;border:1px solid rgba(168,85,247,0.22);border-radius:7px;background:rgba(168,85,247,0.06);font-size:12px;color:#e9d5ff;outline:none;font-family:'Inter',sans-serif;transition:border-color .15s}
-.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:rgba(168,85,247,0.5)}
-.form-group textarea{resize:vertical;min-height:68px;line-height:1.6}
-.form-group select option{background:#1a0636;color:#e9d5ff}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .neon-line{height:1px;background:linear-gradient(90deg,transparent,rgba(168,85,247,0.4),transparent);margin:11px 0}
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(5,2,15,0.82);backdrop-filter:blur(4px);align-items:center;justify-content:center;z-index:100}
 .modal-bg.open{display:flex}
-.modal{background:rgba(18,6,38,0.97);border:1px solid rgba(168,85,247,0.3);border-radius:12px;width:440px;max-width:95vw;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 0 40px rgba(168,85,247,0.15);overflow:hidden}
+.modal{background:rgba(18,6,38,0.97);border:1px solid rgba(168,85,247,0.3);border-radius:12px;width:440px;max-width:95vw;max-height:85vh;display:flex;flex-direction:column;overflow:hidden}
 .modal-head{padding:14px 18px 11px;border-bottom:1px solid rgba(168,85,247,0.15);flex-shrink:0}
 .modal-head h3{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:#e9d5ff;margin-bottom:2px}
 .modal-sub{font-size:10px;color:rgba(192,132,252,0.4);margin-top:2px}
-.modal-body{padding:14px 18px;overflow-y:auto;flex:1;scrollbar-width:thin;scrollbar-color:rgba(168,85,247,0.3) transparent}
+.modal-body{padding:14px 18px;overflow-y:auto;flex:1}
 .modal-foot{padding:10px 18px;border-top:1px solid rgba(168,85,247,0.12);display:flex;justify-content:flex-end;gap:8px;flex-shrink:0}
-.toast{position:fixed;bottom:20px;right:20px;background:rgba(18,6,38,0.97);border:1px solid rgba(16,185,129,0.4);color:#34d399;font-size:12px;padding:9px 15px;border-radius:8px;display:none;align-items:center;gap:7px;z-index:200;box-shadow:0 4px 20px rgba(0,0,0,0.4)}
+.toast{position:fixed;bottom:20px;right:20px;background:rgba(18,6,38,0.97);border:1px solid rgba(16,185,129,0.4);color:#34d399;font-size:12px;padding:9px 15px;border-radius:8px;display:none;align-items:center;gap:7px;z-index:200}
 .toast.show{display:flex}
-.task-check{width:16px;height:16px;border-radius:4px;border:1px solid rgba(168,85,247,0.35);background:transparent;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
-.task-check.done{background:linear-gradient(135deg,#7c3aed,#a855f7);border-color:#a855f7}
-.role-pill{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;border:1px solid transparent;margin-right:6px;margin-bottom:8px}
-.rp-admin{background:rgba(168,85,247,0.12);color:#c4b5fd;border-color:rgba(168,85,247,0.28)}
-.rp-admin.sel{background:rgba(168,85,247,0.28);border-color:#a855f7;box-shadow:0 0 10px rgba(168,85,247,0.22)}
-.rp-editor{background:rgba(59,130,246,0.12);color:#93c5fd;border-color:rgba(59,130,246,0.25)}
-.rp-editor.sel{background:rgba(59,130,246,0.28);border-color:#60a5fa}
-.rp-viewer{background:rgba(16,185,129,0.1);color:#34d399;border-color:rgba(16,185,129,0.2)}
-.rp-viewer.sel{background:rgba(16,185,129,0.24);border-color:#10b981}
 .sop-card{background:rgba(168,85,247,0.06);border:1px solid rgba(168,85,247,0.15);border-radius:9px;padding:12px;margin-bottom:8px;cursor:pointer;transition:all .15s}
 .sop-card:hover{border-color:rgba(168,85,247,0.38);background:rgba(168,85,247,0.1)}
-.task-card{background:rgba(168,85,247,0.06);border:1px solid rgba(168,85,247,0.15);border-radius:9px;padding:10px 13px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:10px;margin-bottom:7px}
-.task-card:hover{border-color:rgba(168,85,247,0.4);background:rgba(168,85,247,0.12);transform:translateX(2px)}
-.step-item{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid rgba(168,85,247,0.08)}
-.step-item:last-child{border-bottom:none}
-.step-num{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#a855f7);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0;margin-top:1px}
-.step-tip{font-size:10px;background:rgba(168,85,247,0.1);border:1px solid rgba(168,85,247,0.2);border-radius:5px;padding:5px 8px;margin-top:5px;color:rgba(216,180,254,0.7);display:flex;gap:5px}
-.faq-item{background:rgba(168,85,247,0.05);border:1px solid rgba(168,85,247,0.13);border-radius:8px;margin-bottom:7px;overflow:hidden}
-.faq-q{padding:10px 13px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:500;color:#e9d5ff;transition:background .15s}
-.faq-q:hover{background:rgba(168,85,247,0.1)}
-.faq-a{padding:0 13px;max-height:0;overflow:hidden;transition:max-height .25s,padding .2s}
-.faq-a.open{max-height:200px;padding:0 13px 10px}
-.faq-a p{font-size:11px;color:rgba(192,132,252,0.65);line-height:1.7}
+.task-check{width:16px;height:16px;border-radius:4px;border:1px solid rgba(168,85,247,0.35);background:transparent;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+.task-check.done{background:linear-gradient(135deg,#7c3aed,#a855f7);border-color:#a855f7}
+.mood-btn{padding:5px 10px;border-radius:6px;border:1px solid rgba(168,85,247,0.2);background:rgba(168,85,247,0.06);cursor:pointer;font-size:12px;transition:all .15s;font-family:'Inter',sans-serif}
+.mood-btn.sel{border-color:rgba(168,85,247,0.5);background:rgba(168,85,247,0.18)}
 .report-card{background:rgba(168,85,247,0.06);border:1px solid rgba(168,85,247,0.15);border-radius:10px;padding:12px;margin-bottom:9px;cursor:pointer;transition:all .15s}
 .report-card:hover{border-color:rgba(168,85,247,0.35);background:rgba(168,85,247,0.1)}
-.video-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-.video-card{background:rgba(168,85,247,0.06);border:1px solid rgba(168,85,247,0.15);border-radius:10px;overflow:hidden;transition:all .15s;cursor:pointer}
-.video-card:hover{border-color:rgba(168,85,247,0.38);transform:translateY(-1px)}
-.video-thumb{width:100%;height:88px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-.play-btn{width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,0.45);border:2px solid rgba(255,255,255,0.35);display:flex;align-items:center;justify-content:center}
-.video-info{padding:10px}
-.vbtn{padding:3px 8px;border-radius:5px;font-size:10px;font-weight:500;cursor:pointer;border:1px solid rgba(168,85,247,0.22);background:rgba(168,85,247,0.07);color:#c4b5fd;font-family:'Inter',sans-serif;display:inline-flex;align-items:center;gap:4px;transition:all .15s}
-.vbtn:hover{background:rgba(168,85,247,0.18)}
-.vbtn.red{border-color:rgba(239,68,68,0.25);background:rgba(239,68,68,0.06);color:#f87171}
+.vault-row{display:grid;grid-template-columns:1fr 1fr auto auto;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid rgba(168,85,247,0.08);font-size:12px}
+.vault-row:last-child{border-bottom:none}
 .ptab{padding:6px 14px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:5px;font-family:'Inter',sans-serif;margin-right:6px;margin-bottom:8px}
 .pt-all{background:rgba(168,85,247,0.12);color:#c4b5fd;border:1px solid rgba(168,85,247,0.25)}
 .pt-all.active{background:rgba(168,85,247,0.28);border-color:#a855f7}
@@ -143,38 +98,55 @@ body{font-family:'Inter',sans-serif;font-size:13px;background:#0d0618;color:#e9d
 .pt-fb.active{background:rgba(59,130,246,0.26);border-color:#3b82f6}
 .pt-yt{background:rgba(239,68,68,0.1);color:#f87171;border:1px solid rgba(239,68,68,0.22)}
 .pt-yt.active{background:rgba(239,68,68,0.26);border-color:#ef4444}
+.video-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.video-card{background:rgba(168,85,247,0.06);border:1px solid rgba(168,85,247,0.15);border-radius:10px;overflow:hidden;transition:all .15s;cursor:pointer}
+.video-card:hover{border-color:rgba(168,85,247,0.38)}
+.video-thumb{width:100%;height:88px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.play-btn{width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,0.45);border:2px solid rgba(255,255,255,0.35);display:flex;align-items:center;justify-content:center}
+.video-info{padding:10px}
+.vbtn{padding:3px 8px;border-radius:5px;font-size:10px;font-weight:500;cursor:pointer;border:1px solid rgba(168,85,247,0.22);background:rgba(168,85,247,0.07);color:#c4b5fd;font-family:'Inter',sans-serif;display:inline-flex;align-items:center;gap:4px}
 .add-task-row{display:flex;gap:7px;margin-top:8px}
 .add-task-row input{flex:1;padding:7px 10px;border:1px dashed rgba(168,85,247,0.25);border-radius:7px;background:transparent;font-size:12px;color:#e9d5ff;outline:none;font-family:'Inter',sans-serif}
-.mood-btn{padding:5px 10px;border-radius:6px;border:1px solid rgba(168,85,247,0.2);background:rgba(168,85,247,0.06);cursor:pointer;font-size:12px;transition:all .15s;font-family:'Inter',sans-serif}
-.mood-btn:hover,.mood-btn.sel{border-color:rgba(168,85,247,0.5);background:rgba(168,85,247,0.18)}
-.vault-row{display:grid;grid-template-columns:1fr 1fr auto auto;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid rgba(168,85,247,0.08);font-size:12px}
-.vault-row:last-child{border-bottom:none}
-.cal-day{aspect-ratio:1;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:10px;color:rgba(192,132,252,0.35);border:1px solid transparent}
-.cal-day.fb{background:rgba(59,130,246,0.18);border-color:rgba(59,130,246,0.3);color:#60a5fa;cursor:pointer}
-.cal-day.yt{background:rgba(239,68,68,0.15);border-color:rgba(239,68,68,0.28);color:#f87171;cursor:pointer}
-.cal-day.today{outline:1.5px solid rgba(168,85,247,0.6);color:#e9d5ff;font-weight:700}
+.role-pill{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;border:1px solid transparent;margin-right:6px;margin-bottom:8px}
+.rp-admin{background:rgba(168,85,247,0.12);color:#c4b5fd;border-color:rgba(168,85,247,0.28)}
+.rp-admin.sel{background:rgba(168,85,247,0.28);border-color:#a855f7}
+.rp-editor{background:rgba(59,130,246,0.12);color:#93c5fd;border-color:rgba(59,130,246,0.25)}
+.rp-editor.sel{background:rgba(59,130,246,0.28);border-color:#60a5fa}
+.rp-viewer{background:rgba(16,185,129,0.1);color:#34d399;border-color:rgba(16,185,129,0.2)}
+.rp-viewer.sel{background:rgba(16,185,129,0.24);border-color:#10b981}
+.task-card{background:rgba(168,85,247,0.06);border:1px solid rgba(168,85,247,0.15);border-radius:9px;padding:10px 13px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.task-card:hover{border-color:rgba(168,85,247,0.4);background:rgba(168,85,247,0.12)}
+.step-item{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid rgba(168,85,247,0.08)}
+.step-item:last-child{border-bottom:none}
+.step-num{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#a855f7);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0;margin-top:1px}
+.faq-item{background:rgba(168,85,247,0.05);border:1px solid rgba(168,85,247,0.13);border-radius:8px;margin-bottom:7px;overflow:hidden}
+.faq-q{padding:10px 13px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:500;color:#e9d5ff}
+.faq-q:hover{background:rgba(168,85,247,0.1)}
+.faq-a{padding:0 13px;max-height:0;overflow:hidden;transition:max-height .25s,padding .2s}
+.faq-a.open{max-height:200px;padding:0 13px 10px}
+.faq-a p{font-size:11px;color:rgba(192,132,252,0.65);line-height:1.7}
 </style>
 </head>
 <body>
 <div class="grid-bg"></div>
 
-<!-- ══ LOGIN ══ -->
+<!-- LOGIN -->
 <div id="login-screen">
   <div class="login-card">
     <div class="login-logo">JB</div>
     <h2>Jack Bathroom</h2>
     <p>Company Tracker — sign in to your workspace</p>
     <div id="error-msg"></div>
-    <div class="form-group"><label>Email</label><input type="email" id="login-email" placeholder="you@jackbathroom.com" autocomplete="email"></div>
-    <div class="form-group"><label>Password</label><input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password"></div>
-    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:9px;font-size:13px;margin-top:4px" onclick="doLogin()">
+    <div class="form-group"><label>Email</label><input type="email" id="login-email" placeholder="you@jackbathroom.com"></div>
+    <div class="form-group"><label>Password</label><input type="password" id="login-pass" placeholder="••••••••"></div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:9px;font-size:13px;margin-top:4px" id="login-btn">
       <i class="ti ti-login"></i> Sign in
     </button>
     <div class="sb-note">🔒 Powered by Supabase · All data encrypted at rest</div>
   </div>
 </div>
 
-<!-- ══ APP ══ -->
+<!-- APP -->
 <div id="app">
   <div class="sidebar">
     <div class="logo">
@@ -184,101 +156,90 @@ body{font-family:'Inter',sans-serif;font-size:13px;background:#0d0618;color:#e9d
     <nav class="nav">
       <div class="nav-section">
         <div class="nav-label">Overview</div>
-        <div class="nav-item active" onclick="nav('dashboard',this)"><i class="ti ti-layout-dashboard"></i>Dashboard</div>
+        <div class="nav-item active" data-page="dashboard"><i class="ti ti-layout-dashboard"></i>Dashboard</div>
       </div>
       <div class="nav-section">
         <div class="nav-label">Knowledge base</div>
-        <div class="nav-item" onclick="nav('sops',this)"><i class="ti ti-list-check"></i>SOPs</div>
-        <div class="nav-item" onclick="nav('vault',this)"><i class="ti ti-lock"></i>Credentials vault</div>
-        <div class="nav-item" onclick="nav('files',this)"><i class="ti ti-folder"></i>Files & links</div>
+        <div class="nav-item" data-page="sops"><i class="ti ti-list-check"></i>SOPs</div>
+        <div class="nav-item" data-page="vault"><i class="ti ti-lock"></i>Credentials vault</div>
+        <div class="nav-item" data-page="files"><i class="ti ti-folder"></i>Files &amp; links</div>
       </div>
       <div class="nav-section">
         <div class="nav-label">Agent hub</div>
-        <div class="nav-item" onclick="nav('guide',this)"><i class="ti ti-user-check"></i>Role guide</div>
-        <div class="nav-item" onclick="nav('faq',this)"><i class="ti ti-help-circle"></i>FAQ</div>
+        <div class="nav-item" data-page="guide"><i class="ti ti-user-check"></i>Role guide</div>
+        <div class="nav-item" data-page="faq"><i class="ti ti-help-circle"></i>FAQ</div>
       </div>
       <div class="nav-section">
         <div class="nav-label">Social media</div>
-        <div class="nav-item" onclick="nav('social',this)"><i class="ti ti-video"></i>Content hub</div>
-        <div class="nav-item" onclick="nav('calendar',this)"><i class="ti ti-calendar"></i>Post calendar</div>
+        <div class="nav-item" data-page="social"><i class="ti ti-video"></i>Content hub</div>
       </div>
       <div class="nav-section">
         <div class="nav-label">Shift reports</div>
-        <div class="nav-item" onclick="nav('submit',this)"><i class="ti ti-clipboard-text"></i>Submit report</div>
-        <div class="nav-item" onclick="nav('reports',this)"><i class="ti ti-eye"></i>All reports</div>
-        <div class="nav-item" onclick="nav('team',this)"><i class="ti ti-users"></i>Team status</div>
-      </div>
-      <div class="nav-section">
-        <div class="nav-label">Admin</div>
-        <div class="nav-item" onclick="nav('settings',this)"><i class="ti ti-settings"></i>Settings</div>
+        <div class="nav-item" data-page="submit"><i class="ti ti-clipboard-text"></i>Submit report</div>
+        <div class="nav-item" data-page="reports"><i class="ti ti-eye"></i>All reports</div>
+        <div class="nav-item" data-page="team"><i class="ti ti-users"></i>Team status</div>
       </div>
     </nav>
     <div class="user-bar">
       <div class="avatar" id="user-avatar">?</div>
       <div style="flex:1;overflow:hidden">
-        <div style="font-size:11px;font-weight:500;color:#e9d5ff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" id="user-name">Loading…</div>
-        <div style="font-size:9px;color:rgba(192,132,252,0.5)" id="user-role">—</div>
+        <div style="font-size:11px;font-weight:500;color:#e9d5ff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" id="user-name">—</div>
+        <div style="font-size:9px;color:rgba(192,132,252,0.5)">Admin</div>
       </div>
-      <i class="ti ti-logout" style="font-size:13px;color:rgba(192,132,252,0.4);cursor:pointer" onclick="doLogout()" title="Sign out"></i>
+      <i class="ti ti-logout" style="font-size:13px;color:rgba(192,132,252,0.4);cursor:pointer" id="logout-btn"></i>
     </div>
   </div>
 
   <div class="main">
     <div class="topbar">
       <span class="topbar-title" id="topbar-title">Dashboard</span>
-      <div class="search-bar"><i class="ti ti-search" style="font-size:12px;color:rgba(192,132,252,0.35)"></i><input placeholder="Search…" oninput="globalSearch(this.value)"></div>
-      <button class="btn btn-primary" id="add-btn" onclick="handleAdd()"><i class="ti ti-plus"></i><span id="add-label">Add</span></button>
+      <button class="btn btn-primary" id="add-btn"><i class="ti ti-plus"></i><span id="add-label">Add</span></button>
     </div>
-
     <div class="content">
 
-      <!-- DASHBOARD -->
       <div class="page active" id="page-dashboard">
         <div class="stat-row stat-row-4">
-          <div class="stat-card"><div class="stat-num" id="ds-sops">—</div><div class="stat-label">SOPs</div></div>
-          <div class="stat-card"><div class="stat-num" id="ds-creds">—</div><div class="stat-label">Credentials</div></div>
-          <div class="stat-card"><div class="stat-num" id="ds-reports">—</div><div class="stat-label">Reports today</div></div>
-          <div class="stat-card"><div class="stat-num" id="ds-videos">—</div><div class="stat-label">Videos</div></div>
+          <div class="stat-card"><div class="stat-num">6</div><div class="stat-label">SOPs</div></div>
+          <div class="stat-card"><div class="stat-num">6</div><div class="stat-label">Credentials</div></div>
+          <div class="stat-card"><div class="stat-num">0</div><div class="stat-label">Reports today</div></div>
+          <div class="stat-card"><div class="stat-num">6</div><div class="stat-label">Videos</div></div>
         </div>
         <div class="grid-2">
           <div class="panel">
             <div class="panel-title"><i class="ti ti-list-check" style="color:#2dd4bf"></i>Recent SOPs</div>
-            <div id="dash-sops"><div style="font-size:11px;color:rgba(192,132,252,0.4)">Loading…</div></div>
+            <div class="item-row"><div class="item-icon ic-teal"><i class="ti ti-phone"></i></div><div style="flex:1"><div style="font-size:12px;font-weight:500;color:#e9d5ff">Appointment setting script</div><div style="font-size:10px;color:rgba(192,132,252,0.4)">Updated Jul 10</div></div><span class="badge badge-green">Active</span></div>
+            <div class="item-row"><div class="item-icon ic-purple"><i class="ti ti-target"></i></div><div style="flex:1"><div style="font-size:12px;font-weight:500;color:#e9d5ff">Lead qualification flow</div><div style="font-size:10px;color:rgba(192,132,252,0.4)">Updated Jul 15</div></div><span class="badge badge-green">Active</span></div>
+            <div class="item-row"><div class="item-icon ic-amber"><i class="ti ti-robot"></i></div><div style="flex:1"><div style="font-size:12px;font-weight:500;color:#e9d5ff">Make.com troubleshooting</div><div style="font-size:10px;color:rgba(192,132,252,0.4)">Updated Jul 8</div></div><span class="badge badge-gray">Draft</span></div>
           </div>
           <div class="panel">
-            <div class="panel-title"><i class="ti ti-clipboard-text" style="color:#a855f7"></i>Today's shift reports</div>
-            <div id="dash-reports"><div style="font-size:11px;color:rgba(192,132,252,0.4)">Loading…</div></div>
+            <div class="panel-title"><i class="ti ti-activity" style="color:#a855f7"></i>Recent activity</div>
+            <div class="item-row"><div class="avatar" style="flex-shrink:0;width:25px;height:25px;font-size:9px">JB</div><div style="flex:1"><div style="font-size:12px;color:#e9d5ff">Welcome to <span style="color:#c4b5fd">Jack Bathroom Tracker</span></div><div style="font-size:10px;color:rgba(192,132,252,0.4)">Just now</div></div></div>
+            <div class="item-row"><div class="avatar" style="flex-shrink:0;width:25px;height:25px;font-size:9px">JB</div><div style="flex:1"><div style="font-size:12px;color:#e9d5ff">System is live and ready</div><div style="font-size:10px;color:rgba(192,132,252,0.4)">Today</div></div></div>
           </div>
         </div>
       </div>
 
-      <!-- SOPs -->
-      <div class="page" id="page-sops">
-        <div id="sop-list"><div style="font-size:11px;color:rgba(192,132,252,0.4)">Loading…</div></div>
-      </div>
+      <div class="page" id="page-sops"><div id="sop-list"></div></div>
 
-      <!-- VAULT -->
       <div class="page" id="page-vault">
         <div class="panel" style="overflow-x:auto">
-          <div style="display:grid;grid-template-columns:1fr 1fr auto auto;gap:8px;padding:5px 0;border-bottom:1px solid rgba(168,85,247,0.2);font-size:9px;font-weight:600;color:rgba(192,132,252,0.4);text-transform:uppercase;letter-spacing:.07em">
+          <div style="display:grid;grid-template-columns:1fr 1fr auto auto;gap:8px;padding:5px 0;border-bottom:1px solid rgba(168,85,247,0.2);font-size:9px;font-weight:600;color:rgba(192,132,252,0.4);text-transform:uppercase">
             <span>Service</span><span>Username</span><span>Password</span><span></span>
           </div>
-          <div id="vault-list"><div style="font-size:11px;color:rgba(192,132,252,0.4);padding:12px 0">Loading…</div></div>
+          <div id="vault-list"></div>
         </div>
       </div>
 
-      <!-- FILES -->
       <div class="page" id="page-files">
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:9px" id="file-grid"></div>
       </div>
 
-      <!-- ROLE GUIDE -->
       <div class="page" id="page-guide">
         <div style="margin-bottom:12px">
           <div style="font-size:10px;color:rgba(192,132,252,0.4);margin-bottom:7px;text-transform:uppercase;letter-spacing:.08em;font-weight:600">Select your role</div>
-          <span class="role-pill rp-admin sel" onclick="selectRole('admin',this)"><i class="ti ti-shield" style="font-size:10px"></i>Admin</span>
-          <span class="role-pill rp-editor" onclick="selectRole('editor',this)"><i class="ti ti-edit" style="font-size:10px"></i>Editor</span>
-          <span class="role-pill rp-viewer" onclick="selectRole('viewer',this)"><i class="ti ti-eye" style="font-size:10px"></i>Viewer</span>
+          <span class="role-pill rp-admin sel" id="rp-admin"><i class="ti ti-shield" style="font-size:10px"></i>Admin</span>
+          <span class="role-pill rp-editor" id="rp-editor"><i class="ti ti-edit" style="font-size:10px"></i>Editor</span>
+          <span class="role-pill rp-viewer" id="rp-viewer"><i class="ti ti-eye" style="font-size:10px"></i>Viewer</span>
         </div>
         <div id="role-overview"></div>
         <div class="neon-line"></div>
@@ -286,39 +247,22 @@ body{font-family:'Inter',sans-serif;font-size:13px;background:#0d0618;color:#e9d
         <div id="role-tasks"></div>
       </div>
 
-      <!-- FAQ -->
-      <div class="page" id="page-faq">
-        <div id="faq-list"></div>
-      </div>
+      <div class="page" id="page-faq"><div id="faq-list"></div></div>
 
-      <!-- SOCIAL -->
       <div class="page" id="page-social">
         <div class="stat-row stat-row-3">
-          <div class="stat-card" style="border-color:rgba(59,130,246,0.25)"><div style="font-size:14px;margin-bottom:3px">📘</div><div class="stat-num" id="s-fb">—</div><div class="stat-label">Facebook</div></div>
-          <div class="stat-card" style="border-color:rgba(239,68,68,0.25)"><div style="font-size:14px;margin-bottom:3px">▶️</div><div class="stat-num" id="s-yt">—</div><div class="stat-label">YouTube</div></div>
-          <div class="stat-card"><div style="font-size:14px;margin-bottom:3px">⏳</div><div class="stat-num" id="s-sched">—</div><div class="stat-label">Scheduled</div></div>
+          <div class="stat-card" style="border-color:rgba(59,130,246,0.25)"><div style="font-size:14px;margin-bottom:3px">📘</div><div class="stat-num" id="s-fb">0</div><div class="stat-label">Facebook</div></div>
+          <div class="stat-card" style="border-color:rgba(239,68,68,0.25)"><div style="font-size:14px;margin-bottom:3px">▶️</div><div class="stat-num" id="s-yt">0</div><div class="stat-label">YouTube</div></div>
+          <div class="stat-card"><div style="font-size:14px;margin-bottom:3px">⏳</div><div class="stat-num" id="s-sched">0</div><div class="stat-label">Scheduled</div></div>
         </div>
         <div>
-          <span class="ptab pt-all active" onclick="filterPlatform('all',this)">📋 All</span>
-          <span class="ptab pt-fb" onclick="filterPlatform('facebook',this)">📘 Facebook</span>
-          <span class="ptab pt-yt" onclick="filterPlatform('youtube',this)">▶️ YouTube</span>
+          <span class="ptab pt-all active" id="pt-all">📋 All</span>
+          <span class="ptab pt-fb" id="pt-fb">📘 Facebook</span>
+          <span class="ptab pt-yt" id="pt-yt">▶️ YouTube</span>
         </div>
         <div id="social-content"></div>
       </div>
 
-      <!-- CALENDAR -->
-      <div class="page" id="page-calendar">
-        <div class="panel">
-          <div class="panel-title"><i class="ti ti-calendar" style="color:#a855f7"></i>July 2026 — Post schedule</div>
-          <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:5px">
-            ${['SUN','MON','TUE','WED','THU','FRI','SAT'].map(d=>`<div style="font-size:9px;font-weight:600;color:rgba(192,132,252,0.35);text-align:center;padding:3px">${d}</div>`).join('')}
-          </div>
-          <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px" id="cal-grid"></div>
-        </div>
-        <div class="panel"><div class="panel-title"><i class="ti ti-clock" style="color:#fbbf24"></i>Upcoming posts</div><div id="upcoming-posts"></div></div>
-      </div>
-
-      <!-- SUBMIT REPORT -->
       <div class="page" id="page-submit">
         <div class="panel">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:11px">
@@ -327,141 +271,103 @@ body{font-family:'Inter',sans-serif;font-size:13px;background:#0d0618;color:#e9d
           </div>
           <div class="grid-2">
             <div class="form-group" style="margin-bottom:0"><label>Date</label><input type="date" id="shift-date"></div>
-            <div class="form-group" style="margin-bottom:0"><label>Project</label>
-              <select id="shift-project"><option>Bathroom Excellence</option><option>BrightKids Academy</option><option>SaleTrack</option><option>Multiple</option></select>
-            </div>
+            <div class="form-group" style="margin-bottom:0"><label>Project</label><select id="shift-project"><option>Bathroom Excellence</option><option>Multiple</option></select></div>
           </div>
           <div class="grid-2" style="margin-top:9px">
-            <div class="form-group" style="margin-bottom:0"><label>Start time</label><input type="time" id="shift-start" value="09:00"></div>
-            <div class="form-group" style="margin-bottom:0"><label>End time</label><input type="time" id="shift-end" value="17:00"></div>
+            <div class="form-group" style="margin-bottom:0"><label>Start</label><input type="time" id="shift-start" value="09:00"></div>
+            <div class="form-group" style="margin-bottom:0"><label>End</label><input type="time" id="shift-end" value="17:00"></div>
           </div>
         </div>
         <div class="panel">
           <div class="panel-title"><i class="ti ti-checklist" style="color:#2dd4bf"></i>Tasks completed</div>
           <div id="task-list"></div>
           <div class="add-task-row">
-            <input type="text" id="new-task" placeholder="Add a completed task…" onkeydown="if(event.key==='Enter')addTask()">
-            <button class="btn btn-ghost" onclick="addTask()"><i class="ti ti-plus"></i>Add</button>
+            <input type="text" id="new-task" placeholder="Add a completed task…">
+            <button class="btn btn-ghost" id="add-task-btn"><i class="ti ti-plus"></i>Add</button>
           </div>
         </div>
         <div class="panel">
-          <div class="panel-title"><i class="ti ti-message-circle" style="color:#a855f7"></i>Summary & notes</div>
-          <div class="form-group"><label>What did you accomplish?</label><textarea id="summary" placeholder="Key wins, progress made, anything notable…"></textarea></div>
-          <div class="form-group" style="margin-bottom:0"><label>Blockers <span style="color:rgba(192,132,252,0.3)">(optional)</span></label><textarea id="blockers" placeholder="Anything that slowed you down…" style="min-height:52px"></textarea></div>
+          <div class="panel-title"><i class="ti ti-message-circle" style="color:#a855f7"></i>Summary &amp; notes</div>
+          <div class="form-group"><label>What did you accomplish?</label><textarea id="summary" placeholder="Key wins, progress made…"></textarea></div>
+          <div class="form-group" style="margin-bottom:0"><label>Blockers</label><textarea id="blockers" placeholder="Anything that slowed you down…" style="min-height:52px"></textarea></div>
         </div>
         <div class="panel">
-          <div class="panel-title"><i class="ti ti-mood-smile" style="color:#fbbf24"></i>End-of-shift check-in</div>
-          <div class="form-group"><label>How was your shift?</label>
-            <div style="display:flex;gap:7px;flex-wrap:wrap" id="mood-row">
-              <div class="mood-btn" onclick="selectMood(this)">🔥 Crushed it</div>
-              <div class="mood-btn" onclick="selectMood(this)">✅ Good day</div>
-              <div class="mood-btn" onclick="selectMood(this)">😐 Average</div>
-              <div class="mood-btn" onclick="selectMood(this)">😓 Tough shift</div>
-            </div>
+          <div class="panel-title"><i class="ti ti-mood-smile" style="color:#fbbf24"></i>How was your shift?</div>
+          <div style="display:flex;gap:7px;flex-wrap:wrap" id="mood-row">
+            <div class="mood-btn">🔥 Crushed it</div>
+            <div class="mood-btn">✅ Good day</div>
+            <div class="mood-btn">😐 Average</div>
+            <div class="mood-btn">😓 Tough shift</div>
           </div>
-          <div class="form-group" style="margin-bottom:0"><label>Priority for tomorrow</label><input type="text" id="tomorrow" placeholder="What's the #1 thing you'll tackle first?"></div>
+          <div class="form-group" style="margin-top:10px;margin-bottom:0"><label>Priority for tomorrow</label><input type="text" id="tomorrow" placeholder="Top priority tomorrow?"></div>
         </div>
-        <button class="btn btn-primary" style="width:100%;justify-content:center;padding:10px;font-size:13px" onclick="submitReport()">
-          <i class="ti ti-send"></i>Submit shift report
-        </button>
+        <button class="btn btn-primary" style="width:100%;justify-content:center;padding:10px;font-size:13px" id="submit-btn"><i class="ti ti-send"></i>Submit shift report</button>
       </div>
 
-      <!-- ALL REPORTS -->
       <div class="page" id="page-reports">
         <div class="stat-row stat-row-3">
-          <div class="stat-card"><div class="stat-num" id="r-total">—</div><div class="stat-label">Total reports</div></div>
-          <div class="stat-card"><div class="stat-num" id="r-pending">—</div><div class="stat-label">Pending review</div></div>
-          <div class="stat-card"><div class="stat-num" id="r-hours">—</div><div class="stat-label">Hours logged</div></div>
+          <div class="stat-card"><div class="stat-num" id="r-total">0</div><div class="stat-label">Total reports</div></div>
+          <div class="stat-card"><div class="stat-num" id="r-pending">0</div><div class="stat-label">Pending review</div></div>
+          <div class="stat-card"><div class="stat-num" id="r-hours">0h</div><div class="stat-label">Hours logged</div></div>
         </div>
-        <div id="reports-list"></div>
+        <div id="reports-list"><div style="font-size:11px;color:rgba(192,132,252,0.4);text-align:center;padding:20px">No reports yet.</div></div>
       </div>
 
-      <!-- TEAM STATUS -->
       <div class="page" id="page-team">
         <div class="panel">
           <div class="panel-title"><i class="ti ti-users" style="color:#34d399"></i>Team — today's status</div>
-          <div id="team-list"><div style="font-size:11px;color:rgba(192,132,252,0.4)">Loading…</div></div>
+          <div class="item-row"><div class="avatar" style="flex-shrink:0">JB</div><div style="flex:1"><div style="font-size:12px;font-weight:500;color:#e9d5ff">Greg (Owner)</div><div style="font-size:10px;color:rgba(192,132,252,0.4)">greg@jackbathroom.com</div></div><span class="badge badge-purple">Admin</span></div>
+          <div class="item-row"><div class="avatar" style="flex-shrink:0">MC</div><div style="flex:1"><div style="font-size:12px;font-weight:500;color:#e9d5ff">Marvin Canonigo</div><div style="font-size:10px;color:rgba(192,132,252,0.4)">janetantra@gmail.com</div></div><span class="badge badge-blue" style="background:rgba(59,130,246,0.15);color:#93c5fd;border:1px solid rgba(59,130,246,0.25)">Editor</span></div>
         </div>
       </div>
 
-      <!-- SETTINGS -->
-      <div class="page" id="page-settings">
-        <div class="panel">
-          <div class="panel-title"><i class="ti ti-database" style="color:#34d399"></i>Supabase connection</div>
-          <div class="form-group"><label>Project URL</label><input type="text" id="sb-url" placeholder="https://xxxx.supabase.co"></div>
-          <div class="form-group"><label>Anon public key</label><input type="text" id="sb-key" placeholder="eyJhbGci…"></div>
-          <button class="btn btn-primary" onclick="saveSettings()">Save & reconnect</button>
-        </div>
-        <div class="panel">
-          <div class="panel-title"><i class="ti ti-building" style="color:#a855f7"></i>Workspace</div>
-          <div class="form-group"><label>Company name</label><input type="text" value="Jack Bathroom"></div>
-          <div class="form-group" style="margin-bottom:0"><label>Tracker name</label><input type="text" value="Jack Bathroom Company Tracker"></div>
-          <button class="btn btn-ghost" style="margin-top:11px" onclick="showToast('Settings saved')">Save</button>
-        </div>
-      </div>
-
-    </div><!-- end .content -->
-  </div><!-- end .main -->
-</div><!-- end #app -->
+    </div>
+  </div>
+</div>
 
 <!-- MODAL -->
-<div class="modal-bg" id="modal" onclick="if(event.target===this)closeModal()">
+<div class="modal-bg" id="modal">
   <div class="modal">
     <div class="modal-head"><h3 id="m-title"></h3><div class="modal-sub" id="m-sub"></div></div>
     <div class="modal-body" id="m-body"></div>
-    <div class="modal-foot"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-primary" id="m-action">Done</button></div>
+    <div class="modal-foot"><button class="btn btn-ghost" id="m-cancel">Cancel</button><button class="btn btn-primary" id="m-action">Done</button></div>
   </div>
 </div>
 <div class="toast" id="toast"><i class="ti ti-check"></i><span id="toast-msg"></span></div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- SUPABASE + APP SCRIPT -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
-// ══════════════════════════════════════════
-// SUPABASE CONFIG — replace these values!
-// ══════════════════════════════════════════
 const SUPABASE_URL = 'https://vhygctxsdepqjelrhtig.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZoeWdjdHhzZGVwcWplbHJodGlnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ3NDExMDQsImV4cCI6MjEwMDMxNzEwNH0.ZjpjyfNBJJ-Ea7CB_bvrg8e_FLjWq8xBzes1aCyHsMw';
-// ══════════════════════════════════════════
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZoeWdjdHhzZGVwcWplbHJodGlnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ3NDExMDQsImV4cCI6MjEwMDMxNzEwNH0.ZjpjyfNBJJ-Ea7CB_bvrg8e_FLjWq8xBzes1aCyHsMw';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const { createClient } = supabase;
-let sb;
-try { sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY); } catch(e) {}
-
-let currentUser = null;
-let currentPage = 'dashboard';
-let shiftTasks = [{text:'Check leads in GoHighLevel',done:false},{text:'Update BuildersPrime CRM notes',done:false}];
-let selectedMood = '';
-let revealedCreds = {};
-let socialFilter = 'all';
-let currentRole = 'admin';
-
-// ── SAMPLE DATA (replaced by Supabase when connected) ──
-const SOPS_DATA = [
+const SOPS = [
   {id:1,title:'Lead qualification flow',status:'Active',updated:'Jul 15',tags:['CRM','GoHighLevel'],body:'1. Receive inbound lead via GHL form.\n2. Auto-tag with lead source.\n3. Send qualification SMS within 5 min.\n4. If no reply in 2h, trigger follow-up sequence.\n5. Log outcome in BuildersPrime pipeline.'},
-  {id:2,title:'Appointment setting script',status:'Active',updated:'Jul 10',tags:['Calls','Sales'],body:'Opening: "Hi [Name], calling about your bathroom remodel inquiry…"\nQualify: budget, timeline, homeowner status.\nBook: offer 2 time slots via Calendly.\nConfirm: send SMS confirmation via GHL.'},
+  {id:2,title:'Appointment setting script',status:'Active',updated:'Jul 10',tags:['Calls','Sales'],body:'Opening: "Hi [Name], calling about your bathroom remodel inquiry."\nQualify: budget, timeline, homeowner status.\nBook: offer 2 time slots via Calendly.\nConfirm: send SMS confirmation via GHL.'},
   {id:3,title:'Make.com scenario troubleshooting',status:'Draft',updated:'Jul 8',tags:['Make','Automation'],body:'1. Check execution log in Make.com.\n2. Identify the failing module.\n3. Test in isolation.\n4. Check API credentials.\n5. Re-activate after fix.'},
-  {id:4,title:'BuildersPrime CRM update',status:'Active',updated:'Jul 12',tags:['CRM','BuildersPrime'],body:'1. Log in at BuildersPrime.\n2. Find lead by name or Opportunity ID.\n3. Update client notes via activity log.\n4. Change lead stage if appointment booked.\n5. Confirm sync with Google Sheet.'},
-  {id:5,title:'GHL follow-up sequence',status:'Active',updated:'Jul 5',tags:['GHL','Automation'],body:'1. Open GHL → Automation.\n2. Locate follow-up sequence.\n3. Verify SMS credits are sufficient.\n4. Confirm triggers are active.\n5. Test with dummy contact if unsure.'},
-  {id:6,title:'End-of-day pipeline review',status:'Active',updated:'Jul 14',tags:['Pipeline','Daily'],body:'1. Open BuildersPrime pipeline view.\n2. Move stale leads to correct stage.\n3. Flag HIGH priority leads for tomorrow.\n4. Update Google Sheet with day outcomes.\n5. Submit shift report before logging off.'},
+  {id:4,title:'BuildersPrime CRM update',status:'Active',updated:'Jul 12',tags:['CRM'],body:'1. Log in to BuildersPrime.\n2. Find lead by name or Opportunity ID.\n3. Update client notes via activity log.\n4. Change lead stage if appointment booked.\n5. Confirm sync with Google Sheet.'},
+  {id:5,title:'GHL follow-up sequence',status:'Active',updated:'Jul 5',tags:['GHL','Automation'],body:'1. Open GHL Automation.\n2. Locate follow-up sequence.\n3. Verify SMS credits are sufficient.\n4. Confirm triggers are active.\n5. Test with dummy contact if unsure.'},
+  {id:6,title:'End-of-day pipeline review',status:'Active',updated:'Jul 14',tags:['Pipeline','Daily'],body:'1. Open BuildersPrime pipeline view.\n2. Move stale leads to correct stage.\n3. Flag HIGH priority leads for tomorrow.\n4. Update Google Sheet.\n5. Submit shift report before logging off.'},
 ];
-const VAULT_DATA = [
-  {id:1,service:'GoHighLevel',username:'admin@jackbathroom.com',password:'••••••••'},
-  {id:2,service:'Make.com',username:'admin@jackbathroom.com',password:'••••••••'},
-  {id:3,service:'BuildersPrime CRM',username:'admin@bathroomex.com',password:'••••••••'},
-  {id:4,service:'Google Sheets API',username:'service-acct@gcp.iam',password:'••••••••'},
-  {id:5,service:'GitHub',username:'gregoryjack-bathroom',password:'••••••••'},
-  {id:6,service:'Supabase',username:'admin@jackbathroom.com',password:'••••••••'},
+const VAULT = [
+  {service:'GoHighLevel',username:'admin@jackbathroom.com',password:'stored securely'},
+  {service:'Make.com',username:'admin@jackbathroom.com',password:'stored securely'},
+  {service:'BuildersPrime CRM',username:'admin@bathroomex.com',password:'stored securely'},
+  {service:'Google Sheets API',username:'service-acct@gcp.iam',password:'stored securely'},
+  {service:'GitHub',username:'gregoryjack1979-cpu',password:'stored securely'},
+  {service:'Supabase',username:'greg@jackbathroom.com',password:'stored securely'},
 ];
-const FILES_DATA = [
-  {name:'Client intake template',type:'ti-file-text'},{name:'Lead scoring sheet',type:'ti-table'},
-  {name:'Make scenario backup',type:'ti-code'},{name:'GHL funnel export',type:'ti-code'},
-  {name:'Onboarding checklist',type:'ti-table'},{name:'Brand kit',type:'ti-palette'},
+const FILES = [
+  {name:'Client intake template',type:'ti-file-text'},
+  {name:'Lead scoring sheet',type:'ti-table'},
+  {name:'Make scenario backup',type:'ti-code'},
+  {name:'GHL funnel export',type:'ti-code'},
+  {name:'Onboarding checklist',type:'ti-table'},
+  {name:'Brand kit',type:'ti-palette'},
 ];
-const REPORTS_DATA = [
-  {id:1,name:'Admin',init:'JB',date:'Jul 23, 2026',hours:8,mood:'🔥 Crushed it',project:'Bathroom Excellence',tasks:['Called 12 leads — 5 qualified','Booked 3 appointments','Updated CRM notes'],summary:'Strong day. Pipeline is clean and all leads are tagged.',blockers:'GHL SMS credits running low.',tomorrow:'Send weekly pipeline report by 10am.',status:'reviewed'},
-];
-const SOCIAL_DATA = [
-  {id:1,title:'Before & after — bathroom tile job',platform:'facebook',status:'posted',date:'Jul 14',url:'https://drive.google.com/file/example1',views:4200,likes:187},
+const SOCIAL = [
+  {id:1,title:'Before & after bathroom tile job',platform:'facebook',status:'posted',date:'Jul 14',url:'https://drive.google.com/file/example1',views:4200,likes:187},
   {id:2,title:'3-minute remodel timelapse',platform:'facebook',status:'posted',date:'Jul 10',url:'https://drive.google.com/file/example2',views:6100,likes:312},
   {id:3,title:'New vanity installation walkthrough',platform:'facebook',status:'scheduled',date:'Jul 25',url:'https://drive.google.com/file/example3',views:0,likes:0},
   {id:4,title:'5 signs your bathroom needs an upgrade',platform:'youtube',status:'posted',date:'Jul 8',url:'https://youtube.com/watch?v=example4',views:3100,likes:94},
@@ -469,330 +375,294 @@ const SOCIAL_DATA = [
   {id:6,title:'Meet the Jack Bathroom team',platform:'youtube',status:'scheduled',date:'Jul 28',url:'https://youtube.com/watch?v=example6',views:0,likes:0},
 ];
 const TASKS_GUIDE = [
-  {id:1,title:'Add a new SOP',cat:'SOPs',role:['admin','editor'],icon:'ti-list-check',time:'5 min',steps:[{t:'Go to SOPs',d:'Click SOPs in the sidebar.'},{t:'Click New SOP',d:'Press + New SOP button.',tip:'Give it a clear title.'},{t:'Fill in details',d:'Enter title, status, steps, and tags.'},{t:'Save',d:'Click Save SOP.'}]},
-  {id:2,title:'Submit your shift report',cat:'Shift Reports',role:['admin','editor','viewer'],icon:'ti-clipboard-text',time:'3 min',steps:[{t:'Go to Submit report',d:'Click it in the sidebar.'},{t:'Fill in shift times',d:'Set start and end time and project.'},{t:'Check off tasks',d:'Tick every task completed.',tip:'Be specific — "Called 10 leads, 3 qualified" beats "made calls".'},{t:'Write summary',d:'Key wins and progress.'},{t:'Submit',d:'Click Submit shift report.'}]},
-  {id:3,title:'Add a credential',cat:'Credentials',role:['admin','editor'],icon:'ti-lock',time:'2 min',steps:[{t:'Go to Credentials vault',d:'Requires Editor or Admin.'},{t:'Click Add credential',d:'Press the + button.'},{t:'Fill in the form',d:'Service name, username, password.'},{t:'Save',d:'It is stored securely.',tip:'Never share credentials via Slack or email — always use the vault.'}]},
-  {id:4,title:'Add a video to social hub',cat:'Social Media',role:['admin','editor'],icon:'ti-video',time:'2 min',steps:[{t:'Go to Content hub',d:'Click Social Media → Content hub.'},{t:'Click Add video',d:'Press + Add video.'},{t:'Paste the link',d:'Add your Google Drive or YouTube URL.'},{t:'Set platform and status',d:'Choose Facebook or YouTube, then Draft/Scheduled/Posted.'},{t:'Save',d:'The video appears in the hub instantly.'}]},
+  {id:1,title:'Add a new SOP',cat:'SOPs',role:['admin','editor'],icon:'ti-list-check',time:'5 min',steps:[{t:'Go to SOPs',d:'Click SOPs in the sidebar.'},{t:'Click New SOP',d:'Press the + button top right.'},{t:'Fill in details',d:'Title, status, steps, tags.'},{t:'Save',d:'Click Save SOP.'}]},
+  {id:2,title:'Submit your shift report',cat:'Shift Reports',role:['admin','editor','viewer'],icon:'ti-clipboard-text',time:'3 min',steps:[{t:'Go to Submit report',d:'Click it in the sidebar.'},{t:'Fill shift times',d:'Date, start, end, project.'},{t:'Check off tasks',d:'Tick every completed task.'},{t:'Write summary',d:'Key wins and progress.'},{t:'Submit',d:'Click Submit shift report.'}]},
+  {id:3,title:'Add a credential',cat:'Credentials',role:['admin','editor'],icon:'ti-lock',time:'2 min',steps:[{t:'Go to Credentials vault',d:'Click in sidebar.'},{t:'Click Add credential',d:'Press the + button.'},{t:'Fill in the form',d:'Service, username, password.'},{t:'Save',d:'Stored securely.'}]},
+  {id:4,title:'Add a social media video',cat:'Social Media',role:['admin','editor'],icon:'ti-video',time:'2 min',steps:[{t:'Go to Content hub',d:'Click Social Media in sidebar.'},{t:'Click Add video',d:'Press + button.'},{t:'Paste the link',d:'Google Drive or YouTube URL.'},{t:'Set platform and status',d:'Facebook or YouTube.'},{t:'Save',d:'Appears in hub instantly.'}]},
 ];
-const FAQS_DATA = [
-  {q:"I'm new — where do I start?",a:"Go to Role guide in the sidebar. Select your role, then follow the task list. Start with Submit report so you know how to log your shift."},
-  {q:"I forgot to submit my report.",a:"Go to Submit report, change the date to the correct day, fill it in, and submit. Add a note in the summary explaining."},
-  {q:"I can't access the credentials vault.",a:"The vault is for Editors and Admins only. Contact the Admin to upgrade your role."},
-  {q:"The Make.com scenario stopped working.",a:"Open the Make.com Troubleshooting SOP. Common causes: expired API key, webhook timeout, or Google Sheets permission error."},
-  {q:"How do I add a video for Facebook or YouTube?",a:"Go to Social Media → Content hub. Click + Add video, paste the Google Drive or YouTube link, choose the platform, and save."},
+const FAQS = [
+  {q:"I'm new — where do I start?",a:"Go to Role guide in the sidebar. Select your role then follow the task list."},
+  {q:"I forgot to submit my report.",a:"Go to Submit report, change the date, fill it in and submit."},
+  {q:"I can't access the credentials vault.",a:"The vault is for Editors and Admins. Contact the Admin to upgrade your role."},
+  {q:"The Make.com scenario stopped working.",a:"Open the Make.com Troubleshooting SOP for step-by-step help."},
+  {q:"How do I add a video for Facebook or YouTube?",a:"Go to Social Media Content hub, click + Add video, paste the link and save."},
 ];
-const ROLES_DEF = {
-  admin:{label:'Admin',color:'#c4b5fd',desc:'Full access — SOPs, credentials, files, team, settings, social media.',perms:['Create, edit, delete all SOPs','Access and manage credentials vault','Invite and manage team members','View all shift reports','Manage social media content']},
-  editor:{label:'Editor',color:'#93c5fd',desc:'Can update SOPs, access credentials, manage files and social content.',perms:['View and edit SOPs','Access credentials vault','Add and update files & links','Submit shift reports','Add social media content']},
-  viewer:{label:'Viewer',color:'#34d399',desc:'Read-only. Typically for new agents in training.',perms:['View SOPs (read only)','View files','Submit shift reports','No credentials or team access']},
-};
 
-// ── AUTH ──
-async function doLogin(){
-  const email = document.getElementById('login-email').value.trim();
-  const pass = document.getElementById('login-pass').value;
-  const errEl = document.getElementById('error-msg');
-  errEl.style.display='none';
-  if(!email||!pass){errEl.textContent='Please enter your email and password.';errEl.style.display='block';return;}
-  if(!sb){showApp({email,role:'Admin'});return;}
-  try{
-    const {data,error} = await sb.auth.signInWithPassword({email,password:pass});
-    if(error){errEl.textContent=error.message;errEl.style.display='block';return;}
-    showApp(data.user);
-  } catch(e){showApp({email,role:'Admin'});}
-}
-
-function showApp(user){
-  currentUser = user;
-  document.getElementById('login-screen').style.display='none';
-  document.getElementById('app').style.display='flex';
-  const initials = (user.email||'JB').substring(0,2).toUpperCase();
-  document.getElementById('user-avatar').textContent=initials;
-  document.getElementById('user-name').textContent=user.email||'Admin';
-  document.getElementById('user-role').textContent='Admin · Owner';
-  document.getElementById('shift-date').value=new Date().toISOString().split('T')[0];
-  initApp();
-}
-
-async function doLogout(){
-  if(sb) await sb.auth.signOut();
-  document.getElementById('login-screen').style.display='flex';
-  document.getElementById('app').style.display='none';
-}
-
-// ── NAV ──
-function nav(page,el){
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  if(el)el.classList.add('active');
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById('page-'+page).classList.add('active');
-  currentPage=page;
-  const titles={dashboard:'Dashboard',sops:'SOPs',vault:'Credentials vault',files:'Files & links',guide:'Agent role guide',faq:'FAQ',social:'Social Media Content Hub',calendar:'Post Calendar',submit:'Submit my report',reports:'All shift reports',team:'Team status',settings:'Settings'};
-  document.getElementById('topbar-title').textContent=titles[page]||page;
-  const addLabels={dashboard:'Add',sops:'New SOP',vault:'Add credential',files:'Add file',social:'Add video',calendar:'Add video',reports:'',team:'',guide:'',faq:'',settings:''};
-  const hideAdd=['reports','team','guide','faq','settings'];
-  document.getElementById('add-btn').style.display=hideAdd.includes(page)?'none':'flex';
-  document.getElementById('add-label').textContent=addLabels[page]||'Add';
-  if(page==='sops')renderSOPs();
-  if(page==='vault')renderVault();
-  if(page==='files')renderFiles();
-  if(page==='guide'){currentRole='admin';document.querySelectorAll('.role-pill').forEach(p=>{p.classList.remove('sel');if(p.classList.contains('rp-admin'))p.classList.add('sel');});renderGuide();}
-  if(page==='faq')renderFAQ();
-  if(page==='social')renderSocial();
-  if(page==='calendar')renderCalendar();
-  if(page==='submit')renderShiftTasks();
-  if(page==='reports')renderReports();
-  if(page==='team')renderTeam();
-}
+let shiftTasks = [];
+let selectedMood = '';
+let revealedCreds = {};
+let socialFilter = 'all';
+let currentRole = 'admin';
+let currentPage = 'dashboard';
+let reports = [];
 
 // ── INIT ──
-function initApp(){
-  renderDashboard();
-  renderSOPs();
+window.addEventListener('load', function() {
+  document.getElementById('login-btn').addEventListener('click', doLogin);
+  document.getElementById('logout-btn').addEventListener('click', doLogout);
+  document.getElementById('add-btn').addEventListener('click', handleAdd);
+  document.getElementById('submit-btn').addEventListener('click', submitReport);
+  document.getElementById('add-task-btn').addEventListener('click', addTask);
+  document.getElementById('new-task').addEventListener('keydown', function(e){ if(e.key==='Enter') addTask(); });
+  document.getElementById('login-pass').addEventListener('keydown', function(e){ if(e.key==='Enter') doLogin(); });
+  document.getElementById('m-cancel').addEventListener('click', closeModal);
+  document.getElementById('modal').addEventListener('click', function(e){ if(e.target===this) closeModal(); });
+  document.querySelectorAll('.nav-item').forEach(function(el) {
+    el.addEventListener('click', function() { navTo(el.dataset.page, el); });
+  });
+  document.querySelectorAll('.mood-btn').forEach(function(el) {
+    el.addEventListener('click', function() { selectMood(el); });
+  });
+  document.getElementById('rp-admin').addEventListener('click', function(){ selectRole('admin', this); });
+  document.getElementById('rp-editor').addEventListener('click', function(){ selectRole('editor', this); });
+  document.getElementById('rp-viewer').addEventListener('click', function(){ selectRole('viewer', this); });
+  document.getElementById('pt-all').addEventListener('click', function(){ filterPlatform('all', this); });
+  document.getElementById('pt-fb').addEventListener('click', function(){ filterPlatform('facebook', this); });
+  document.getElementById('pt-yt').addEventListener('click', function(){ filterPlatform('youtube', this); });
+  document.getElementById('shift-date').value = new Date().toISOString().split('T')[0];
   renderVault();
   renderFiles();
+  renderSOPs();
   renderGuide();
   renderFAQ();
   renderSocial();
-  renderCalendar();
-  renderShiftTasks();
-  renderReports();
-  renderTeam();
+});
+
+// ── AUTH ──
+async function doLogin() {
+  var email = document.getElementById('login-email').value.trim();
+  var pass = document.getElementById('login-pass').value;
+  var errEl = document.getElementById('error-msg');
+  errEl.style.display = 'none';
+  if (!email || !pass) { errEl.textContent = 'Please enter your email and password.'; errEl.style.display = 'block'; return; }
+  try {
+    var result = await sb.auth.signInWithPassword({ email: email, password: pass });
+    if (result.error) { errEl.textContent = result.error.message; errEl.style.display = 'block'; return; }
+    showApp(result.data.user);
+  } catch(e) { errEl.textContent = 'Connection error: ' + e.message; errEl.style.display = 'block'; }
 }
 
-// ── DASHBOARD ──
-function renderDashboard(){
-  document.getElementById('ds-sops').textContent=SOPS_DATA.length;
-  document.getElementById('ds-creds').textContent=VAULT_DATA.length;
-  document.getElementById('ds-reports').textContent=REPORTS_DATA.length;
-  document.getElementById('ds-videos').textContent=SOCIAL_DATA.length;
-  document.getElementById('dash-sops').innerHTML=SOPS_DATA.slice(0,3).map(s=>`
-    <div class="item-row"><div class="item-icon ic-teal"><i class="ti ti-list-check"></i></div>
-    <div style="flex:1"><div style="font-size:12px;font-weight:500;color:#e9d5ff">${s.title}</div><div style="font-size:10px;color:rgba(192,132,252,0.4)">Updated ${s.updated}</div></div>
-    <span class="badge ${s.status==='Active'?'badge-green':'badge-gray'}">${s.status}</span></div>`).join('');
-  document.getElementById('dash-reports').innerHTML=REPORTS_DATA.length?REPORTS_DATA.slice(0,3).map(r=>`
-    <div class="item-row"><div class="avatar" style="flex-shrink:0;width:26px;height:26px;font-size:9px">${r.init}</div>
-    <div style="flex:1"><div style="font-size:12px;font-weight:500;color:#e9d5ff">${r.name}</div><div style="font-size:10px;color:rgba(192,132,252,0.4)">${r.hours}h · ${r.mood}</div></div>
-    <span class="badge ${r.status==='reviewed'?'badge-green':'badge-amber'}">${r.status}</span></div>`).join(''):`<div style="font-size:11px;color:rgba(192,132,252,0.4)">No reports yet today.</div>`;
+function showApp(user) {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  var initials = (user.email || 'JB').substring(0,2).toUpperCase();
+  document.getElementById('user-avatar').textContent = initials;
+  document.getElementById('user-name').textContent = user.email;
+}
+
+async function doLogout() {
+  await sb.auth.signOut();
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+}
+
+// ── NAV ──
+function navTo(page, el) {
+  document.querySelectorAll('.nav-item').forEach(function(n){ n.classList.remove('active'); });
+  if (el) el.classList.add('active');
+  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+  document.getElementById('page-' + page).classList.add('active');
+  currentPage = page;
+  var titles = {dashboard:'Dashboard',sops:'SOPs',vault:'Credentials vault',files:'Files & links',guide:'Agent role guide',faq:'FAQ',social:'Social Media Content Hub',submit:'Submit my report',reports:'All shift reports',team:'Team status'};
+  document.getElementById('topbar-title').textContent = titles[page] || page;
+  var hideAdd = ['reports','team','guide','faq'];
+  document.getElementById('add-btn').style.display = hideAdd.indexOf(page) >= 0 ? 'none' : 'flex';
+  var addLabels = {dashboard:'Add',sops:'New SOP',vault:'Add credential',files:'Add file',social:'Add video',submit:'',reports:'',team:''};
+  document.getElementById('add-label').textContent = addLabels[page] || 'Add';
 }
 
 // ── SOPs ──
-function renderSOPs(filter=''){
-  const list=filter?SOPS_DATA.filter(s=>s.title.toLowerCase().includes(filter)||s.tags.some(t=>t.toLowerCase().includes(filter))):SOPS_DATA;
-  document.getElementById('sop-list').innerHTML=list.map(s=>`
-    <div class="sop-card" onclick="openSOP(${s.id})">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px">
-        <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:12px;color:#e9d5ff">${s.title}</span>
-        <span class="badge ${s.status==='Active'?'badge-green':'badge-amber'}">${s.status}</span>
-      </div>
-      <div style="font-size:10px;color:rgba(192,132,252,0.4);margin-bottom:5px">Updated ${s.updated}</div>
-      <div>${s.tags.map(t=>`<span style="font-size:9px;padding:2px 6px;border-radius:4px;border:1px solid rgba(168,85,247,0.22);color:rgba(192,132,252,0.55);margin-right:3px">${t}</span>`).join('')}</div>
-    </div>`).join('')||`<div style="font-size:11px;color:rgba(192,132,252,0.4)">No SOPs found.</div>`;
+function renderSOPs() {
+  document.getElementById('sop-list').innerHTML = SOPS.map(function(s) {
+    return '<div class="sop-card" data-id="' + s.id + '"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px"><span style="font-family:Space Grotesk,sans-serif;font-weight:600;font-size:12px;color:#e9d5ff">' + s.title + '</span><span class="badge ' + (s.status==='Active'?'badge-green':'badge-gray') + '">' + s.status + '</span></div><div style="font-size:10px;color:rgba(192,132,252,0.4);margin-bottom:5px">Updated ' + s.updated + '</div><div>' + s.tags.map(function(t){ return '<span style="font-size:9px;padding:2px 6px;border-radius:4px;border:1px solid rgba(168,85,247,0.22);color:rgba(192,132,252,0.55);margin-right:3px">' + t + '</span>'; }).join('') + '</div></div>';
+  }).join('');
+  document.querySelectorAll('.sop-card').forEach(function(el) {
+    el.addEventListener('click', function(){ openSOP(parseInt(el.dataset.id)); });
+  });
 }
-function openSOP(id){
-  const s=SOPS_DATA.find(x=>x.id===id);
-  setModal(s.title,`${s.status} · Updated ${s.updated}`,
-    `<div style="font-size:12px;background:rgba(168,85,247,0.06);border:1px solid rgba(168,85,247,0.18);border-radius:6px;padding:12px;white-space:pre-wrap;line-height:1.8;color:rgba(216,180,254,0.8);max-height:240px;overflow-y:auto">${s.body}</div>`,
-    'Copy link',()=>{closeModal();showToast('Link copied');});
+function openSOP(id) {
+  var s = SOPS.find(function(x){ return x.id===id; });
+  setModal(s.title, s.status + ' · Updated ' + s.updated, '<div style="font-size:12px;background:rgba(168,85,247,0.06);border:1px solid rgba(168,85,247,0.18);border-radius:6px;padding:12px;white-space:pre-wrap;line-height:1.8;color:rgba(216,180,254,0.8);max-height:240px;overflow-y:auto">' + s.body + '</div>', 'Close', closeModal);
 }
 
 // ── VAULT ──
-function renderVault(){
-  document.getElementById('vault-list').innerHTML=VAULT_DATA.map((v,i)=>`
-    <div class="vault-row">
-      <div style="font-weight:500;color:#e9d5ff">${v.service}</div>
-      <div style="font-size:11px;color:rgba(216,180,254,0.6);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${v.username}</div>
-      <div>${revealedCreds[i]?`<span style="font-size:11px;font-family:monospace;color:#c4b5fd">${v.password}</span>`:`<span style="letter-spacing:3px;color:rgba(192,132,252,0.3);font-size:10px">••••••••</span>`}</div>
-      <div style="display:flex;gap:4px">
-        <button style="font-size:10px;color:#a855f7;cursor:pointer;padding:3px 7px;border-radius:4px;border:1px solid rgba(168,85,247,0.3);background:rgba(168,85,247,0.08);font-family:'Inter',sans-serif" onclick="toggleCred(${i})">${revealedCreds[i]?'Hide':'Show'}</button>
-        <button style="font-size:10px;color:rgba(192,132,252,0.5);cursor:pointer;padding:3px 7px;border-radius:4px;border:1px solid rgba(255,255,255,0.08);background:transparent" onclick="showToast('Copied')"><i class="ti ti-copy"></i></button>
-      </div>
-    </div>`).join('');
+function renderVault() {
+  document.getElementById('vault-list').innerHTML = VAULT.map(function(v, i) {
+    return '<div class="vault-row"><div style="font-weight:500;color:#e9d5ff">' + v.service + '</div><div style="font-size:11px;color:rgba(216,180,254,0.6);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + v.username + '</div><div>' + (revealedCreds[i] ? '<span style="font-size:11px;font-family:monospace;color:#c4b5fd">' + v.password + '</span>' : '<span style="letter-spacing:3px;color:rgba(192,132,252,0.3);font-size:10px">••••••••</span>') + '</div><div style="display:flex;gap:4px"><button style="font-size:10px;color:#a855f7;cursor:pointer;padding:3px 7px;border-radius:4px;border:1px solid rgba(168,85,247,0.3);background:rgba(168,85,247,0.08);font-family:Inter,sans-serif" data-idx="' + i + '" class="reveal-btn">' + (revealedCreds[i]?'Hide':'Show') + '</button></div></div>';
+  }).join('');
+  document.querySelectorAll('.reveal-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(){ revealedCreds[btn.dataset.idx] = !revealedCreds[btn.dataset.idx]; renderVault(); });
+  });
 }
-function toggleCred(i){revealedCreds[i]=!revealedCreds[i];renderVault();}
 
 // ── FILES ──
-function renderFiles(){
-  const icons={doc:'ti-file-text',sheet:'ti-table',code:'ti-code',pdf:'ti-file-type-pdf',palette:'ti-palette'};
-  document.getElementById('file-grid').innerHTML=FILES_DATA.map(f=>`
-    <div style="background:rgba(168,85,247,0.06);border:1px solid rgba(168,85,247,0.15);border-radius:9px;padding:12px;cursor:pointer;transition:all .15s" onclick="showToast('Opening ${f.name}')" onmouseover="this.style.borderColor='rgba(168,85,247,0.38)'" onmouseout="this.style.borderColor='rgba(168,85,247,0.15)'">
-      <i class="ti ${f.type}" style="font-size:20px;color:#a855f7;display:block;margin-bottom:7px"></i>
-      <div style="font-size:11px;font-weight:500;color:#e9d5ff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${f.name}</div>
-      <div style="font-size:9px;color:rgba(192,132,252,0.4);margin-top:2px">Bathroom Excellence</div>
-    </div>`).join('');
+function renderFiles() {
+  document.getElementById('file-grid').innerHTML = FILES.map(function(f) {
+    return '<div style="background:rgba(168,85,247,0.06);border:1px solid rgba(168,85,247,0.15);border-radius:9px;padding:12px;cursor:pointer" onclick="showToast(\'Opening ' + f.name + '…\')"><i class="ti ' + f.type + '" style="font-size:20px;color:#a855f7;display:block;margin-bottom:7px"></i><div style="font-size:11px;font-weight:500;color:#e9d5ff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + f.name + '</div><div style="font-size:9px;color:rgba(192,132,252,0.4);margin-top:2px">Bathroom Excellence</div></div>';
+  }).join('');
 }
 
-// ── ROLE GUIDE ──
-function renderGuide(){
-  const r=ROLES_DEF[currentRole];
-  document.getElementById('role-overview').innerHTML=`
-    <div class="panel" style="border-color:rgba(168,85,247,0.25)">
-      <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:13px;color:${r.color};margin-bottom:5px">${r.label}</div>
-      <div style="font-size:11px;color:rgba(216,180,254,0.6);margin-bottom:9px;line-height:1.6">${r.desc}</div>
-      ${r.perms.map(p=>`<div style="display:flex;gap:7px;margin-bottom:5px;font-size:11px;color:rgba(192,132,252,0.7)"><i class="ti ti-check" style="font-size:11px;color:${r.color};flex-shrink:0;margin-top:1px"></i>${p}</div>`).join('')}
-    </div>`;
-  const myTasks=TASKS_GUIDE.filter(t=>t.role.includes(currentRole));
-  document.getElementById('role-tasks').innerHTML=myTasks.map(t=>`
-    <div class="task-card" onclick="openTaskGuide(${t.id})">
-      <div class="item-icon ic-purple"><i class="ti ${t.icon}"></i></div>
-      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:#e9d5ff">${t.title}</div><div style="font-size:10px;color:rgba(192,132,252,0.4)"><i class="ti ti-clock" style="font-size:9px"></i> ${t.time}</div></div>
-      <i class="ti ti-chevron-right" style="font-size:14px;color:rgba(168,85,247,0.4)"></i>
-    </div>`).join('');
+// ── GUIDE ──
+var ROLES_DEF = {
+  admin:{label:'Admin',color:'#c4b5fd',desc:'Full access — SOPs, credentials, files, team, social media, shift reports.',perms:['Create and edit all SOPs','Access credentials vault','View all shift reports','Manage social media content','Manage team members']},
+  editor:{label:'Editor',color:'#93c5fd',desc:'Can update SOPs, access credentials, manage files and social content.',perms:['View and edit SOPs','Access credentials vault','Add files and links','Submit shift reports','Add social media content']},
+  viewer:{label:'Viewer',color:'#34d399',desc:'Read-only. Typically for new agents in training.',perms:['View SOPs (read only)','View files','Submit shift reports','No credentials access']},
+};
+function renderGuide() {
+  var r = ROLES_DEF[currentRole];
+  document.getElementById('role-overview').innerHTML = '<div class="panel" style="border-color:rgba(168,85,247,0.25)"><div style="font-family:Space Grotesk,sans-serif;font-weight:700;font-size:13px;color:' + r.color + ';margin-bottom:5px">' + r.label + '</div><div style="font-size:11px;color:rgba(216,180,254,0.6);margin-bottom:9px;line-height:1.6">' + r.desc + '</div>' + r.perms.map(function(p){ return '<div style="display:flex;gap:7px;margin-bottom:5px;font-size:11px;color:rgba(192,132,252,0.7)"><i class="ti ti-check" style="font-size:11px;color:' + r.color + ';flex-shrink:0;margin-top:1px"></i>' + p + '</div>'; }).join('') + '</div>';
+  var myTasks = TASKS_GUIDE.filter(function(t){ return t.role.indexOf(currentRole) >= 0; });
+  document.getElementById('role-tasks').innerHTML = myTasks.map(function(t) {
+    return '<div class="task-card" data-tid="' + t.id + '"><div class="item-icon ic-purple"><i class="ti ' + t.icon + '"></i></div><div style="flex:1"><div style="font-size:12px;font-weight:600;color:#e9d5ff">' + t.title + '</div><div style="font-size:10px;color:rgba(192,132,252,0.4)"><i class="ti ti-clock" style="font-size:9px"></i> ' + t.time + '</div></div><i class="ti ti-chevron-right" style="font-size:14px;color:rgba(168,85,247,0.4)"></i></div>';
+  }).join('');
+  document.querySelectorAll('.task-card').forEach(function(el) {
+    el.addEventListener('click', function(){ openTaskGuide(parseInt(el.dataset.tid)); });
+  });
 }
-function selectRole(role,el){
-  document.querySelectorAll('.role-pill').forEach(p=>p.classList.remove('sel'));
-  el.classList.add('sel');currentRole=role;renderGuide();
+function selectRole(role, el) {
+  document.querySelectorAll('.role-pill').forEach(function(p){ p.classList.remove('sel'); });
+  el.classList.add('sel');
+  currentRole = role;
+  renderGuide();
 }
-function openTaskGuide(id){
-  const t=TASKS_GUIDE.find(x=>x.id===id);
-  setModal(t.title,`${t.cat} · ${t.time} · ${t.steps.length} steps`,
-    t.steps.map((s,i)=>`<div class="step-item"><div class="step-num">${i+1}</div><div style="flex:1"><div style="font-size:12px;font-weight:600;color:#e9d5ff;margin-bottom:3px">${s.t}</div><div style="font-size:11px;color:rgba(192,132,252,0.65);line-height:1.6">${s.d}</div>${s.tip?`<div class="step-tip"><i class="ti ti-bulb" style="font-size:11px;flex-shrink:0;margin-top:1px"></i>${s.tip}</div>`:''}</div></div>`).join(''),
-    'Mark done',()=>{closeModal();showToast('Marked as done');});
+function openTaskGuide(id) {
+  var t = TASKS_GUIDE.find(function(x){ return x.id===id; });
+  setModal(t.title, t.cat + ' · ' + t.time, t.steps.map(function(s,i){ return '<div class="step-item"><div class="step-num">' + (i+1) + '</div><div style="flex:1"><div style="font-size:12px;font-weight:600;color:#e9d5ff;margin-bottom:3px">' + s.t + '</div><div style="font-size:11px;color:rgba(192,132,252,0.65);line-height:1.6">' + s.d + '</div></div></div>'; }).join(''), 'Got it', closeModal);
 }
 
 // ── FAQ ──
-function renderFAQ(){
-  document.getElementById('faq-list').innerHTML=FAQS_DATA.map((f,i)=>`
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFAQ(${i})">${f.q}<i class="ti ti-chevron-down" id="fi-${i}" style="font-size:13px;color:rgba(168,85,247,0.5);transition:transform .2s;flex-shrink:0"></i></div>
-      <div class="faq-a" id="fa-${i}"><p>${f.a}</p></div>
-    </div>`).join('');
+function renderFAQ() {
+  document.getElementById('faq-list').innerHTML = FAQS.map(function(f,i) {
+    return '<div class="faq-item"><div class="faq-q" data-idx="' + i + '">' + f.q + '<i class="ti ti-chevron-down faq-icon" id="fi-' + i + '" style="font-size:13px;color:rgba(168,85,247,0.5);transition:transform .2s;flex-shrink:0"></i></div><div class="faq-a" id="fa-' + i + '"><p>' + f.a + '</p></div></div>';
+  }).join('');
+  document.querySelectorAll('.faq-q').forEach(function(el) {
+    el.addEventListener('click', function() {
+      var i = el.dataset.idx;
+      var a = document.getElementById('fa-' + i);
+      var ic = document.getElementById('fi-' + i);
+      var open = a.classList.toggle('open');
+      ic.style.transform = open ? 'rotate(180deg)' : 'none';
+    });
+  });
 }
-function toggleFAQ(i){const a=document.getElementById('fa-'+i),ic=document.getElementById('fi-'+i);const o=a.classList.toggle('open');ic.style.transform=o?'rotate(180deg)':'none';}
 
 // ── SOCIAL ──
-const PM={facebook:{label:'Facebook',color:'#60a5fa',bg:'rgba(59,130,246,0.18)',border:'rgba(59,130,246,0.3)',emoji:'📘'},youtube:{label:'YouTube',color:'#f87171',bg:'rgba(239,68,68,0.15)',border:'rgba(239,68,68,0.28)',emoji:'▶️'}};
-const SM={posted:{label:'Posted',cls:'badge-green'},scheduled:{label:'Scheduled',cls:'badge-amber'},draft:{label:'Draft',cls:'badge-gray'}};
-const THUMBS=['rgba(124,58,237,0.45)','rgba(59,130,246,0.4)','rgba(239,68,68,0.38)','rgba(245,158,11,0.38)','rgba(20,184,166,0.38)','rgba(168,85,247,0.4)'];
-function filterPlatform(p,el){document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active'));el.classList.add('active');socialFilter=p;renderSocial();}
-function renderSocial(){
-  const items=socialFilter==='all'?SOCIAL_DATA:SOCIAL_DATA.filter(c=>c.platform===socialFilter);
-  document.getElementById('s-fb').textContent=SOCIAL_DATA.filter(c=>c.platform==='facebook').length;
-  document.getElementById('s-yt').textContent=SOCIAL_DATA.filter(c=>c.platform==='youtube').length;
-  document.getElementById('s-sched').textContent=SOCIAL_DATA.filter(c=>c.status==='scheduled').length;
-  document.getElementById('social-content').innerHTML=`<div class="video-grid">${items.map((c,i)=>{
-    const pm=PM[c.platform],sm=SM[c.status],tc=THUMBS[i%THUMBS.length];
-    return`<div class="video-card" onclick="openVideo(${c.id})">
-      <div class="video-thumb" style="background:${tc}">
-        <div class="play-btn"><i class="ti ti-player-play-filled" style="font-size:13px;color:#fff;margin-left:2px"></i></div>
-        <div style="position:absolute;top:7px;left:7px;background:${pm.bg};border:1px solid ${pm.border};border-radius:5px;padding:2px 7px;font-size:9px;font-weight:600;color:${pm.color}">${pm.emoji} ${pm.label}</div>
-        ${c.views?`<div style="position:absolute;bottom:6px;right:7px;font-size:9px;background:rgba(0,0,0,0.5);color:#fff;padding:2px 6px;border-radius:4px">${c.views>=1000?(c.views/1000).toFixed(1)+'k':c.views} views</div>`:''}
-      </div>
-      <div class="video-info">
-        <div style="font-size:12px;font-weight:600;color:#e9d5ff;margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.title}</div>
-        <div style="font-size:10px;color:rgba(192,132,252,0.45);display:flex;align-items:center;gap:7px;margin-bottom:7px">
-          <span class="badge ${sm.cls}">${sm.label}</span><span>${c.date}</span>${c.likes?`<span>❤️ ${c.likes}`:''}
-        </div>
-        <div style="display:flex;gap:5px">
-          <button class="vbtn" onclick="event.stopPropagation();copyToClipboard('${c.url}')"><i class="ti ti-copy"></i>Copy link</button>
-          <button class="vbtn red" onclick="event.stopPropagation();deleteVideo(${c.id})"><i class="ti ti-trash"></i></button>
-        </div>
-      </div>
-    </div>`;}).join('')}</div>`;
+var PM = {facebook:{label:'Facebook',color:'#60a5fa',bg:'rgba(59,130,246,0.18)',border:'rgba(59,130,246,0.3)',emoji:'📘'},youtube:{label:'YouTube',color:'#f87171',bg:'rgba(239,68,68,0.15)',border:'rgba(239,68,68,0.28)',emoji:'▶️'}};
+var SM = {posted:{label:'Posted',cls:'badge-green'},scheduled:{label:'Scheduled',cls:'badge-amber'},draft:{label:'Draft',cls:'badge-gray'}};
+var THUMBS = ['rgba(124,58,237,0.45)','rgba(59,130,246,0.4)','rgba(239,68,68,0.38)','rgba(245,158,11,0.38)','rgba(20,184,166,0.38)','rgba(168,85,247,0.4)'];
+function filterPlatform(p, el) {
+  document.querySelectorAll('.ptab').forEach(function(t){ t.classList.remove('active'); });
+  el.classList.add('active');
+  socialFilter = p;
+  renderSocial();
 }
-function openVideo(id){
-  const c=SOCIAL_DATA.find(x=>x.id===id);
-  const pm=PM[c.platform];
-  setModal(c.title,`${pm.emoji} ${pm.label} · ${SM[c.status].label} · ${c.date}`,
-    `<div style="background:${pm.bg};border:1px solid ${pm.border};border-radius:8px;padding:11px;margin-bottom:12px">
-      <div style="font-size:10px;font-weight:600;color:${pm.color};text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px">${pm.emoji} Video link</div>
-      <div style="font-size:11px;color:rgba(216,180,254,0.7);word-break:break-all;margin-bottom:7px">${c.url}</div>
-      <button class="vbtn" onclick="copyToClipboard('${c.url}')"><i class="ti ti-copy"></i>Copy link</button>
-    </div>
-    ${c.views?`<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div style="background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.15);border-radius:7px;padding:11px;text-align:center"><div style="font-size:20px;font-weight:700;color:#e9d5ff">${(c.views/1000).toFixed(1)}k</div><div style="font-size:9px;color:rgba(192,132,252,0.4)">Views</div></div><div style="background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.15);border-radius:7px;padding:11px;text-align:center"><div style="font-size:20px;font-weight:700;color:#e9d5ff">${c.likes}</div><div style="font-size:9px;color:rgba(192,132,252,0.4)">Likes</div></div></div>`:''}`,
-    'Open link',()=>{closeModal();showToast('Opening video…');});
-}
-function deleteVideo(id){SOCIAL_DATA.splice(SOCIAL_DATA.findIndex(x=>x.id===id),1);renderSocial();showToast('Video removed');}
-
-// ── CALENDAR ──
-function renderCalendar(){
-  const fbDays=new Set([10,14,25]);const ytDays=new Set([5,8,28]);
-  let html='';const first=new Date(2026,6,1).getDay();
-  for(let i=0;i<first;i++)html+=`<div class="cal-day"></div>`;
-  for(let d=1;d<=31;d++){
-    const isFb=fbDays.has(d),isYt=ytDays.has(d),isToday=d===23;
-    const cls=isFb&&isYt?'fb':isFb?'fb':isYt?'yt':'';
-    html+=`<div class="cal-day ${cls} ${isToday?'today':''}" ${cls?`onclick="showToast('Post on Jul ${d}')"`:''} >${d}</div>`;
-  }
-  document.getElementById('cal-grid').innerHTML=html;
-  const upcoming=SOCIAL_DATA.filter(c=>c.status==='scheduled');
-  document.getElementById('upcoming-posts').innerHTML=upcoming.map(c=>{
-    const pm=PM[c.platform];
-    return`<div class="item-row"><div style="width:28px;height:28px;border-radius:6px;background:${pm.bg};border:1px solid ${pm.border};display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">${pm.emoji}</div><div style="flex:1"><div style="font-size:12px;font-weight:500;color:#e9d5ff">${c.title}</div><div style="font-size:10px;color:rgba(192,132,252,0.4)">${pm.label} · ${c.date}</div></div><span class="badge badge-amber">Scheduled</span></div>`;}).join('')||`<div style="font-size:11px;color:rgba(192,132,252,0.4);padding:8px 0">No upcoming posts.</div>`;
+function renderSocial() {
+  var items = socialFilter === 'all' ? SOCIAL : SOCIAL.filter(function(c){ return c.platform === socialFilter; });
+  document.getElementById('s-fb').textContent = SOCIAL.filter(function(c){ return c.platform==='facebook'; }).length;
+  document.getElementById('s-yt').textContent = SOCIAL.filter(function(c){ return c.platform==='youtube'; }).length;
+  document.getElementById('s-sched').textContent = SOCIAL.filter(function(c){ return c.status==='scheduled'; }).length;
+  document.getElementById('social-content').innerHTML = '<div class="video-grid">' + items.map(function(c,i) {
+    var pm = PM[c.platform], sm = SM[c.status], tc = THUMBS[i % THUMBS.length];
+    return '<div class="video-card"><div class="video-thumb" style="background:' + tc + '"><div class="play-btn"><i class="ti ti-player-play-filled" style="font-size:13px;color:#fff;margin-left:2px"></i></div><div style="position:absolute;top:7px;left:7px;background:' + pm.bg + ';border:1px solid ' + pm.border + ';border-radius:5px;padding:2px 7px;font-size:9px;font-weight:600;color:' + pm.color + '">' + pm.emoji + ' ' + pm.label + '</div>' + (c.views ? '<div style="position:absolute;bottom:6px;right:7px;font-size:9px;background:rgba(0,0,0,0.5);color:#fff;padding:2px 6px;border-radius:4px">' + (c.views>=1000?(c.views/1000).toFixed(1)+'k':c.views) + ' views</div>' : '') + '</div><div class="video-info"><div style="font-size:12px;font-weight:600;color:#e9d5ff;margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + c.title + '</div><div style="font-size:10px;color:rgba(192,132,252,0.45);display:flex;align-items:center;gap:7px;margin-bottom:7px"><span class="badge ' + sm.cls + '">' + sm.label + '</span><span>' + c.date + '</span>' + (c.likes ? '<span>❤️ ' + c.likes + '</span>' : '') + '</div><button class="vbtn" onclick="showToast(\'Link copied\')"><i class="ti ti-copy"></i>Copy link</button></div></div>';
+  }).join('') + '</div>';
 }
 
 // ── SHIFT REPORT ──
-function renderShiftTasks(){
-  document.getElementById('task-list').innerHTML=shiftTasks.map((t,i)=>`
-    <div style="display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid rgba(168,85,247,0.08)">
-      <div class="task-check ${t.done?'done':''}" onclick="toggleShiftTask(${i})">${t.done?'<i class="ti ti-check" style="font-size:9px;color:#fff"></i>':''}</div>
-      <span style="font-size:12px;color:rgba(216,180,254,0.8);flex:1;${t.done?'text-decoration:line-through;color:rgba(192,132,252,0.35)':''}">${t.text}</span>
-      <i class="ti ti-x" style="font-size:12px;color:rgba(192,132,252,0.2);cursor:pointer;flex-shrink:0" onclick="removeShiftTask(${i})"></i>
-    </div>`).join('');
+function renderShiftTasks() {
+  document.getElementById('task-list').innerHTML = shiftTasks.map(function(t,i) {
+    return '<div style="display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid rgba(168,85,247,0.08)"><div class="task-check ' + (t.done?'done':'') + '" data-idx="' + i + '">' + (t.done ? '<i class="ti ti-check" style="font-size:9px;color:#fff"></i>' : '') + '</div><span style="font-size:12px;color:rgba(216,180,254,0.8);flex:1;' + (t.done?'text-decoration:line-through;color:rgba(192,132,252,0.35)':'') + '">' + t.text + '</span><i class="ti ti-x" style="font-size:12px;color:rgba(192,132,252,0.2);cursor:pointer;flex-shrink:0" data-del="' + i + '"></i></div>';
+  }).join('');
+  document.querySelectorAll('.task-check').forEach(function(el) {
+    el.addEventListener('click', function(){ var i=parseInt(el.dataset.idx); shiftTasks[i].done=!shiftTasks[i].done; renderShiftTasks(); });
+  });
+  document.querySelectorAll('[data-del]').forEach(function(el) {
+    el.addEventListener('click', function(){ shiftTasks.splice(parseInt(el.dataset.del),1); renderShiftTasks(); });
+  });
 }
-function toggleShiftTask(i){shiftTasks[i].done=!shiftTasks[i].done;renderShiftTasks();}
-function removeShiftTask(i){shiftTasks.splice(i,1);renderShiftTasks();}
-function addTask(){const inp=document.getElementById('new-task');if(!inp.value.trim())return;shiftTasks.push({text:inp.value.trim(),done:false});inp.value='';renderShiftTasks();}
-function selectMood(el){document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('sel'));el.classList.add('sel');selectedMood=el.textContent;}
-async function submitReport(){
-  const summary=document.getElementById('summary').value.trim();
-  if(!summary){showToast('Add a summary first');return;}
-  const report={
-    date:document.getElementById('shift-date').value,
-    project:document.getElementById('shift-project').value,
-    start_time:document.getElementById('shift-start').value,
-    end_time:document.getElementById('shift-end').value,
-    tasks:shiftTasks.filter(t=>t.done).map(t=>t.text),
-    summary,blockers:document.getElementById('blockers').value,
-    mood:selectedMood,tomorrow:document.getElementById('tomorrow').value,
-    user_email:currentUser?.email||'admin',status:'pending'
+function addTask() {
+  var inp = document.getElementById('new-task');
+  if (!inp.value.trim()) return;
+  shiftTasks.push({text:inp.value.trim(), done:false});
+  inp.value = '';
+  renderShiftTasks();
+}
+function selectMood(el) {
+  document.querySelectorAll('.mood-btn').forEach(function(b){ b.classList.remove('sel'); });
+  el.classList.add('sel');
+  selectedMood = el.textContent;
+}
+async function submitReport() {
+  var summary = document.getElementById('summary').value.trim();
+  if (!summary) { showToast('Add a summary first'); return; }
+  var report = {
+    user_email: document.getElementById('user-name').textContent,
+    date: document.getElementById('shift-date').value,
+    project: document.getElementById('shift-project').value,
+    start_time: document.getElementById('shift-start').value,
+    end_time: document.getElementById('shift-end').value,
+    tasks: shiftTasks.filter(function(t){ return t.done; }).map(function(t){ return t.text; }),
+    summary: summary,
+    blockers: document.getElementById('blockers').value,
+    mood: selectedMood,
+    tomorrow: document.getElementById('tomorrow').value,
+    status: 'pending'
   };
-  if(sb){try{await sb.from('shift_reports').insert([report]);}catch(e){}}
-  REPORTS_DATA.unshift({id:Date.now(),name:currentUser?.email||'Admin',init:'JB',date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),hours:8,mood:selectedMood||'✅ Good day',...report,status:'pending'});
-  document.getElementById('shift-status').textContent='Submitted ✓';
-  document.getElementById('shift-status').className='badge badge-green';
-  showToast('Shift report submitted successfully');
+  try { await sb.from('shift_reports').insert([report]); } catch(e) {}
+  reports.unshift(report);
+  document.getElementById('shift-status').textContent = 'Submitted ✓';
+  document.getElementById('shift-status').className = 'badge badge-green';
+  showToast('Shift report submitted!');
+  renderReports();
 }
 
 // ── REPORTS ──
-function renderReports(){
-  document.getElementById('r-total').textContent=REPORTS_DATA.length;
-  document.getElementById('r-pending').textContent=REPORTS_DATA.filter(r=>r.status==='pending').length;
-  document.getElementById('r-hours').textContent=REPORTS_DATA.reduce((a,r)=>a+(r.hours||0),0)+'h';
-  document.getElementById('reports-list').innerHTML=REPORTS_DATA.map(r=>`
-    <div class="report-card" onclick="openReport(${r.id})">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:7px">
-        <div style="display:flex;align-items:center;gap:9px">
-          <div class="avatar" style="flex-shrink:0;width:29px;height:29px;font-size:9px">${r.init}</div>
-          <div><div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12px;color:#e9d5ff">${r.name}</div><div style="font-size:10px;color:rgba(192,132,252,0.4)">${r.date} · ${r.hours}h · ${r.mood}</div></div>
-        </div>
-        <span class="badge ${r.status==='reviewed'?'badge-green':'badge-amber'}">${r.status==='reviewed'?'Reviewed':'Pending'}</span>
-      </div>
-      <div style="font-size:11px;color:rgba(192,132,252,0.55);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${r.summary}</div>
-    </div>`).join('')||`<div style="font-size:11px;color:rgba(192,132,252,0.4)">No reports yet.</div>`;
-}
-function openReport(id){
-  const r=REPORTS_DATA.find(x=>x.id===id);
-  setModal(`${r.name} — Shift Report`,`${r.date} · ${r.hours}h · ${r.mood}`,
-    `<div style="margin-bottom:12px"><div style="font-size:9px;font-weight:600;color:rgba(192,132,252,0.4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">Tasks completed</div>
-    ${(Array.isArray(r.tasks)?r.tasks:[]).map(t=>`<div style="display:flex;align-items:center;gap:7px;padding:5px 0;border-bottom:1px solid rgba(168,85,247,0.07);font-size:11px;color:rgba(216,180,254,0.7)"><i class="ti ti-circle-check" style="font-size:13px;color:#34d399;flex-shrink:0"></i>${t}</div>`).join('')}</div>
-    <div class="neon-line"></div>
-    <div style="margin-bottom:10px"><div style="font-size:9px;font-weight:600;color:rgba(192,132,252,0.4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px">Summary</div><div style="font-size:12px;color:rgba(216,180,254,0.75);line-height:1.7">${r.summary}</div></div>
-    ${r.blockers&&r.blockers!=='None.'?`<div style="margin-bottom:10px"><div style="font-size:9px;font-weight:600;color:rgba(248,113,113,0.6);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px">Blockers</div><div style="font-size:12px;color:rgba(248,113,113,0.7);background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.18);border-radius:6px;padding:8px;line-height:1.6">${r.blockers}</div></div>`:''}
-    <div><div style="font-size:9px;font-weight:600;color:rgba(192,132,252,0.4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px">Priority tomorrow</div><div style="font-size:12px;color:rgba(216,180,254,0.75)">${r.tomorrow||'—'}</div></div>`,
-    'Mark reviewed',()=>{r.status='reviewed';closeModal();renderReports();showToast('Report marked as reviewed');});
+function renderReports() {
+  document.getElementById('r-total').textContent = reports.length;
+  document.getElementById('r-pending').textContent = reports.filter(function(r){ return r.status==='pending'; }).length;
+  document.getElementById('r-hours').textContent = reports.length * 8 + 'h';
+  if (!reports.length) { document.getElementById('reports-list').innerHTML = '<div style="font-size:11px;color:rgba(192,132,252,0.4);text-align:center;padding:20px">No reports yet.</div>'; return; }
+  document.getElementById('reports-list').innerHTML = reports.map(function(r,i) {
+    return '<div class="report-card"><div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:7px"><div><div style="font-family:Space Grotesk,sans-serif;font-weight:700;font-size:12px;color:#e9d5ff">' + r.user_email + '</div><div style="font-size:10px;color:rgba(192,132,252,0.4)">' + r.date + ' · ' + (r.mood||'') + '</div></div><span class="badge badge-amber">Pending</span></div><div style="font-size:11px;color:rgba(192,132,252,0.55);line-height:1.6">' + r.summary + '</div></div>';
+  }).join('');
 }
 
-// ── TEAM ──
-function renderTeam(){
-  document.getElementById('team-list').innerHTML=`
-    <div class="item-row"><div class="avatar" style="flex-shrink:0">JB</div><div style="flex:1"><div style="font-size:12px;font-weight:500;color:#e9d5ff">Admin (Owner)</div><div style="font-size:10px;color:rgba(192,132,252,0.4)">admin@jackbathroom.com</div></div><div style="display:flex;align-items:center;gap:6px"><div style="width:6px;height:6px;border-radius:50%;background:#34d399;box-shadow:0 0 5px #34d399"></div><span class="badge badge-green">Online</span></div></div>`;
+// ── ADD HANDLER ──
+function handleAdd() {
+  var forms = {
+    sops: '<div class="form-group"><label>Title</label><input type="text" id="f-title" placeholder="e.g. Lead follow-up flow"></div><div class="form-group"><label>Status</label><select id="f-status"><option>Active</option><option>Draft</option></select></div><div class="form-group"><label>Steps / content</label><textarea id="f-body" placeholder="Write your SOP steps here…"></textarea></div><div class="form-group"><label>Tags (comma separated)</label><input type="text" id="f-tags" placeholder="e.g. CRM, Automation"></div>',
+    vault: '<div class="form-group"><label>Service name</label><input type="text" id="f-service" placeholder="e.g. GoHighLevel"></div><div class="form-group"><label>Username / email</label><input type="text" id="f-user"></div><div class="form-group"><label>Password / secret</label><input type="password" id="f-pass"></div>',
+    files: '<div class="form-group"><label>Name</label><input type="text" id="f-fname" placeholder="e.g. Client brief Q3"></div><div class="form-group"><label>URL</label><input type="text" id="f-furl" placeholder="https://drive.google.com/…"></div>',
+    social: '<div class="form-group"><label>Video title</label><input type="text" id="f-vtitle" placeholder="e.g. Before & after bathroom remodel"></div><div class="form-group"><label>Video link (Google Drive or YouTube)</label><input type="text" id="f-vurl" placeholder="https://drive.google.com/… or https://youtube.com/…"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:9px"><div class="form-group"><label>Platform</label><select id="f-vplatform"><option value="facebook">📘 Facebook</option><option value="youtube">▶️ YouTube</option></select></div><div class="form-group"><label>Status</label><select id="f-vstatus"><option value="draft">Draft</option><option value="scheduled">Scheduled</option><option value="posted">Posted</option></select></div></div><div class="form-group"><label>Date</label><input type="date" id="f-vdate"></div>',
+  };
+  var titles = {sops:'New SOP',vault:'Add credential',files:'Add file or link',social:'Add video',dashboard:'Quick add'};
+  if (!forms[currentPage]) { showToast('Select a section first'); return; }
+  setModal(titles[currentPage]||'Add', '', forms[currentPage], 'Save', function() {
+    if (currentPage==='sops') { var t=document.getElementById('f-title').value; if(!t)return; SOPS.unshift({id:Date.now(),title:t,status:document.getElementById('f-status').value,updated:'Today',tags:document.getElementById('f-tags').value.split(',').map(function(x){return x.trim();}).filter(Boolean),body:document.getElementById('f-body').value}); closeModal(); renderSOPs(); showToast('SOP saved'); }
+    else if (currentPage==='vault') { var s=document.getElementById('f-service').value; if(!s)return; VAULT.push({service:s,username:document.getElementById('f-user').value,password:document.getElementById('f-pass').value}); closeModal(); renderVault(); showToast('Credential saved'); }
+    else if (currentPage==='files') { var n=document.getElementById('f-fname').value; if(!n)return; FILES.push({name:n,type:'ti-file-text'}); closeModal(); renderFiles(); showToast('File added'); }
+    else if (currentPage==='social') { var vt=document.getElementById('f-vtitle').value,vu=document.getElementById('f-vurl').value; if(!vt||!vu)return; SOCIAL.unshift({id:Date.now(),title:vt,url:vu,platform:document.getElementById('f-vplatform').value,status:document.getElementById('f-vstatus').value,date:document.getElementById('f-vdate').value||'TBD',views:0,likes:0}); closeModal(); renderSocial(); showToast('Video saved'); }
+  });
 }
 
-// ── ADD HANDLERS ──
-function handleAdd(){
-  const forms={
-    sops:`<div class="form-group"><label>Title</label><input type="text" id="f-title" placeholder="e.g. Lead follow-up flow"></div><div class="form-group"><label>Status</label><select id="f-status"><option>Active</option><option>Draft</option></select></div><div class="form-group"><label>Steps / content</label><textarea id="f-body" placeholder="Write your SOP steps here…"></textarea></div><div class="form-group"><label>Tags (comma separated)</label><input type="text" id="f-tags" placeholder="e.g. CRM, Automation"></div>`,
-    vault:`<div class="form-group"><label>Service name</label><input type="text" id="f-service" placeholder="e.g. GoHighLevel"></div><div class="form-group"><label>Username / email / key</label><input type="text" id="f-user"></div><div class="form-group"><label>Password / secret</label><input type="password" id="f-pass"></div>`,
-    files:`<div class="form-group"><label>Name</label><input type="text" id="f-fname" placeholder="e.g. Client brief Q3"></div><div class="form-group"><label>URL</label><input type="text" id="f-furl" placeholder="https://drive.google.com/…"></div><div class="form-group"><label>Type</label><select id="f-ftype"><option value="ti-file-text">Document</option><option value="ti-table">Spreadsheet</option><option value="ti-file-type-pdf">PDF</option><option value="ti-code">Code / JSON</option><option value="ti-palette">Design</option></select></div>`,
-    social:`<div class="form-group"><label>Video title</label><input type="text" id="f-vtitle" placeholder="e.g. Before & after bathroom remodel"></div><div class="form-group"><label>Video link (Google Drive or YouTube)</label><input type="text" id="f-vurl" placeholder="https://drive.google.com/… or https://youtube.com/…"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:9px"><div class="form-group"><label>Platform</label><select id="f-vplatform"><
+// ── MODAL ──
+function setModal(title, sub, body, actionLabel, actionFn) {
+  document.getElementById('m-title').textContent = title;
+  document.getElementById('m-sub').textContent = sub;
+  document.getElementById('m-body').innerHTML = body;
+  var btn = document.getElementById('m-action');
+  btn.textContent = actionLabel || 'Done';
+  btn.onclick = actionFn || closeModal;
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+
+// ── TOAST ──
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 2800);
+}
+</script>
+</body>
+</html>
