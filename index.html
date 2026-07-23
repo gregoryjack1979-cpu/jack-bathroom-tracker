@@ -87,7 +87,11 @@ body{font-family:'Inter',sans-serif;font-size:13px;background:#0d0618;color:#e9d
 .task-check.done{background:linear-gradient(135deg,#7c3aed,#a855f7);border-color:#a855f7}
 .mood-btn{padding:5px 10px;border-radius:6px;border:1px solid rgba(168,85,247,0.2);background:rgba(168,85,247,0.06);cursor:pointer;font-size:12px;transition:all .15s;font-family:'Inter',sans-serif}
 .mood-btn.sel{border-color:rgba(168,85,247,0.5);background:rgba(168,85,247,0.18)}
+.report-filter-btn{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(168,85,247,0.22);background:transparent;color:rgba(192,132,252,0.55);transition:all .15s;font-family:'Inter',sans-serif}
+.report-filter-btn:hover{background:rgba(168,85,247,0.12);color:#c4b5fd;border-color:rgba(168,85,247,0.35)}
+.report-filter-btn.active{background:rgba(168,85,247,0.22);color:#d8b4fe;border-color:rgba(168,85,247,0.45);box-shadow:0 0 8px rgba(168,85,247,0.15)}
 .report-card{background:rgba(168,85,247,0.06);border:1px solid rgba(168,85,247,0.15);border-radius:10px;padding:12px;margin-bottom:9px;cursor:pointer;transition:all .15s}
+.report-card:hover{border-color:rgba(168,85,247,0.35);background:rgba(168,85,247,0.1)}
 .report-card:hover{border-color:rgba(168,85,247,0.35);background:rgba(168,85,247,0.1)}
 .vault-row{display:grid;grid-template-columns:1fr 1fr auto auto;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid rgba(168,85,247,0.08);font-size:12px}
 .vault-row:last-child{border-bottom:none}
@@ -199,22 +203,19 @@ body{font-family:'Inter',sans-serif;font-size:13px;background:#0d0618;color:#e9d
 
       <div class="page active" id="page-dashboard">
         <div class="stat-row stat-row-4">
-          <div class="stat-card"><div class="stat-num">6</div><div class="stat-label">SOPs</div></div>
-          <div class="stat-card"><div class="stat-num">6</div><div class="stat-label">Credentials</div></div>
-          <div class="stat-card"><div class="stat-num">0</div><div class="stat-label">Reports today</div></div>
-          <div class="stat-card"><div class="stat-num">6</div><div class="stat-label">Videos</div></div>
+          <div class="stat-card"><div class="stat-num" id="ds-sops">0</div><div class="stat-label">SOPs</div></div>
+          <div class="stat-card"><div class="stat-num" id="ds-creds">0</div><div class="stat-label">Credentials</div></div>
+          <div class="stat-card"><div class="stat-num" id="ds-reports">0</div><div class="stat-label">Reports today</div></div>
+          <div class="stat-card"><div class="stat-num" id="ds-videos">0</div><div class="stat-label">Videos</div></div>
         </div>
         <div class="grid-2">
           <div class="panel">
             <div class="panel-title"><i class="ti ti-list-check" style="color:#2dd4bf"></i>Recent SOPs</div>
-            <div class="item-row"><div class="item-icon ic-teal"><i class="ti ti-phone"></i></div><div style="flex:1"><div style="font-size:12px;font-weight:500;color:#e9d5ff">Appointment setting script</div><div style="font-size:10px;color:rgba(192,132,252,0.4)">Updated Jul 10</div></div><span class="badge badge-green">Active</span></div>
-            <div class="item-row"><div class="item-icon ic-purple"><i class="ti ti-target"></i></div><div style="flex:1"><div style="font-size:12px;font-weight:500;color:#e9d5ff">Lead qualification flow</div><div style="font-size:10px;color:rgba(192,132,252,0.4)">Updated Jul 15</div></div><span class="badge badge-green">Active</span></div>
-            <div class="item-row"><div class="item-icon ic-amber"><i class="ti ti-robot"></i></div><div style="flex:1"><div style="font-size:12px;font-weight:500;color:#e9d5ff">Make.com troubleshooting</div><div style="font-size:10px;color:rgba(192,132,252,0.4)">Updated Jul 8</div></div><span class="badge badge-gray">Draft</span></div>
+            <div id="dash-sops" style="font-size:11px;color:rgba(192,132,252,0.4);padding:10px 0;text-align:center">No SOPs yet — click SOPs to add your first one.</div>
           </div>
           <div class="panel">
-            <div class="panel-title"><i class="ti ti-activity" style="color:#a855f7"></i>Recent activity</div>
-            <div class="item-row"><div class="avatar" style="flex-shrink:0;width:25px;height:25px;font-size:9px">JB</div><div style="flex:1"><div style="font-size:12px;color:#e9d5ff">Welcome to <span style="color:#c4b5fd">Jack Bathroom Tracker</span></div><div style="font-size:10px;color:rgba(192,132,252,0.4)">Just now</div></div></div>
-            <div class="item-row"><div class="avatar" style="flex-shrink:0;width:25px;height:25px;font-size:9px">JB</div><div style="flex:1"><div style="font-size:12px;color:#e9d5ff">System is live and ready</div><div style="font-size:10px;color:rgba(192,132,252,0.4)">Today</div></div></div>
+            <div class="panel-title"><i class="ti ti-clipboard-text" style="color:#a855f7"></i>Today's shift reports</div>
+            <div id="dash-reports" style="font-size:11px;color:rgba(192,132,252,0.4);padding:10px 0;text-align:center">No reports submitted today yet.</div>
           </div>
         </div>
       </div>
@@ -309,12 +310,36 @@ body{font-family:'Inter',sans-serif;font-size:13px;background:#0d0618;color:#e9d
       </div>
 
       <div class="page" id="page-reports">
-        <div class="stat-row stat-row-3">
-          <div class="stat-card"><div class="stat-num" id="r-total">0</div><div class="stat-label">Total reports</div></div>
-          <div class="stat-card"><div class="stat-num" id="r-pending">0</div><div class="stat-label">Pending review</div></div>
-          <div class="stat-card"><div class="stat-num" id="r-hours">0h</div><div class="stat-label">Hours logged</div></div>
+        <!-- Filter bar -->
+        <div style="display:flex;gap:7px;margin-bottom:14px;flex-wrap:wrap;align-items:center">
+          <button class="report-filter-btn active" data-filter="daily" onclick="setReportFilter('daily',this)">Today</button>
+          <button class="report-filter-btn" data-filter="weekly" onclick="setReportFilter('weekly',this)">This week</button>
+          <button class="report-filter-btn" data-filter="monthly" onclick="setReportFilter('monthly',this)">This month</button>
+          <button class="report-filter-btn" data-filter="all" onclick="setReportFilter('all',this)">All time</button>
+          <div style="margin-left:auto;display:flex;gap:7px;align-items:center">
+            <select id="report-employee-filter" onchange="renderReports()" style="padding:5px 9px;border:1px solid rgba(168,85,247,0.22);border-radius:7px;background:rgba(168,85,247,0.06);font-size:11px;color:#e9d5ff;outline:none;font-family:Inter,sans-serif">
+              <option value="all">All employees</option>
+              <option value="janetantra@gmail.com">Marvin</option>
+              <option value="greg@jackbathroom.com">Greg</option>
+            </select>
+          </div>
         </div>
-        <div id="reports-list"><div style="font-size:11px;color:rgba(192,132,252,0.4);text-align:center;padding:20px">No reports yet.</div></div>
+        <!-- KPI stats -->
+        <div class="stat-row" style="grid-template-columns:repeat(5,1fr);margin-bottom:14px">
+          <div class="stat-card"><div class="stat-num" id="r-total">0</div><div class="stat-label">Total reports</div></div>
+          <div class="stat-card"><div class="stat-num" id="r-hours">0h</div><div class="stat-label">Hours logged</div></div>
+          <div class="stat-card"><div class="stat-num" id="r-avg">0h</div><div class="stat-label">Avg shift</div></div>
+          <div class="stat-card"><div class="stat-num" id="r-pending">0</div><div class="stat-label">Pending review</div></div>
+          <div class="stat-card"><div class="stat-num" id="r-mood">—</div><div class="stat-label">Top mood</div></div>
+        </div>
+        <!-- Hours bar chart -->
+        <div class="panel" id="r-chart-panel" style="display:none">
+          <div class="panel-title"><i class="ti ti-chart-bar" style="color:#a855f7"></i>Hours logged <span id="r-chart-label" style="color:rgba(192,132,252,0.4);font-size:10px;margin-left:4px"></span></div>
+          <div id="r-chart" style="display:flex;align-items:flex-end;gap:6px;height:70px;padding:0 4px"></div>
+          <div id="r-chart-labels" style="display:flex;gap:6px;margin-top:5px;padding:0 4px"></div>
+        </div>
+        <!-- Reports list -->
+        <div id="reports-list"><div style="font-size:11px;color:rgba(192,132,252,0.4);text-align:center;padding:24px">No reports yet. Agents submit reports via the Submit report page.</div></div>
       </div>
 
       <div class="page" id="page-team">
@@ -346,49 +371,10 @@ const SUPABASE_URL = 'https://vhygctxsdepqjelrhtig.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZoeWdjdHhzZGVwcWplbHJodGlnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ3NDExMDQsImV4cCI6MjEwMDMxNzEwNH0.ZjpjyfNBJJ-Ea7CB_bvrg8e_FLjWq8xBzes1aCyHsMw';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const SOPS = [
-  {id:1,title:'Lead qualification flow',status:'Active',updated:'Jul 15',tags:['CRM','GoHighLevel'],body:'1. Receive inbound lead via GHL form.\n2. Auto-tag with lead source.\n3. Send qualification SMS within 5 min.\n4. If no reply in 2h, trigger follow-up sequence.\n5. Log outcome in BuildersPrime pipeline.'},
-  {id:2,title:'Appointment setting script',status:'Active',updated:'Jul 10',tags:['Calls','Sales'],body:'Opening: "Hi [Name], calling about your bathroom remodel inquiry."\nQualify: budget, timeline, homeowner status.\nBook: offer 2 time slots via Calendly.\nConfirm: send SMS confirmation via GHL.'},
-  {id:3,title:'Make.com scenario troubleshooting',status:'Draft',updated:'Jul 8',tags:['Make','Automation'],body:'1. Check execution log in Make.com.\n2. Identify the failing module.\n3. Test in isolation.\n4. Check API credentials.\n5. Re-activate after fix.'},
-  {id:4,title:'BuildersPrime CRM update',status:'Active',updated:'Jul 12',tags:['CRM'],body:'1. Log in to BuildersPrime.\n2. Find lead by name or Opportunity ID.\n3. Update client notes via activity log.\n4. Change lead stage if appointment booked.\n5. Confirm sync with Google Sheet.'},
-  {id:5,title:'GHL follow-up sequence',status:'Active',updated:'Jul 5',tags:['GHL','Automation'],body:'1. Open GHL Automation.\n2. Locate follow-up sequence.\n3. Verify SMS credits are sufficient.\n4. Confirm triggers are active.\n5. Test with dummy contact if unsure.'},
-  {id:6,title:'End-of-day pipeline review',status:'Active',updated:'Jul 14',tags:['Pipeline','Daily'],body:'1. Open BuildersPrime pipeline view.\n2. Move stale leads to correct stage.\n3. Flag HIGH priority leads for tomorrow.\n4. Update Google Sheet.\n5. Submit shift report before logging off.'},
-];
-const VAULT = [
-  {service:'GoHighLevel',username:'admin@jackbathroom.com',password:'stored securely'},
-  {service:'Make.com',username:'admin@jackbathroom.com',password:'stored securely'},
-  {service:'BuildersPrime CRM',username:'admin@bathroomex.com',password:'stored securely'},
-  {service:'Google Sheets API',username:'service-acct@gcp.iam',password:'stored securely'},
-  {service:'GitHub',username:'gregoryjack1979-cpu',password:'stored securely'},
-  {service:'Supabase',username:'greg@jackbathroom.com',password:'stored securely'},
-];
-const FILE_GROUPS = [
-  {id:1, name:'Bathroom Renovation — Santos Family', date:'Jul 14, 2026', files:[
-    {name:'Before photos.jpg', type:'image', size:'2.4MB'},
-    {name:'After photos.jpg', type:'image', size:'3.1MB'},
-    {name:'Project quotation.pdf', type:'pdf', size:'512KB'},
-    {name:'Contract signed.pdf', type:'pdf', size:'890KB'},
-  ]},
-  {id:2, name:'July Marketing Content Pack', date:'Jul 10, 2026', files:[
-    {name:'Facebook video 1.mp4', type:'video', size:'45MB'},
-    {name:'Facebook video 2.mp4', type:'video', size:'38MB'},
-    {name:'YouTube thumbnail.jpg', type:'image', size:'1.2MB'},
-    {name:'Captions draft.docx', type:'doc', size:'24KB'},
-  ]},
-  {id:3, name:'GoHighLevel SOP Documents', date:'Jul 5, 2026', files:[
-    {name:'GHL setup guide.pdf', type:'pdf', size:'1.1MB'},
-    {name:'Lead scoring template.xlsx', type:'sheet', size:'45KB'},
-    {name:'SMS scripts.docx', type:'doc', size:'28KB'},
-  ]},
-];
-const SOCIAL = [
-  {id:1,title:'Before & after bathroom tile job',platform:'facebook',status:'posted',date:'Jul 14',url:'https://drive.google.com/file/example1',views:4200,likes:187},
-  {id:2,title:'3-minute remodel timelapse',platform:'facebook',status:'posted',date:'Jul 10',url:'https://drive.google.com/file/example2',views:6100,likes:312},
-  {id:3,title:'New vanity installation walkthrough',platform:'facebook',status:'scheduled',date:'Jul 25',url:'https://drive.google.com/file/example3',views:0,likes:0},
-  {id:4,title:'5 signs your bathroom needs an upgrade',platform:'youtube',status:'posted',date:'Jul 8',url:'https://youtube.com/watch?v=example4',views:3100,likes:94},
-  {id:5,title:'How to choose the right tiles',platform:'youtube',status:'posted',date:'Jul 5',url:'https://youtube.com/watch?v=example5',views:2100,likes:67},
-  {id:6,title:'Meet the Jack Bathroom team',platform:'youtube',status:'scheduled',date:'Jul 28',url:'https://youtube.com/watch?v=example6',views:0,likes:0},
-];
+const SOPS = [];
+const VAULT = [];
+const FILE_GROUPS = [];
+const SOCIAL = [];
 const TASKS_GUIDE = [
   {id:1,title:'Add a new SOP',cat:'SOPs',role:['admin','editor'],icon:'ti-list-check',time:'5 min',steps:[{t:'Go to SOPs',d:'Click SOPs in the sidebar.'},{t:'Click New SOP',d:'Press the + button top right.'},{t:'Fill in details',d:'Title, status, steps, tags.'},{t:'Save',d:'Click Save SOP.'}]},
   {id:2,title:'Submit your shift report',cat:'Shift Reports',role:['admin','editor','viewer'],icon:'ti-clipboard-text',time:'3 min',steps:[{t:'Go to Submit report',d:'Click it in the sidebar.'},{t:'Fill shift times',d:'Date, start, end, project.'},{t:'Check off tasks',d:'Tick every completed task.'},{t:'Write summary',d:'Key wins and progress.'},{t:'Submit',d:'Click Submit shift report.'}]},
@@ -674,15 +660,125 @@ async function submitReport() {
 }
 
 // ── REPORTS ──
+var reportFilter = 'daily';
+function setReportFilter(f, el) {
+  reportFilter = f;
+  document.querySelectorAll('.report-filter-btn').forEach(function(b){ b.classList.remove('active'); });
+  el.classList.add('active');
+  renderReports();
+}
+function getFilteredReports() {
+  var now = new Date();
+  var empFilter = document.getElementById('report-employee-filter');
+  var emp = empFilter ? empFilter.value : 'all';
+  return reports.filter(function(r) {
+    if (emp !== 'all' && r.user_email !== emp) return false;
+    if (!r.date) return true;
+    var rd = new Date(r.date);
+    if (isNaN(rd)) return true;
+    if (reportFilter === 'daily') {
+      return rd.toDateString() === now.toDateString();
+    } else if (reportFilter === 'weekly') {
+      var weekAgo = new Date(now); weekAgo.setDate(now.getDate() - 7);
+      return rd >= weekAgo && rd <= now;
+    } else if (reportFilter === 'monthly') {
+      return rd.getMonth() === now.getMonth() && rd.getFullYear() === now.getFullYear();
+    }
+    return true;
+  });
+}
+function calcHours(r) {
+  try {
+    if (r.start_time && r.end_time) {
+      var s = r.start_time.split(':'), e = r.end_time.split(':');
+      var h = (parseInt(e[0]) + parseInt(e[1])/60) - (parseInt(s[0]) + parseInt(s[1])/60);
+      return h > 0 ? h : 8;
+    }
+  } catch(ex) {}
+  return 8;
+}
 function renderReports() {
-  document.getElementById('r-total').textContent = reports.length;
-  document.getElementById('r-pending').textContent = reports.filter(function(r){ return r.status==='pending'; }).length;
-  document.getElementById('r-hours').textContent = reports.length * 8 + 'h';
-  if (!reports.length) { document.getElementById('reports-list').innerHTML = '<div style="font-size:11px;color:rgba(192,132,252,0.4);text-align:center;padding:20px">No reports yet.</div>'; return; }
-  document.getElementById('reports-list').innerHTML = reports.map(function(r,i) {
-    return '<div class="report-card"><div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:7px"><div><div style="font-family:Space Grotesk,sans-serif;font-weight:700;font-size:12px;color:#e9d5ff">' + r.user_email + '</div><div style="font-size:10px;color:rgba(192,132,252,0.4)">' + r.date + ' · ' + (r.mood||'') + '</div></div><span class="badge badge-amber">Pending</span></div><div style="font-size:11px;color:rgba(192,132,252,0.55);line-height:1.6">' + r.summary + '</div></div>';
+  var filtered = getFilteredReports();
+  var totalHours = filtered.reduce(function(a,r){ return a + calcHours(r); }, 0);
+  var avg = filtered.length ? (totalHours / filtered.length).toFixed(1) : 0;
+  var pending = filtered.filter(function(r){ return r.status==='pending'; }).length;
+  var moodCounts = {};
+  filtered.forEach(function(r){ if(r.mood){ moodCounts[r.mood]=(moodCounts[r.mood]||0)+1; } });
+  var topMood = Object.keys(moodCounts).sort(function(a,b){ return moodCounts[b]-moodCounts[a]; })[0] || '—';
+  document.getElementById('r-total').textContent = filtered.length;
+  document.getElementById('r-hours').textContent = totalHours.toFixed(1) + 'h';
+  document.getElementById('r-avg').textContent = avg + 'h';
+  document.getElementById('r-pending').textContent = pending;
+  document.getElementById('r-mood').textContent = topMood.split(' ')[0] || '—';
+  // chart
+  var chartPanel = document.getElementById('r-chart-panel');
+  var chartEl = document.getElementById('r-chart');
+  var chartLabels = document.getElementById('r-chart-labels');
+  if (filtered.length > 1 && reportFilter !== 'daily') {
+    chartPanel.style.display = 'block';
+    var byDate = {};
+    filtered.forEach(function(r){ var d=r.date||'?'; byDate[d]=(byDate[d]||0)+calcHours(r); });
+    var dates = Object.keys(byDate).sort();
+    var maxH = Math.max.apply(null, dates.map(function(d){ return byDate[d]; }));
+    document.getElementById('r-chart-label').textContent = '(' + reportFilter + ')';
+    chartEl.innerHTML = dates.map(function(d){
+      var h = byDate[d];
+      var pct = maxH > 0 ? Math.round((h/maxH)*55) : 4;
+      return '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px"><div style="font-size:9px;color:rgba(192,132,252,0.5)">'+h.toFixed(0)+'h</div><div style="width:100%;background:linear-gradient(180deg,#a855f7,#7c3aed);border-radius:4px 4px 0 0;height:'+pct+'px;box-shadow:0 0 8px rgba(168,85,247,0.3)"></div></div>';
+    }).join('');
+    chartLabels.innerHTML = dates.map(function(d){
+      var label = d.length > 6 ? d.substring(5) : d;
+      return '<div style="flex:1;text-align:center;font-size:9px;color:rgba(192,132,252,0.4)">'+label+'</div>';
+    }).join('');
+  } else {
+    chartPanel.style.display = 'none';
+  }
+  if (!filtered.length) {
+    document.getElementById('reports-list').innerHTML = '<div style="font-size:11px;color:rgba(192,132,252,0.4);text-align:center;padding:24px">No reports found for this period.</div>';
+    return;
+  }
+  document.getElementById('reports-list').innerHTML = filtered.map(function(r) {
+    var hours = calcHours(r).toFixed(1);
+    var tasks = Array.isArray(r.tasks) ? r.tasks : [];
+    return '<div class="report-card" onclick="openReport(\''+r.date+'\')">'
+      + '<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px">'
+      + '<div style="display:flex;align-items:center;gap:8px">'
+      + '<div class="avatar" style="flex-shrink:0;width:28px;height:28px;font-size:9px">'+(r.user_email||'?').substring(0,2).toUpperCase()+'</div>'
+      + '<div><div style="font-family:Space Grotesk,sans-serif;font-weight:700;font-size:12px;color:#e9d5ff">'+(r.user_email||'Agent')+'</div>'
+      + '<div style="font-size:10px;color:rgba(192,132,252,0.4);margin-top:1px">'+r.date+' · '+r.project+' · '+hours+'h · '+(r.mood||'')+'</div></div>'
+      + '</div>'
+      + '<span class="badge '+(r.status==='reviewed'?'badge-green':'badge-amber')+'">'+(r.status==='reviewed'?'Reviewed':'Pending')+'</span>'
+      + '</div>'
+      + (tasks.length ? '<div style="margin-bottom:7px">'+tasks.slice(0,3).map(function(t){ return '<div style="font-size:11px;color:rgba(216,180,254,0.6);display:flex;align-items:center;gap:5px;padding:2px 0"><i class="ti ti-circle-check" style="font-size:11px;color:#34d399;flex-shrink:0"></i>'+t+'</div>'; }).join('')+(tasks.length>3?'<div style="font-size:10px;color:rgba(168,85,247,0.5)">+'+( tasks.length-3)+' more tasks</div>':'')+'</div>' : '')
+      + '<div style="font-size:11px;color:rgba(192,132,252,0.55);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">'+r.summary+'</div>'
+      + (r.blockers ? '<div style="font-size:10px;color:#f87171;margin-top:5px;background:rgba(239,68,68,0.06);border-radius:5px;padding:4px 8px"><i class="ti ti-alert-triangle" style="font-size:10px"></i> '+r.blockers+'</div>' : '')
+      + '</div>';
   }).join('');
 }
+function openReport(date) {
+  var r = reports.find(function(x){ return x.date===date; });
+  if (!r) return;
+  var hours = calcHours(r).toFixed(1);
+  var tasks = Array.isArray(r.tasks) ? r.tasks : [];
+  setModal(
+    (r.user_email||'Agent') + ' — Shift Report',
+    r.date + ' · ' + r.project + ' · ' + hours + 'h · ' + (r.mood||''),
+    '<div style="margin-bottom:12px"><div style="font-size:9px;font-weight:600;color:rgba(192,132,252,0.4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">Tasks completed</div>'
+    + (tasks.length ? tasks.map(function(t){ return '<div style="display:flex;align-items:center;gap:7px;padding:5px 0;border-bottom:1px solid rgba(168,85,247,0.07);font-size:11px;color:rgba(216,180,254,0.7)"><i class="ti ti-circle-check" style="font-size:13px;color:#34d399;flex-shrink:0"></i>'+t+'</div>'; }).join('') : '<div style="font-size:11px;color:rgba(192,132,252,0.4)">No tasks logged.</div>')
+    + '</div><div class="neon-line"></div>'
+    + '<div style="margin-bottom:10px"><div style="font-size:9px;font-weight:600;color:rgba(192,132,252,0.4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px">Summary</div><div style="font-size:12px;color:rgba(216,180,254,0.75);line-height:1.7">'+r.summary+'</div></div>'
+    + (r.blockers ? '<div style="margin-bottom:10px"><div style="font-size:9px;font-weight:600;color:rgba(248,113,113,0.6);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px">Blockers</div><div style="font-size:12px;color:rgba(248,113,113,0.7);background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.18);border-radius:6px;padding:8px;line-height:1.6">'+r.blockers+'</div></div>' : '')
+    + '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px">'
+    + '<div style="background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.15);border-radius:7px;padding:10px;text-align:center"><div style="font-size:18px;font-weight:700;color:#e9d5ff">'+hours+'h</div><div style="font-size:9px;color:rgba(192,132,252,0.4)">Hours worked</div></div>'
+    + '<div style="background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.15);border-radius:7px;padding:10px;text-align:center"><div style="font-size:18px;font-weight:700;color:#e9d5ff">'+tasks.length+'</div><div style="font-size:9px;color:rgba(192,132,252,0.4)">Tasks done</div></div>'
+    + '<div style="background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.15);border-radius:7px;padding:10px;text-align:center"><div style="font-size:16px;font-weight:700;color:#e9d5ff">'+(r.mood?r.mood.split(' ')[0]:'—')+'</div><div style="font-size:9px;color:rgba(192,132,252,0.4)">Mood</div></div>'
+    + '</div>'
+    + '<div style="margin-top:10px"><div style="font-size:9px;font-weight:600;color:rgba(192,132,252,0.4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px">Priority tomorrow</div><div style="font-size:12px;color:rgba(216,180,254,0.75)">'+( r.tomorrow||'—')+'</div></div>',
+    'Mark reviewed',
+    function(){ r.status='reviewed'; closeModal(); renderReports(); showToast('Report marked as reviewed'); }
+  );
+}
+
 
 // ── ADD HANDLER ──
 function handleAdd() {
