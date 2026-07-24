@@ -431,6 +431,7 @@ window.addEventListener('load', function() {
   document.getElementById('rp-viewer').addEventListener('click', function(){ selectRole('viewer', this); });
   // platform filter removed
   document.getElementById('shift-date').value = new Date().toISOString().split('T')[0];
+  renderDashboard();
   renderVault();
   renderSOPs();
   renderGuide();
@@ -480,6 +481,7 @@ function navTo(page, el) {
   document.getElementById('add-btn').style.display = hideAdd.indexOf(page) >= 0 ? 'none' : 'flex';
   var addLabels = {dashboard:'Add',sops:'New SOP',vault:'Add credential',files:'Add file',social:'Add video',submit:'',reports:'',team:''};
   document.getElementById('add-label').textContent = addLabels[page] || 'Add';
+  if(page==='dashboard') renderDashboard();
   if(page==='sops') renderSOPs();
   if(page==='vault') renderVault();
   if(page==='files') renderFiles();
@@ -488,6 +490,49 @@ function navTo(page, el) {
   if(page==='social') renderSocial();
   if(page==='submit') renderShiftTasks();
   if(page==='reports') renderReports();
+}
+
+// ── DASHBOARD ──
+function renderDashboard() {
+  // Update stats
+  var dsSOPs = document.getElementById('ds-sops');
+  var dsCreds = document.getElementById('ds-creds');
+  var dsReports = document.getElementById('ds-reports');
+  var dsVideos = document.getElementById('ds-videos');
+  if(dsSOPs) dsSOPs.textContent = SOPS.length;
+  if(dsCreds) dsCreds.textContent = VAULT.length;
+  if(dsReports) dsReports.textContent = reports.filter(function(r){ return r.date === new Date().toISOString().split('T')[0]; }).length;
+  if(dsVideos) dsVideos.textContent = SOCIAL_GROUPS.length;
+  // Recent SOPs
+  var dashSops = document.getElementById('dash-sops');
+  if(dashSops) {
+    if(!SOPS.length) {
+      dashSops.innerHTML = '<div style="font-size:11px;color:rgba(192,132,252,0.4);text-align:center;padding:10px 0">No SOPs yet.</div>';
+    } else {
+      dashSops.innerHTML = SOPS.slice(0,3).map(function(s){
+        return '<div style="display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid rgba(168,85,247,0.09)">'
+          +'<div style="flex:1"><div style="font-size:12px;font-weight:500;color:#e9d5ff">'+s.title+'</div>'
+          +'<div style="font-size:10px;color:rgba(192,132,252,0.4)">Updated '+s.updated+'</div></div>'
+          +'<span class="badge '+(s.status==='Active'?'badge-green':'badge-gray')+'">'+s.status+'</span></div>';
+      }).join('');
+    }
+  }
+  // Today reports
+  var dashRep = document.getElementById('dash-reports');
+  if(dashRep) {
+    var todayReps = reports.filter(function(r){ return r.date === new Date().toISOString().split('T')[0]; });
+    if(!todayReps.length) {
+      dashRep.innerHTML = '<div style="font-size:11px;color:rgba(192,132,252,0.4);text-align:center;padding:10px 0">No reports today yet.</div>';
+    } else {
+      dashRep.innerHTML = todayReps.map(function(r){
+        return '<div style="display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid rgba(168,85,247,0.09)">'
+          +'<div class="avatar" style="width:26px;height:26px;font-size:9px;flex-shrink:0">'+(r.user_email||'?').substring(0,2).toUpperCase()+'</div>'
+          +'<div style="flex:1"><div style="font-size:12px;font-weight:500;color:#e9d5ff">'+(r.user_email||'Agent')+'</div>'
+          +'<div style="font-size:10px;color:rgba(192,132,252,0.4)">'+(r.mood||'')+'</div></div>'
+          +'<span class="badge '+(r.status==='reviewed'?'badge-green':'badge-amber')+'">'+(r.status==='reviewed'?'Reviewed':'Pending')+'</span></div>';
+      }).join('');
+    }
+  }
 }
 
 // ── SOPs ──
