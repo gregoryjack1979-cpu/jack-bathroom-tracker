@@ -480,6 +480,14 @@ function navTo(page, el) {
   document.getElementById('add-btn').style.display = hideAdd.indexOf(page) >= 0 ? 'none' : 'flex';
   var addLabels = {dashboard:'Add',sops:'New SOP',vault:'Add credential',files:'Add file',social:'Add video',submit:'',reports:'',team:''};
   document.getElementById('add-label').textContent = addLabels[page] || 'Add';
+  if(page==='sops') renderSOPs();
+  if(page==='vault') renderVault();
+  if(page==='files') renderFiles();
+  if(page==='guide') renderGuide();
+  if(page==='faq') renderFAQ();
+  if(page==='social') renderSocial();
+  if(page==='submit') renderShiftTasks();
+  if(page==='reports') renderReports();
 }
 
 // ── SOPs ──
