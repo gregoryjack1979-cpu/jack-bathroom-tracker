@@ -902,6 +902,84 @@ function openFileGroupDetail(g){
 
 function searchFileGroups(v){renderFiles(v?v.toLowerCase():null);}
 
+// ── SHIFT TASKS ──
+var shiftTasks = [];
+var selectedMood = '';
+
+function renderShiftTasks() {
+  var el = document.getElementById('task-list');
+  if (!el) return;
+  el.innerHTML = '';
+  shiftTasks.forEach(function(t, i) {
+    var row = document.createElement('div');
+    row.style.cssText = 'display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid rgba(168,85,247,0.08)';
+    var check = document.createElement('div');
+    check.className = 'task-check' + (t.done ? ' done' : '');
+    check.innerHTML = t.done ? '<i class="ti ti-check" style="font-size:9px;color:#fff"></i>' : '';
+    check.addEventListener('click', function() { shiftTasks[i].done = !shiftTasks[i].done; renderShiftTasks(); });
+    var text = document.createElement('span');
+    text.style.cssText = 'font-size:12px;color:rgba(216,180,254,0.8);flex:1;' + (t.done ? 'text-decoration:line-through;color:rgba(192,132,252,0.35)' : '');
+    text.textContent = t.text;
+    var del = document.createElement('i');
+    del.className = 'ti ti-x';
+    del.style.cssText = 'font-size:12px;color:rgba(192,132,252,0.2);cursor:pointer;flex-shrink:0';
+    del.addEventListener('click', function() { shiftTasks.splice(i, 1); renderShiftTasks(); });
+    row.appendChild(check);
+    row.appendChild(text);
+    row.appendChild(del);
+    el.appendChild(row);
+  });
+  // wire up add task
+  var addBtn = document.getElementById('add-task-btn');
+  var newTaskInput = document.getElementById('new-task');
+  if (addBtn && !addBtn._wired) {
+    addBtn._wired = true;
+    addBtn.addEventListener('click', addTask);
+  }
+  if (newTaskInput && !newTaskInput._wired) {
+    newTaskInput._wired = true;
+    newTaskInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') addTask(); });
+  }
+}
+
+function addTask() {
+  var inp = document.getElementById('new-task');
+  if (!inp || !inp.value.trim()) return;
+  shiftTasks.push({text: inp.value.trim(), done: false});
+  inp.value = '';
+  renderShiftTasks();
+}
+
+function selectMood(el) {
+  document.querySelectorAll('.mood-btn').forEach(function(b) { b.classList.remove('sel'); });
+  el.classList.add('sel');
+  selectedMood = el.textContent;
+}
+
+async function submitReport() {
+  var summary = document.getElementById('summary').value.trim();
+  if (!summary) { showToast('Add a summary first'); return; }
+  var report = {
+    user_email: document.getElementById('user-name').textContent,
+    date: document.getElementById('shift-date').value,
+    project: document.getElementById('shift-project').value,
+    start_time: document.getElementById('shift-start').value,
+    end_time: document.getElementById('shift-end').value,
+    tasks: shiftTasks.filter(function(t) { return t.done; }).map(function(t) { return t.text; }),
+    summary: summary,
+    blockers: document.getElementById('blockers').value,
+    mood: selectedMood,
+    tomorrow: document.getElementById('tomorrow').value,
+    status: 'pending'
+  };
+  try { await sb.from('shift_reports').insert([report]); } catch(e) { console.log('report save error', e); }
+  reports.unshift(report);
+  document.getElementById('shift-status').textContent = 'Submitted ✓';
+  document.getElementById('shift-status').className = 'badge badge-green';
+  showToast('Shift report submitted!');
+  renderReports();
+}
+
 // ── SUPABASE PERSISTENCE ──
 async function loadFromDB(){
   try{
